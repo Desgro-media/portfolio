@@ -137,7 +137,7 @@
   }
 
   /* ── Momentum physics ── */
-  const FRICTION = 0.96;
+  const FRICTION = 0.90;
 
   function tick() {
     velocity     *= FRICTION;
@@ -266,8 +266,9 @@
     if (!dragging) return;
     const dx  = x - lastDragX;
     const dt  = performance.now() - lastDragT;
-    velocity  = (dx / (dt || 1)) * 1.3;
-    currentAngle += dx * 0.15;
+    velocity  = (dx / (dt || 1)) * 0.7;
+    velocity  = Math.max(-3, Math.min(3, velocity));
+    currentAngle += dx * 0.10;
     setRingAngle(currentAngle);
     lastDragX = x;
     lastDragT = performance.now();
@@ -298,16 +299,8 @@
 
   window.addEventListener('wheel', e => {
     if (!inView) return;
-    velocity += e.deltaY * 0.015;
-    kick();
-  }, { passive: true });
-
-  let lastScrollY = window.scrollY;
-  window.addEventListener('scroll', () => {
-    if (!inView) return;
-    const dy = window.scrollY - lastScrollY;
-    lastScrollY = window.scrollY;
-    velocity += dy * 0.04;
+    velocity += e.deltaY * 0.006;
+    velocity = Math.max(-3, Math.min(3, velocity));
     kick();
   }, { passive: true });
 
@@ -371,14 +364,14 @@
   requestAnimationFrame(hoverLoop);
 
   /* ── Idle auto-spin ── */
-  const IDLE_SPEED = 0.28;
+  const IDLE_SPEED = 0.15;
 
   setInterval(() => {
-    if (!dragging && !hoveredCard && Math.abs(velocity) < 0.06) {
+    if (!dragging && !hoveredCard && Math.abs(velocity) < 0.02) {
       velocity = IDLE_SPEED;
       kick();
     }
-  }, 1200);
+  }, 1000);
 
   /* Boot */
   setRingAngle(0);
