@@ -90,6 +90,17 @@
   const HOVER_IN_MS  = 480;
   const HOVER_OUT_MS = 360;
 
+  /* ── Physics ── */
+  const FRICTION   = 0.96;
+  const IDLE_SPEED = 0.28;
+  const MAX_VEL    = 8;
+  /*
+   * Idle nudge: exact amount to add each frame so that after FRICTION is
+   * applied, velocity holds at IDLE_SPEED.
+   * Derivation: (v + I) * FRICTION = v  →  I = v * (1/FRICTION − 1)
+   */
+  const IDLE_NUDGE = IDLE_SPEED * (1 / FRICTION - 1);
+
   /* ── Position cards ── */
   function positionCards() {
     const r  = getRadius();
@@ -112,19 +123,16 @@
   /* ── Ring state ── */
   let currentAngle = 0;
   let velocity     = 0;
-  let rafId        = null;
   let dragging     = false;
 
   /* ── Hover state ── */
-  let hoveredCard      = null;  // card currently animating OUT
-  let hoverProgress    = 0;     // 0 = in ring, 1 = fully out & straight
-  let hoverDir         = 0;     // 1 = entering, -1 = exiting
-
-  let exitingCard      = null;  // previous card retreating back into ring
-  let exitProgress     = 0;     // its progress (counts down to 0)
-
-  let hoverExitTimer   = null;  // debounce timer for mouseleave
-  let prevHoverTime    = 0;
+  let hoveredCard      = null;
+  let hoverProgress    = 0;
+  let hoverDir         = 0;
+  let exitingCard      = null;
+  let exitProgress     = 0;
+  let hoverExitTimer   = null;
+  let prevTime         = 0;
   let angleAtHoverStart = 0;
 
   /* ── Easing ── */
@@ -136,42 +144,19 @@
       `rotateX(${TILT_X}deg) rotateZ(${TILT_Z}deg) rotateY(${deg}deg)`;
   }
 
-  /* ── Momentum physics ── */
-  const FRICTION = 0.90;
-
-  function tick() {
-    velocity     *= FRICTION;
-    currentAngle += velocity;
-    setRingAngle(currentAngle);
-
-    if (Math.abs(velocity) < 0.004) {
-      velocity = 0;
-      rafId = null;
-      return;
-    }
-    rafId = requestAnimationFrame(tick);
-  }
-
-  function kick() {
-    if (!rafId) rafId = requestAnimationFrame(tick);
-  }
-
-  /* ── Build the counter-rotation transform string for a card at progress p ── */
+  /* ── Build hover card transform for progress p ── */
   function buildHoverTransform(card, p) {
     const baseAngle = parseFloat(card.dataset.baseAngle);
-    const totalY = currentAngle + baseAngle;
-    const ep = easeOutCubic(p);
+    const totalY    = currentAngle + baseAngle;
+    const ep        = easeOutCubic(p);
     return `rotateY(${-totalY * ep}deg) rotateZ(${-TILT_Z * ep}deg) rotateX(${-TILT_X * ep}deg) translateZ(${POP_Z * ep}px) scale(${1 + (POP_SCALE - 1) * ep})`;
   }
 
   /* ────────────────────────────────
      HOVER HELPERS
   ──────────────────────────────── */
-
-  /* Instant snap-back — used when drag starts */
   function clearHover() {
     if (hoverExitTimer) { clearTimeout(hoverExitTimer); hoverExitTimer = null; }
-
     if (exitingCard) {
       const inner = exitingCard.querySelector('.card-inner');
       if (inner) inner.style.transform = '';
@@ -179,7 +164,6 @@
       exitingCard  = null;
       exitProgress = 0;
     }
-
     if (!hoveredCard) return;
     const inner = hoveredCard.querySelector('.card-inner');
     if (inner) inner.style.transform = '';
@@ -191,23 +175,18 @@
 
   function startHoverEnter(card) {
     if (dragging) return;
-
-    /* Cancel any pending debounced exit */
     if (hoverExitTimer) { clearTimeout(hoverExitTimer); hoverExitTimer = null; }
 
-    /* Re-entering the same card while it was exiting — just reverse */
     if (hoveredCard === card) {
       hoverDir = 1;
       card.classList.add('card-hovered');
       return;
     }
 
-    /* Entering a NEW card — retire the current hovered card to exitingCard */
     if (hoveredCard) {
-      /* If something was already retreating, snap it instantly to clear the slot */
       if (exitingCard) {
-        const prevInner = exitingCard.querySelector('.card-inner');
-        if (prevInner) prevInner.style.transform = '';
+        const pi = exitingCard.querySelector('.card-inner');
+        if (pi) pi.style.transform = '';
         exitingCard.classList.remove('card-hovered');
       }
       exitingCard  = hoveredCard;
@@ -224,13 +203,11 @@
     card.classList.add('card-hovered');
   }
 
-  /* Debounced exit — 60 ms grace period to absorb gap-crossing events */
   function startHoverExit(card) {
     if (!hoveredCard || hoveredCard !== card) return;
     if (hoverExitTimer) clearTimeout(hoverExitTimer);
     hoverExitTimer = setTimeout(() => {
       hoverExitTimer = null;
-      /* Guard: hoveredCard may have changed during the timeout */
       if (!hoveredCard || hoveredCard !== card) return;
       hoverDir = -1;
       hoveredCard.classList.remove('card-hovered');
@@ -248,7 +225,7 @@
   }
 
   /* ────────────────────────────────
-     DRAG (mouse + touch)
+     DRAG
   ──────────────────────────────── */
   let lastDragX = 0;
   let lastDragT = 0;
@@ -259,16 +236,14 @@
     lastDragX = x;
     lastDragT = performance.now();
     velocity  = 0;
-    if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
   }
 
   function onDragMove(x) {
     if (!dragging) return;
-    const dx  = x - lastDragX;
-    const dt  = performance.now() - lastDragT;
-    velocity  = (dx / (dt || 1)) * 0.7;
-    velocity  = Math.max(-3, Math.min(3, velocity));
-    currentAngle += dx * 0.10;
+    const dx = x - lastDragX;
+    const dt = performance.now() - lastDragT;
+    velocity  = Math.max(-MAX_VEL, Math.min(MAX_VEL, (dx / (dt || 1)) * 1.3));
+    currentAngle += dx * 0.15;
     setRingAngle(currentAngle);
     lastDragX = x;
     lastDragT = performance.now();
@@ -277,7 +252,6 @@
   function onDragEnd() {
     if (!dragging) return;
     dragging = false;
-    kick();
   }
 
   viewport.addEventListener('mousedown', e => { onDragStart(e.clientX); e.preventDefault(); });
@@ -291,7 +265,7 @@
   viewport.addEventListener('mouseleave', () => { if (hoveredCard) startHoverExit(hoveredCard); });
 
   /* ────────────────────────────────
-     SCROLL acceleration (gentle)
+     SCROLL / WHEEL acceleration
   ──────────────────────────────── */
   let inView = false;
   const visIO = new IntersectionObserver(en => { inView = en[0].isIntersecting; }, { threshold: 0.2 });
@@ -299,9 +273,15 @@
 
   window.addEventListener('wheel', e => {
     if (!inView) return;
-    velocity += e.deltaY * 0.006;
-    velocity = Math.max(-3, Math.min(3, velocity));
-    kick();
+    velocity = Math.max(-MAX_VEL, Math.min(MAX_VEL, velocity + e.deltaY * 0.015));
+  }, { passive: true });
+
+  let lastScrollY = window.scrollY;
+  window.addEventListener('scroll', () => {
+    if (!inView) return;
+    const dy = window.scrollY - lastScrollY;
+    lastScrollY = window.scrollY;
+    velocity = Math.max(-MAX_VEL, Math.min(MAX_VEL, velocity + dy * 0.04));
   }, { passive: true });
 
   /* ────────────────────────────────
@@ -312,23 +292,36 @@
     card.addEventListener('mouseleave', () => startHoverExit(card));
   });
 
-  /* ────────────────────────────────
-     HOVER LOOP — runs every frame
-     Tracks two cards simultaneously:
-       hoveredCard  — animating out (or holding at p=1)
-       exitingCard  — previous card retreating back into ring
-     This eliminates glitches when the cursor crosses between cards.
-  ──────────────────────────────── */
-  function hoverLoop(now) {
-    const dt = prevHoverTime ? Math.min(now - prevHoverTime, 50) : 16;
-    prevHoverTime = now;
+  /* ════════════════════════════════════════════════════════
+     MASTER LOOP — single RAF handles ring + hover every frame
+     Eliminates the two-loop race condition that caused jitter.
 
-    /* Safety: auto-exit if ring spun far while card is out */
+     Idle spin: instead of a setInterval jerk, we add IDLE_NUDGE
+     each frame when velocity < IDLE_SPEED so the ring smoothly
+     ramps back up after slowing — no sudden kick.
+  ════════════════════════════════════════════════════════ */
+  function masterLoop(now) {
+    const dt = prevTime ? Math.min(now - prevTime, 50) : 16;
+    prevTime = now;
+
+    /* ── 1. Idle spin — smooth ramp, no jerk ── */
+    if (!dragging && !hoveredCard && velocity < IDLE_SPEED) {
+      velocity = Math.min(IDLE_SPEED, velocity + IDLE_NUDGE);
+    }
+
+    /* ── 2. Friction + advance angle ── */
+    if (!dragging) {
+      velocity *= FRICTION;
+    }
+    currentAngle += velocity;
+    setRingAngle(currentAngle);
+
+    /* ── 3. Safety: exit hover if ring has spun too far ── */
     if (hoveredCard && hoverDir === 1 && Math.abs(currentAngle - angleAtHoverStart) > 38) {
       startHoverExit(hoveredCard);
     }
 
-    /* ── Animate retreating card back into ring ── */
+    /* ── 4. Animate retreating card back into ring ── */
     if (exitingCard) {
       exitProgress = Math.max(0, exitProgress - dt / HOVER_OUT_MS);
       const inner = exitingCard.querySelector('.card-inner');
@@ -340,42 +333,26 @@
       }
     }
 
-    /* ── Animate the currently hovered card ── */
+    /* ── 5. Animate hovered card in / out ── */
     if (hoverDir !== 0 || hoveredCard) {
       if (hoverDir === 1) {
         hoverProgress = Math.min(1, hoverProgress + dt / HOVER_IN_MS);
       } else if (hoverDir === -1) {
         hoverProgress = Math.max(0, hoverProgress - dt / HOVER_OUT_MS);
-        if (hoverProgress === 0) {
-          finishHoverExit();
-          requestAnimationFrame(hoverLoop);
-          return;
-        }
+        if (hoverProgress === 0) { finishHoverExit(); }
       }
-
       if (hoveredCard) {
         const inner = hoveredCard.querySelector('.card-inner');
         if (inner) inner.style.transform = buildHoverTransform(hoveredCard, hoverProgress);
       }
     }
 
-    requestAnimationFrame(hoverLoop);
+    requestAnimationFrame(masterLoop);
   }
-  requestAnimationFrame(hoverLoop);
-
-  /* ── Idle auto-spin ── */
-  const IDLE_SPEED = 0.15;
-
-  setInterval(() => {
-    if (!dragging && !hoveredCard && Math.abs(velocity) < 0.02) {
-      velocity = IDLE_SPEED;
-      kick();
-    }
-  }, 1000);
 
   /* Boot */
   setRingAngle(0);
-  setTimeout(() => { velocity = IDLE_SPEED; kick(); }, 600);
+  requestAnimationFrame(masterLoop);
 
 })();
 

@@ -572,9 +572,9 @@ body {
   width: 210px;
   height: 280px;
   transform-style: preserve-3d;
-  /* Moderate diagonal tilt — matches reference image feel */
   transform: rotateX(-14deg) rotateZ(-18deg) rotateY(0deg);
   transition: none;
+  will-change: transform;
 }
 
 /* ── Cards ── */
@@ -588,6 +588,7 @@ body {
   margin-top: -115px;
   transform-style: preserve-3d;
   cursor: pointer;
+  will-change: transform;
 }
 
 .card-inner {
