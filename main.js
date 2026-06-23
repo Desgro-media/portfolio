@@ -83,8 +83,8 @@
   const TILT_Z = -18;
 
   /* ── Pop-out params ── */
-  const POP_Z     = 220;
-  const POP_SCALE = 1.45;
+  const POP_Z     = 60;
+  const POP_SCALE = 1.18;
 
   /* ── Hover animation durations (ms) ── */
   const HOVER_IN_MS  = 480;
@@ -133,7 +133,6 @@
   let exitProgress     = 0;
   let hoverExitTimer   = null;
   let prevTime         = 0;
-  let angleAtHoverStart = 0;
 
   /* ── Easing ── */
   function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
@@ -145,11 +144,9 @@
   }
 
   /* ── Build hover card transform for progress p ── */
-  function buildHoverTransform(card, p) {
-    const baseAngle = parseFloat(card.dataset.baseAngle);
-    const totalY    = currentAngle + baseAngle;
-    const ep        = easeOutCubic(p);
-    return `rotateY(${-totalY * ep}deg) rotateZ(${-TILT_Z * ep}deg) rotateX(${-TILT_X * ep}deg) translateZ(${POP_Z * ep}px) scale(${1 + (POP_SCALE - 1) * ep})`;
+  function buildHoverTransform(p) {
+    const ep = easeOutCubic(p);
+    return `translateZ(${POP_Z * ep}px) scale(${1 + (POP_SCALE - 1) * ep})`;
   }
 
   /* ────────────────────────────────
@@ -198,8 +195,7 @@
     }
 
     hoveredCard       = card;
-    angleAtHoverStart = currentAngle;
-    hoverDir          = 1;
+    hoverDir = 1;
     card.classList.add('card-hovered');
   }
 
@@ -316,10 +312,6 @@
     currentAngle += velocity;
     setRingAngle(currentAngle);
 
-    /* ── 3. Safety: exit hover if ring has spun too far ── */
-    if (hoveredCard && hoverDir === 1 && Math.abs(currentAngle - angleAtHoverStart) > 38) {
-      startHoverExit(hoveredCard);
-    }
 
     /* ── 4. Animate retreating card back into ring ── */
     if (exitingCard) {
@@ -329,7 +321,7 @@
         if (inner) inner.style.transform = '';
         exitingCard = null;
       } else if (inner) {
-        inner.style.transform = buildHoverTransform(exitingCard, exitProgress);
+        inner.style.transform = buildHoverTransform(exitProgress);
       }
     }
 
@@ -343,7 +335,7 @@
       }
       if (hoveredCard) {
         const inner = hoveredCard.querySelector('.card-inner');
-        if (inner) inner.style.transform = buildHoverTransform(hoveredCard, hoverProgress);
+        if (inner) inner.style.transform = buildHoverTransform(hoverProgress);
       }
     }
 
