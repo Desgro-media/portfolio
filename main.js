@@ -553,17 +553,21 @@
   const stmts        = document.querySelectorAll('.sd-stmt');
 
   if (scrollyOuter && stmts.length) {
-    const THRESHOLDS = [0, 0.38, 0.70];
+    /* Thresholds: what scroll-progress (0→1) activates each line.
+       Keep first > 0 so nothing appears before the user actually scrolls in. */
+    const THRESHOLDS = [0.08, 0.42, 0.74];
 
     function updateScrolly() {
-      const rect      = scrollyOuter.getBoundingClientRect();
+      const rect       = scrollyOuter.getBoundingClientRect();
       const scrollable = scrollyOuter.offsetHeight - window.innerHeight;
-      const progress  = scrollable > 0 ? Math.max(0, Math.min(1, -rect.top / scrollable)) : 1;
+      /* Only compute progress when the outer is on-screen */
+      if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+      const progress = scrollable > 0 ? Math.max(0, Math.min(1, -rect.top / scrollable)) : 1;
       stmts.forEach((s, i) => s.classList.toggle('active', progress >= THRESHOLDS[i]));
     }
 
     window.addEventListener('scroll', updateScrolly, { passive: true });
-    updateScrolly();
+    /* Don't call on load — let the user scroll to trigger it */
   }
 
   /* ── 2. STAT COUNTER: animates 0 → target when orb enters view ── */
