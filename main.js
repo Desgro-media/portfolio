@@ -543,6 +543,78 @@
 })();
 
 
+/* ══════════════════════════════════════════════════════
+   SERVICES PAGE — scrollytelling · counters · card reveals
+══════════════════════════════════════════════════════ */
+(function initServicesDetail() {
+
+  /* ── 1. SCROLLYTELLING: scroll progress drives statement reveals ── */
+  const scrollyOuter = document.querySelector('.sd-scrolly-outer');
+  const stmts        = document.querySelectorAll('.sd-stmt');
+
+  if (scrollyOuter && stmts.length) {
+    const THRESHOLDS = [0, 0.38, 0.70];
+
+    function updateScrolly() {
+      const rect      = scrollyOuter.getBoundingClientRect();
+      const scrollable = scrollyOuter.offsetHeight - window.innerHeight;
+      const progress  = scrollable > 0 ? Math.max(0, Math.min(1, -rect.top / scrollable)) : 1;
+      stmts.forEach((s, i) => s.classList.toggle('active', progress >= THRESHOLDS[i]));
+    }
+
+    window.addEventListener('scroll', updateScrolly, { passive: true });
+    updateScrolly();
+  }
+
+  /* ── 2. STAT COUNTER: animates 0 → target when orb enters view ── */
+  function runCounter(orb) {
+    const target = parseInt(orb.dataset.val, 10);
+    const numEl  = orb.querySelector('.sd-orb-num');
+    if (!numEl) return;
+    const duration = 1800;
+    const start    = performance.now();
+    (function tick(now) {
+      const p    = Math.min(1, (now - start) / duration);
+      const ease = 1 - Math.pow(1 - p, 3);
+      numEl.textContent = Math.floor(ease * target);
+      if (p < 1) requestAnimationFrame(tick);
+      else numEl.textContent = target;
+    })(start);
+  }
+
+  /* ── 3. ORB ENTRANCE + COUNTER trigger ── */
+  const orbs = document.querySelectorAll('.sd-orb');
+  if (orbs.length) {
+    const orbIO = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const orb   = e.target;
+        const delay = parseInt(orb.dataset.orbDelay || '0', 10);
+        setTimeout(() => { orb.classList.add('orb-in'); runCounter(orb); }, delay);
+        orbIO.unobserve(orb);
+      });
+    }, { threshold: 0.25 });
+
+    orbs.forEach((orb, i) => { orb.dataset.orbDelay = String(i * 130); orbIO.observe(orb); });
+  }
+
+  /* ── 4. SERVICE CARDS: staggered entrance on scroll ── */
+  const sdCards = document.querySelectorAll('.sd-card');
+  if (sdCards.length) {
+    const cardIO = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const idx = Array.from(sdCards).indexOf(e.target);
+        setTimeout(() => e.target.classList.add('card-in'), idx * 110);
+        cardIO.unobserve(e.target);
+      });
+    }, { threshold: 0.12 });
+    sdCards.forEach(c => cardIO.observe(c));
+  }
+
+})();
+
+
 /* ──────────────────────────────────────────
    Nav active link on scroll
 ────────────────────────────────────────── */
