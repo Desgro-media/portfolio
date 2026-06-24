@@ -48,11 +48,220 @@
 })();
 
 
+/* ══════════════════════════════════════════════════════
+   ANIMATIONS — loader · text reveals · parallax · scroll-reveal
+══════════════════════════════════════════════════════ */
+(function initAnimations() {
+
+  /* Mark JS active so CSS can apply pre-animation hidden states */
+  document.documentElement.classList.add('js-ready');
+
+  /* ────────────────────────────────
+     PAGE LOADER
+  ──────────────────────────────── */
+  const loader = document.createElement('div');
+  loader.className = 'page-loader';
+  loader.setAttribute('aria-hidden', 'true');
+  loader.innerHTML =
+    '<div class="loader-brand">' +
+      '<div class="loader-redbar"></div>' +
+      '<div class="loader-name-wrap"><span class="loader-name">DESGRO</span></div>' +
+      '<span class="loader-sub">MEDIA</span>' +
+    '</div>' +
+    '<div class="loader-track"><div class="loader-fill"></div></div>';
+  document.body.insertBefore(loader, document.body.firstChild);
+
+  setTimeout(() => {
+    loader.classList.add('exit');
+    revealHero();
+    loader.addEventListener('transitionend', () => loader.remove(), { once: true });
+  }, 2100);
+
+  /* ────────────────────────────────
+     HERO CHAR SPLIT
+     Split "DESGRO" into individual <span.char><span.char-inner> pairs
+     so each character can reveal upward with a stagger.
+  ──────────────────────────────── */
+  const desgroEl = document.querySelector('.hero-title-desgro');
+  const mediaEl  = document.querySelector('.hero-title-media');
+  let charInners = [];
+
+  if (desgroEl) {
+    const text = desgroEl.textContent.trim();
+    desgroEl.innerHTML = '';
+    text.split('').forEach(ch => {
+      const outer = document.createElement('span');
+      outer.className = 'char';
+      const inner = document.createElement('span');
+      inner.className = 'char-inner';
+      inner.textContent = ch;
+      outer.appendChild(inner);
+      desgroEl.appendChild(outer);
+    });
+    charInners = Array.from(desgroEl.querySelectorAll('.char-inner'));
+  }
+
+  /* ────────────────────────────────
+     HERO REVEAL  (called when loader exits)
+  ──────────────────────────────── */
+  function revealHero() {
+    /* DESGRO — each char slides up with stagger */
+    charInners.forEach((ch, i) => {
+      ch.style.animation =
+        `char-up 0.65s cubic-bezier(0.16,1,0.3,1) ${i * 0.05}s both`;
+    });
+
+    /* MEDIA — slide in from left after DESGRO finishes */
+    const mediaDelay = charInners.length * 50 + 60;
+    setTimeout(() => { if (mediaEl) mediaEl.classList.add('anim-in'); }, mediaDelay);
+
+    /* Labels & tagline — subtle fade up */
+    const labels  = document.querySelector('.hero-top-labels');
+    const tagline = document.querySelector('.hero-tagline');
+    setTimeout(() => { if (labels)  labels.classList.add('anim-in'); },  60);
+    setTimeout(() => { if (tagline) tagline.classList.add('anim-in'); }, 400);
+  }
+
+  /* ────────────────────────────────
+     TEAM TITLE — line-by-line reveal
+     Wraps each BR-separated word in a clip container so the line
+     slides up from below its own baseline, not from the section top.
+  ──────────────────────────────── */
+  (function setupTeamTitle() {
+    const el = document.querySelector('.team-title');
+    if (!el) return;
+
+    const lines = el.innerHTML.split(/<br\s*\/?>/i);
+    el.innerHTML = lines.map(line =>
+      `<span class="ttl-wrap"><span class="ttl-inner">${line.trim()}</span></span>`
+    ).join('');
+
+    const inners = el.querySelectorAll('.ttl-inner');
+
+    new IntersectionObserver(([entry], obs) => {
+      if (!entry.isIntersecting) return;
+      inners.forEach((inn, i) =>
+        setTimeout(() => inn.classList.add('anim-in'), i * 160)
+      );
+      obs.disconnect();
+    }, { threshold: 0.25 }).observe(el);
+  })();
+
+  /* ────────────────────────────────
+     CONTACT HEADING — line reveal
+     Splits "START YOUR" and "<span>BRAND STORY</span>" into
+     separate clip containers so each line reveals independently.
+  ──────────────────────────────── */
+  (function setupContactHeading() {
+    const el = document.querySelector('.contact-heading');
+    if (!el) return;
+
+    /* Collect text + span from existing HTML */
+    let line1 = '';
+    let line2El = null;
+    Array.from(el.childNodes).forEach(n => {
+      if (n.nodeType === Node.TEXT_NODE) line1 += n.textContent;
+      else if (n.tagName === 'SPAN')     line2El = n.cloneNode(true);
+    });
+
+    el.innerHTML = '';
+
+    [line1.trim(), line2El].forEach((content, i) => {
+      if (!content) return;
+      const wrap  = document.createElement('span');
+      wrap.className = 'ch-wrap';
+      const inner = document.createElement('span');
+      inner.className = 'ch-inner';
+      if (typeof content === 'string') inner.textContent = content;
+      else inner.appendChild(content);
+      wrap.appendChild(inner);
+      el.appendChild(wrap);
+      if (i === 0) el.appendChild(document.createElement('br'));
+    });
+
+    const inners = el.querySelectorAll('.ch-inner');
+
+    new IntersectionObserver(([entry], obs) => {
+      if (!entry.isIntersecting) return;
+      inners.forEach((inn, i) =>
+        setTimeout(() => inn.classList.add('anim-in'), i * 160)
+      );
+      obs.disconnect();
+    }, { threshold: 0.4 }).observe(el);
+  })();
+
+  /* ────────────────────────────────
+     SCROLL REVEAL  (.sr / .sr-right)
+     Applied programmatically to keep HTML clean.
+  ──────────────────────────────── */
+  (function setupScrollReveal() {
+    const groups = [
+      { sel: '.about-text p',     cls: ''         },
+      { sel: '.service-item',     cls: 'sr-right'  },
+      { sel: '.team-label',       cls: ''          },
+      { sel: '.team-descriptors', cls: ''          },
+      { sel: '.contact-label',    cls: ''          },
+      { sel: '.btn-contact',      cls: ''          },
+      { sel: '.contact-footer',   cls: ''          },
+    ];
+
+    groups.forEach(({ sel, cls }) => {
+      document.querySelectorAll(sel).forEach((el, i) => {
+        el.classList.add('sr');
+        if (cls) el.classList.add(cls);
+        el.style.transitionDelay = `${i * 0.09}s`;
+      });
+    });
+
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('sr-visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.sr').forEach(el => io.observe(el));
+  })();
+
+  /* ────────────────────────────────
+     PARALLAX — hero title block
+     Title moves at 30% of scroll speed, creating a sense of depth.
+     Only active while the hero section is in the viewport.
+  ──────────────────────────────── */
+  (function setupParallax() {
+    const titleBlock  = document.querySelector('.hero-title-block');
+    const heroSection = document.querySelector('.hero-section');
+    if (!titleBlock || !heroSection) return;
+
+    let ticking = false;
+
+    function update() {
+      const y          = window.scrollY;
+      const heroHeight = heroSection.offsetTop + heroSection.offsetHeight;
+      titleBlock.style.transform = y < heroHeight
+        ? `translateY(${y * 0.28}px)`
+        : '';
+      ticking = false;
+    }
+
+    window.addEventListener('scroll', () => {
+      if (!ticking) { requestAnimationFrame(update); ticking = true; }
+    }, { passive: true });
+  })();
+
+})(); /* end initAnimations */
+
+
 /* ──────────────────────────────────────────
-   Scroll-fade
+   Scroll-fade (section-level reveals)
 ────────────────────────────────────────── */
 (function initFadeIn() {
-  const targets = document.querySelectorAll('.hero-bottom-row, .video-section, .team-header, .contact-inner');
+  /* hero-bottom-row and video-section fade in as full sections.
+     team-header and contact-inner are handled by the per-element
+     animation system above, so they are omitted here. */
+  const targets = document.querySelectorAll('.hero-bottom-row, .video-section, .team-header');
   targets.forEach(el => el.classList.add('fade-in'));
   const io = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
@@ -94,11 +303,6 @@
   const FRICTION   = 0.96;
   const IDLE_SPEED = 0.28;
   const MAX_VEL    = 8;
-  /*
-   * Idle nudge: exact amount to add each frame so that after FRICTION is
-   * applied, velocity holds at IDLE_SPEED.
-   * Derivation: (v + I) * FRICTION = v  →  I = v * (1/FRICTION − 1)
-   */
   const IDLE_NUDGE = IDLE_SPEED * (1 / FRICTION - 1);
 
   /* ── Position cards ── */
@@ -194,8 +398,8 @@
       hoverDir      = 0;
     }
 
-    hoveredCard       = card;
-    hoverDir = 1;
+    hoveredCard = card;
+    hoverDir    = 1;
     card.classList.add('card-hovered');
   }
 
@@ -290,30 +494,21 @@
 
   /* ════════════════════════════════════════════════════════
      MASTER LOOP — single RAF handles ring + hover every frame
-     Eliminates the two-loop race condition that caused jitter.
-
-     Idle spin: instead of a setInterval jerk, we add IDLE_NUDGE
-     each frame when velocity < IDLE_SPEED so the ring smoothly
-     ramps back up after slowing — no sudden kick.
   ════════════════════════════════════════════════════════ */
   function masterLoop(now) {
     const dt = prevTime ? Math.min(now - prevTime, 50) : 16;
     prevTime = now;
 
-    /* ── 1. Idle spin — smooth ramp, no jerk ── */
+    /* Smooth idle spin — ramps back to IDLE_SPEED without a jerk */
     if (!dragging && !hoveredCard && velocity < IDLE_SPEED) {
       velocity = Math.min(IDLE_SPEED, velocity + IDLE_NUDGE);
     }
 
-    /* ── 2. Friction + advance angle ── */
-    if (!dragging) {
-      velocity *= FRICTION;
-    }
+    if (!dragging) velocity *= FRICTION;
     currentAngle += velocity;
     setRingAngle(currentAngle);
 
-
-    /* ── 4. Animate retreating card back into ring ── */
+    /* Animate retreating card */
     if (exitingCard) {
       exitProgress = Math.max(0, exitProgress - dt / HOVER_OUT_MS);
       const inner = exitingCard.querySelector('.card-inner');
@@ -325,7 +520,7 @@
       }
     }
 
-    /* ── 5. Animate hovered card in / out ── */
+    /* Animate hovered card */
     if (hoverDir !== 0 || hoveredCard) {
       if (hoverDir === 1) {
         hoverProgress = Math.min(1, hoverProgress + dt / HOVER_IN_MS);
@@ -342,7 +537,6 @@
     requestAnimationFrame(masterLoop);
   }
 
-  /* Boot */
   setRingAngle(0);
   requestAnimationFrame(masterLoop);
 

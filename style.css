@@ -963,3 +963,176 @@ body {
 
   .ring-viewport { min-height: 360px; }
 }
+
+/* ============================================================
+   PAGE LOADER
+   ============================================================ */
+.page-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
+  will-change: transform;
+}
+
+.page-loader.exit { transform: translateY(-100%); }
+
+.loader-brand {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.loader-redbar {
+  height: 3px;
+  width: 0;
+  background: var(--red);
+  margin-bottom: 8px;
+  animation: l-bar 0.55s cubic-bezier(0.16,1,0.3,1) forwards 0.3s;
+}
+@keyframes l-bar { to { width: 44px; } }
+
+.loader-name-wrap { overflow: hidden; line-height: 1; }
+
+.loader-name {
+  display: block;
+  font-family: var(--font-display);
+  font-size: clamp(52px, 10vw, 90px);
+  color: #fff;
+  letter-spacing: -1px;
+  transform: translateY(110%);
+  animation: l-up 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.42s;
+}
+@keyframes l-up { to { transform: translateY(0); } }
+
+.loader-sub {
+  display: block;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 5px;
+  color: #888;
+  opacity: 0;
+  margin-top: 5px;
+  animation: l-fade 0.5s ease forwards 0.95s;
+}
+@keyframes l-fade { to { opacity: 1; } }
+
+.loader-track {
+  position: absolute;
+  bottom: 48px;
+  width: min(260px, 55vw);
+  height: 1px;
+  background: rgba(255,255,255,0.07);
+  overflow: hidden;
+}
+
+.loader-fill {
+  height: 100%;
+  width: 0;
+  background: var(--red);
+  animation: l-progress 1.9s cubic-bezier(0.4,0,0.2,1) forwards 0.1s;
+}
+@keyframes l-progress {
+  0%   { width: 0;    }
+  65%  { width: 72%;  }
+  100% { width: 100%; }
+}
+
+/* ============================================================
+   HERO CHAR REVEAL
+   ============================================================ */
+.char {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: bottom;
+  padding-bottom: 0.05em;
+  line-height: 1;
+}
+.char-inner {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+/* Only hide when JS is active — text visible if JS fails */
+.js-ready .char-inner {
+  opacity: 0;
+  transform: translateY(105%);
+}
+@keyframes char-up {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.js-ready .hero-title-media {
+  opacity: 0;
+  transform: translateX(-22px);
+  transition: opacity 0.7s ease, transform 0.75s cubic-bezier(0.16,1,0.3,1);
+}
+.js-ready .hero-title-media.anim-in  { opacity: 1; transform: translateX(0); }
+
+.js-ready .hero-top-labels {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.js-ready .hero-top-labels.anim-in   { opacity: 1; transform: translateY(0); }
+
+.js-ready .hero-tagline {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
+}
+.js-ready .hero-tagline.anim-in      { opacity: 1; transform: translateY(0); }
+
+/* ============================================================
+   TEAM TITLE — line-by-line reveal
+   ============================================================ */
+.ttl-wrap {
+  display: block;
+  overflow: hidden;
+  padding: 0.04em 0;  /* buffer so tight line-height doesn't clip caps */
+}
+.ttl-inner {
+  display: block;
+  will-change: transform;
+}
+.js-ready .ttl-inner {
+  transform: translateY(105%);
+  transition: transform 0.95s cubic-bezier(0.16,1,0.3,1);
+}
+.js-ready .ttl-inner.anim-in { transform: translateY(0); }
+
+/* ============================================================
+   CONTACT HEADING — line reveal
+   ============================================================ */
+.ch-wrap {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.06em;
+}
+.ch-inner {
+  display: block;
+  will-change: transform;
+}
+.js-ready .ch-inner {
+  transform: translateY(105%);
+  transition: transform 0.85s cubic-bezier(0.16,1,0.3,1);
+}
+.js-ready .ch-inner.anim-in { transform: translateY(0); }
+
+/* ============================================================
+   SCROLL REVEAL
+   ============================================================ */
+.sr {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.65s ease, transform 0.65s cubic-bezier(0.16,1,0.3,1);
+  will-change: opacity, transform;
+}
+.sr.sr-right { transform: translateX(26px); }
+.sr.sr-visible { opacity: 1; transform: translate(0,0); }
