@@ -56,6 +56,33 @@
   /* Mark JS active so CSS can apply pre-animation hidden states */
   document.documentElement.classList.add('js-ready');
 
+  /* Shared flag — set true once the title exits; parallax checks this */
+  let heroTitleExited = false;
+
+  /* Showreel timing constants */
+  const SHOWREEL_HOLD_MS = 1400; /* hold title after reveal before exit */
+
+  function triggerShowreel() {
+    const wrap     = document.getElementById('heroIntroWrap');
+    const showreel = document.getElementById('heroShowreel');
+    const video    = document.getElementById('showreelVideo');
+    if (!wrap || !showreel || !video) return;
+
+    heroTitleExited = true;
+
+    /* Title + labels fade out */
+    wrap.classList.add('title-exit');
+
+    /* Showreel fades in slightly after title starts exiting */
+    setTimeout(() => {
+      showreel.classList.add('sr-active');
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    }, 350);
+
+    /* Showreel loops — no fade-out timer */
+  }
+
   /* ────────────────────────────────
      PAGE LOADER
   ──────────────────────────────── */
@@ -120,6 +147,10 @@
     const tagline = document.querySelector('.hero-tagline');
     setTimeout(() => { if (labels)  labels.classList.add('anim-in'); },  60);
     setTimeout(() => { if (tagline) tagline.classList.add('anim-in'); }, 400);
+
+    /* After title fully reveals + hold, transition to showreel */
+    const revealMs = charInners.length * 50 + 650;
+    setTimeout(triggerShowreel, revealMs + SHOWREEL_HOLD_MS);
   }
 
   /* ────────────────────────────────
@@ -238,6 +269,7 @@
     let ticking = false;
 
     function update() {
+      if (heroTitleExited) { titleBlock.style.transform = ''; ticking = false; return; }
       const y          = window.scrollY;
       const heroHeight = heroSection.offsetTop + heroSection.offsetHeight;
       titleBlock.style.transform = y < heroHeight
