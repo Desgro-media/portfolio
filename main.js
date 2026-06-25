@@ -667,3 +667,134 @@
   window.addEventListener('scroll', updateActive, { passive: true });
   updateActive();
 })();
+
+
+/* ──────────────────────────────────────────
+   PERSONALITIES — 3D tilt + holographic shine
+────────────────────────────────────────── */
+(function initPersCards() {
+  const cards  = document.querySelectorAll('.pers-card');
+  if (!cards.length) return;
+
+  const MAX_TILT  = 18;
+  const MAX_TRANS = 12;
+  const isMobile  = () => window.matchMedia('(hover: none)').matches;
+
+  /* ── shared tilt applier ── */
+  function applyTilt(card, dx, dy, sx, sy) {
+    const shine = card.querySelector('.pers-shine');
+    const rotY  =  dx * MAX_TILT;
+    const rotX  = -dy * MAX_TILT;
+
+    card.style.transform =
+      `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(${MAX_TRANS}px) scale(1.04)`;
+    card.style.boxShadow =
+      `${-dx * 20}px ${-dy * 20}px 60px rgba(0,0,0,0.75),
+       0 0 0 1.5px rgba(255,255,255,0.14)`;
+
+    if (shine) {
+      shine.style.background =
+        `radial-gradient(circle at ${sx}% ${sy}%, rgba(255,255,255,0.24) 0%, transparent 58%)`;
+      shine.style.opacity = '1';
+    }
+  }
+
+  function resetCard(card) {
+    const shine = card.querySelector('.pers-shine');
+    card.style.transition = 'transform 0.65s cubic-bezier(0.23,1,0.32,1), box-shadow 0.65s ease';
+    card.style.transform  = 'perspective(800px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale(1)';
+    card.style.boxShadow  = '0 20px 60px rgba(0,0,0,0.6)';
+    if (shine) shine.style.opacity = '0';
+  }
+
+  /* ── DESKTOP: mouse tracking ── */
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.style.transition = 'transform 0.12s ease, box-shadow 0.3s ease';
+    });
+
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const dx   = (e.clientX - rect.left - rect.width  / 2) / (rect.width  / 2);
+      const dy   = (e.clientY - rect.top  - rect.height / 2) / (rect.height / 2);
+      const sx   = ((e.clientX - rect.left) / rect.width)  * 100;
+      const sy   = ((e.clientY - rect.top)  / rect.height) * 100;
+      applyTilt(card, dx, dy, sx, sy);
+    });
+
+    card.addEventListener('mouseleave', () => resetCard(card));
+  });
+
+  /* ── MOBILE: touch tilt on individual card ── */
+  cards.forEach(card => {
+    let touchActive = false;
+
+    card.addEventListener('touchstart', () => {
+      touchActive = true;
+      card.style.transition = 'transform 0.12s ease, box-shadow 0.3s ease';
+    }, { passive: true });
+
+    card.addEventListener('touchmove', e => {
+      if (!touchActive) return;
+      const touch = e.touches[0];
+      const rect  = card.getBoundingClientRect();
+      const dx    = (touch.clientX - rect.left - rect.width  / 2) / (rect.width  / 2);
+      const dy    = (touch.clientY - rect.top  - rect.height / 2) / (rect.height / 2);
+      const sx    = ((touch.clientX - rect.left) / rect.width)  * 100;
+      const sy    = ((touch.clientY - rect.top)  / rect.height) * 100;
+      applyTilt(card, Math.max(-1, Math.min(1, dx)), Math.max(-1, Math.min(1, dy)), sx, sy);
+    }, { passive: true });
+
+    card.addEventListener('touchend', () => {
+      touchActive = false;
+      resetCard(card);
+    });
+  });
+
+  /* ── MOBILE: gyroscope tilt (tilts all cards with phone) ── */
+  if (window.DeviceOrientationEvent) {
+    let baseBeta = null, baseGamma = null;
+
+    window.addEventListener('deviceorientation', e => {
+      if (!isMobile()) return;
+      if (baseBeta  === null) baseBeta  = e.beta;
+      if (baseGamma === null) baseGamma = e.gamma;
+
+      const dy = Math.max(-1, Math.min(1, (e.beta  - baseBeta)  / 20));
+      const dx = Math.max(-1, Math.min(1, (e.gamma - baseGamma) / 20));
+
+      cards.forEach(card => {
+        const shine = card.querySelector('.pers-shine');
+        if (card.matches(':active') || document.querySelector('.pers-card:active') === card) return;
+        card.style.transition = 'transform 0.1s ease';
+        card.style.transform  =
+          `perspective(800px) rotateX(${-dy * 10}deg) rotateY(${dx * 10}deg) translateZ(4px)`;
+        if (shine) {
+          shine.style.background =
+            `radial-gradient(circle at ${50 + dx * 40}% ${50 + dy * 40}%, rgba(255,255,255,0.16) 0%, transparent 60%)`;
+          shine.style.opacity = '0.7';
+        }
+      });
+    }, { passive: true });
+  }
+
+  /* ── Scroll-in entry animation ── */
+  const row = document.querySelector('.pers-reel-row');
+  if (!row) return;
+
+  const io = new IntersectionObserver(entries => {
+    if (!entries[0].isIntersecting) return;
+    cards.forEach((card, i) => {
+      card.style.opacity   = '0';
+      card.style.transform = `perspective(800px) rotateX(22deg) translateY(70px)`;
+      setTimeout(() => {
+        card.style.transition = 'transform 0.9s cubic-bezier(0.16,1,0.3,1), opacity 0.75s ease';
+        card.style.opacity    = '1';
+        card.style.transform  = 'perspective(800px) rotateX(0deg) translateY(0px)';
+      }, i * 130);
+    });
+    io.disconnect();
+  }, { threshold: 0.15 });
+
+  io.observe(row);
+})();
