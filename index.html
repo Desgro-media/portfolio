@@ -44,23 +44,63 @@
 
   <!-- ======================== HERO SECTION ======================== -->
   <section id="hero" class="hero-section">
-    <div class="hero-top-labels">
-      <span class="hero-label-left">CREATIVE CONTENT MARKETING</span>
-      <span class="hero-label-right">Est. 2026</span>
-    </div>
 
-    <div class="hero-title-block">
-      <h1 class="hero-title-desgro">DESGRO</h1>
-      <div class="hero-subtitle-row">
-        <h2 class="hero-title-media">MEDIA</h2>
-        <div class="hero-tagline">
-          <p>BUILDING BRANDS THAT STAND OUT</p>
-          <p>IN TODAY'S COMPETITIVE LANDSCAPE</p>
+    <!-- Intro wrap: fills viewport — title reveals, then exits, showreel plays -->
+    <div class="hero-intro-wrap" id="heroIntroWrap">
+      <div class="hero-top-labels">
+        <span class="hero-label-left">CREATIVE CONTENT MARKETING</span>
+        <span class="hero-label-right">Est. 2026</span>
+      </div>
+
+      <div class="hero-title-block">
+        <h1 class="hero-title-desgro">DESGRO</h1>
+        <div class="hero-subtitle-row">
+          <h2 class="hero-title-media">MEDIA</h2>
+          <div class="hero-tagline">
+            <p>BUILDING BRANDS THAT STAND OUT</p>
+            <p>IN TODAY'S COMPETITIVE LANDSCAPE</p>
+          </div>
         </div>
+      </div>
+
+      <!-- Showreel: fades in over title, loops -->
+      <div class="hero-showreel" id="heroShowreel">
+        <video id="showreelVideo" muted playsinline loop>
+          <source src="video assets/Enhancer-Ultra HD-Cinematic_animation_subtle_movem…_202606241556.mp4" type="video/mp4">
+        </video>
+        <span class="showreel-label">OUR WORK</span>
       </div>
     </div>
 
-    <!-- Video section -->
+    <!-- Service Cards -->
+    <div class="sd-cards">
+      <div class="sd-card">
+        <span class="sd-card-num">01</span>
+        <h3 class="sd-card-name">BRANDING</h3>
+        <p class="sd-card-desc">We craft identities that resonate — from logo and visual language to brand voice and positioning. Every touchpoint tells your story.</p>
+        <span class="sd-card-arrow">→</span>
+      </div>
+      <div class="sd-card">
+        <span class="sd-card-num">02</span>
+        <h3 class="sd-card-name">CONTENT<br>MARKETING</h3>
+        <p class="sd-card-desc">Strategic content that moves audiences through the funnel — from awareness to loyalty. We create, distribute, and measure what matters.</p>
+        <span class="sd-card-arrow">→</span>
+      </div>
+      <div class="sd-card">
+        <span class="sd-card-num">03</span>
+        <h3 class="sd-card-name">CONTENT<br>CREATION</h3>
+        <p class="sd-card-desc">From short-form video to long-form storytelling, our creators produce content that stops the scroll and sparks conversation.</p>
+        <span class="sd-card-arrow">→</span>
+      </div>
+      <div class="sd-card">
+        <span class="sd-card-num">04</span>
+        <h3 class="sd-card-name">BRAND<br>STRATEGY</h3>
+        <p class="sd-card-desc">Deep market insight, sharp positioning, and a roadmap for growth. We build brands that own their category.</p>
+        <span class="sd-card-arrow">→</span>
+      </div>
+    </div>
+
+    <!-- Brand Story Reel -->
     <div class="video-section" id="video-section">
       <div class="video-label">
         <span class="video-line"></span>
@@ -71,9 +111,7 @@
         <video id="brandVideo" autoplay muted loop playsinline>
           <source src="video assets/make_the_grass_more_long_and_r.mp4" type="video/mp4">
         </video>
-        <div class="video-overlay" id="videoOverlay">
-          <!-- click anywhere to toggle pause -->
-        </div>
+        <div class="video-overlay" id="videoOverlay"></div>
       </div>
     </div>
 
@@ -110,28 +148,21 @@
   <!-- ======================== SERVICES DETAIL SECTION ======================== -->
   <section id="services-detail" class="sd-section">
 
-    <!-- WHY panel — statements reveal on scroll-into-view -->
     <div class="sd-why-panel">
       <div class="sd-why-grid">
-
-        <!-- Left: question + body -->
         <div class="sd-why-left">
           <div class="sd-eyebrow"><span></span>CONTENT CREATION</div>
           <h2 class="sd-why-h">Why<br><span class="sd-red">Content<br>Creation?</span></h2>
           <p class="sd-why-p">In today's fast-paced digital environment, content is the currency. Whether you're an entrepreneur, professional, or an aspiring influencer, we empower you with the insights and strategies to make your mark.</p>
         </div>
-
-        <!-- Right: staggered IO reveal -->
         <div class="sd-stmt-wrap">
           <p class="sd-stmt">We Build <b>Creators</b></p>
           <p class="sd-stmt sd-stmt--light">and With <b>Creators</b></p>
           <p class="sd-stmt">We Build <b>Companies</b></p>
         </div>
-
       </div>
     </div>
 
-    <!-- MARQUEE SEPARATOR -->
     <div class="sd-marquee" aria-hidden="true">
       <div class="sd-mq-track">
         <span class="sd-mq-item">BRANDING <span class="sd-mq-sep">✦</span></span>
@@ -145,7 +176,6 @@
       </div>
     </div>
 
-    <!-- STATS ORBS -->
     <div class="sd-stats">
       <div class="sd-orb sd-orb--md" data-val="30" data-suf="+">
         <div class="sd-orb-val"><span class="sd-orb-num">0</span><span class="sd-orb-suf">+</span></div>
@@ -165,173 +195,136 @@
       </div>
     </div>
 
-    <!-- SERVICE CARDS GRID -->
-    <div class="sd-cards">
-      <div class="sd-card">
-        <span class="sd-card-num">01</span>
-        <h3 class="sd-card-name">BRANDING</h3>
-        <p class="sd-card-desc">We craft identities that resonate — from logo and visual language to brand voice and positioning. Every touchpoint tells your story.</p>
-        <span class="sd-card-arrow">→</span>
-      </div>
-      <div class="sd-card">
-        <span class="sd-card-num">02</span>
-        <h3 class="sd-card-name">CONTENT<br>MARKETING</h3>
-        <p class="sd-card-desc">Strategic content that moves audiences through the funnel — from awareness to loyalty. We create, distribute, and measure what matters.</p>
-        <span class="sd-card-arrow">→</span>
-      </div>
-      <div class="sd-card">
-        <span class="sd-card-num">03</span>
-        <h3 class="sd-card-name">CONTENT<br>CREATION</h3>
-        <p class="sd-card-desc">From short-form video to long-form storytelling, our creators produce content that stops the scroll and sparks conversation.</p>
-        <span class="sd-card-arrow">→</span>
-      </div>
-      <div class="sd-card">
-        <span class="sd-card-num">04</span>
-        <h3 class="sd-card-name">BRAND<br>STRATEGY</h3>
-        <p class="sd-card-desc">Deep market insight, sharp positioning, and a roadmap for growth. We build brands that own their category.</p>
-        <span class="sd-card-arrow">→</span>
-      </div>
-    </div>
-
   </section>
 
   <!-- ======================== TEAM SECTION ======================== -->
   <section id="team" class="team-section">
-    <!-- Header -->
+
+    <!-- Header + Ring side by side -->
     <div class="team-header">
-      <div class="team-label">
-        <span class="team-red-line"></span>
-        <span>THE PEOPLE BEHIND THE BRAND</span>
+      <div class="team-header-left">
+        <div class="team-label">
+          <span class="team-red-line"></span>
+          <span>THE PEOPLE BEHIND THE BRAND</span>
+        </div>
+        <h2 class="team-title">DESGRO<br><span style="color:var(--red)">GROWTH</span><br>SQUAD</h2>
+        <div class="team-descriptors">
+          <p>BRAND STORYTELLERS · STRATEGISTS</p>
+          <p>DESIGNERS · CREATORS · MARKETERS</p>
+        </div>
       </div>
-      <h2 class="team-title">DESGRO<br><span style="color:var(--red)">GROWTH</span><br>SQUAD</h2>
-      <div class="team-descriptors">
-        <p>BRAND STORYTELLERS · STRATEGISTS</p>
-        <p>DESIGNERS · CREATORS · MARKETERS</p>
-      </div>
-    </div>
 
-    <!-- Rotating Ring -->
-    <div class="ring-viewport" id="ringViewport">
-      <div class="ring-container" id="ringContainer">
-        <div class="ring-track" id="ringTrack">
+      <!-- 3D Ring lives here, to the right of the title -->
+      <div class="ring-viewport" id="ringViewport">
+        <div class="ring-container" id="ringContainer">
+          <div class="ring-track" id="ringTrack">
 
-          <!-- Card 1 -->
-          <div class="team-card" data-index="0">
-            <div class="card-inner">
-              <img src="image assets/3..jpg" alt="Nisam VM" draggable="false">
-              <div class="card-story">
-                <span class="card-story-role">FOUNDER</span>
-                <span class="card-story-name">Nisam VM</span>
+            <div class="team-card" data-index="0">
+              <div class="card-inner">
+                <img src="image assets/3..jpg" alt="Nisam VM" draggable="false">
+                <div class="card-story">
+                  <span class="card-story-role">FOUNDER</span>
+                  <span class="card-story-name">Nisam VM</span>
+                </div>
               </div>
             </div>
-          </div>
-          <!-- Card 2 -->
-          <div class="team-card" data-index="1">
-            <div class="card-inner">
-              <img src="image assets/2.jpg" alt="Thanseem CA" draggable="false">
-              <div class="card-story">
-                <span class="card-story-role">CO-FOUNDER</span>
-                <span class="card-story-name">Thanseem CA</span>
+            <div class="team-card" data-index="1">
+              <div class="card-inner">
+                <img src="image assets/2.jpg" alt="Thanseem CA" draggable="false">
+                <div class="card-story">
+                  <span class="card-story-role">CO-FOUNDER</span>
+                  <span class="card-story-name">Thanseem CA</span>
+                </div>
               </div>
             </div>
-          </div>
-          <!-- Card 3 -->
-          <div class="team-card" data-index="2">
-            <div class="card-inner">
-              <img src="image assets/1.jpg" alt="Shamaz" draggable="false">
-              <div class="card-story">
-                <span class="card-story-role">CREATIVE HEAD</span>
-                <span class="card-story-name">Shamaz</span>
+            <div class="team-card" data-index="2">
+              <div class="card-inner">
+                <img src="image assets/1.jpg" alt="Shamaz" draggable="false">
+                <div class="card-story">
+                  <span class="card-story-role">CREATIVE HEAD</span>
+                  <span class="card-story-name">Shamaz</span>
+                </div>
               </div>
             </div>
-          </div>
-          <!-- Card 4 -->
-          <div class="team-card" data-index="3">
-            <div class="card-inner">
-              <img src="image assets/4th.jpg" alt="Aflah Al Zaman" draggable="false">
-              <div class="card-story">
-                <span class="card-story-role">BRAND STRATEGIST</span>
-                <span class="card-story-name">Aflah Al Zaman</span>
+            <div class="team-card" data-index="3">
+              <div class="card-inner">
+                <img src="image assets/4th.jpg" alt="Aflah Al Zaman" draggable="false">
+                <div class="card-story">
+                  <span class="card-story-role">BRAND STRATEGIST</span>
+                  <span class="card-story-name">Aflah Al Zaman</span>
+                </div>
               </div>
             </div>
-          </div>
-          <!-- Card 5 -->
-          <div class="team-card" data-index="4">
-            <div class="card-inner">
-              <img src="image assets/5th.jpg" alt="Ansid" draggable="false">
-              <div class="card-story">
-                <span class="card-story-role">VIDEOGRAPHER</span>
-                <span class="card-story-name">Ansid</span>
+            <div class="team-card" data-index="4">
+              <div class="card-inner">
+                <img src="image assets/5th.jpg" alt="Ansid" draggable="false">
+                <div class="card-story">
+                  <span class="card-story-role">VIDEOGRAPHER</span>
+                  <span class="card-story-name">Ansid</span>
+                </div>
               </div>
             </div>
-          </div>
-          <!-- Card 6 -->
-          <div class="team-card" data-index="5">
-            <div class="card-inner">
-              <img src="image assets/6th.jpg" alt="Anchala Rasheed" draggable="false">
-              <div class="card-story">
-                <span class="card-story-role">CONTENT HEAD</span>
-                <span class="card-story-name">Anchala Rasheed</span>
+            <div class="team-card" data-index="5">
+              <div class="card-inner">
+                <img src="image assets/6th.jpg" alt="Anchala Rasheed" draggable="false">
+                <div class="card-story">
+                  <span class="card-story-role">CONTENT HEAD</span>
+                  <span class="card-story-name">Anchala Rasheed</span>
+                </div>
               </div>
             </div>
-          </div>
-          <!-- Card 7 -->
-          <div class="team-card" data-index="6">
-            <div class="card-inner">
-              <img src="image assets/7th.jpg" alt="Nihal" draggable="false">
-              <div class="card-story">
-                <span class="card-story-role">MULTIMEDIA HEAD</span>
-                <span class="card-story-name">Nihal</span>
+            <div class="team-card" data-index="6">
+              <div class="card-inner">
+                <img src="image assets/7th.jpg" alt="Nihal" draggable="false">
+                <div class="card-story">
+                  <span class="card-story-role">MULTIMEDIA HEAD</span>
+                  <span class="card-story-name">Nihal</span>
+                </div>
               </div>
             </div>
-          </div>
-          <!-- Card 8 -->
-          <div class="team-card" data-index="7">
-            <div class="card-inner">
-              <img src="image assets/8th.jpg" alt="Asna" draggable="false">
-              <div class="card-story">
-                <span class="card-story-role">CONTENT WRITER</span>
-                <span class="card-story-name">Asna</span>
+            <div class="team-card" data-index="7">
+              <div class="card-inner">
+                <img src="image assets/8th.jpg" alt="Asna" draggable="false">
+                <div class="card-story">
+                  <span class="card-story-role">CONTENT WRITER</span>
+                  <span class="card-story-name">Asna</span>
+                </div>
               </div>
             </div>
-          </div>
-          <!-- Card 9 -->
-          <div class="team-card" data-index="8">
-            <div class="card-inner">
-              <img src="image assets/9th.jpg" alt="Nisthar" draggable="false">
-              <div class="card-story">
-                <span class="card-story-role">PERFORMANCE MARKETER</span>
-                <span class="card-story-name">Nisthar</span>
+            <div class="team-card" data-index="8">
+              <div class="card-inner">
+                <img src="image assets/9th.jpg" alt="Nisthar" draggable="false">
+                <div class="card-story">
+                  <span class="card-story-role">PERFORMANCE MARKETER</span>
+                  <span class="card-story-name">Nisthar</span>
+                </div>
               </div>
             </div>
-          </div>
-          <!-- Card 10 -->
-          <div class="team-card" data-index="9">
-            <div class="card-inner">
-              <img src="image assets/10th.jpg" alt="Afra" draggable="false">
-              <div class="card-story">
-                <span class="card-story-role">DIGITAL MARKETER</span>
-                <span class="card-story-name">Afra</span>
+            <div class="team-card" data-index="9">
+              <div class="card-inner">
+                <img src="image assets/10th.jpg" alt="Afra" draggable="false">
+                <div class="card-story">
+                  <span class="card-story-role">DIGITAL MARKETER</span>
+                  <span class="card-story-name">Afra</span>
+                </div>
               </div>
             </div>
-          </div>
-          <!-- Card 11 -->
-          <div class="team-card" data-index="10">
-            <div class="card-inner">
-              <img src="image assets/11th.jpg" alt="Yasir" draggable="false">
-              <div class="card-story">
-                <span class="card-story-role">VIDEO EDITOR</span>
-                <span class="card-story-name">Yasir</span>
+            <div class="team-card" data-index="10">
+              <div class="card-inner">
+                <img src="image assets/11th.jpg" alt="Yasir" draggable="false">
+                <div class="card-story">
+                  <span class="card-story-role">VIDEO EDITOR</span>
+                  <span class="card-story-name">Yasir</span>
+                </div>
               </div>
             </div>
-          </div>
 
-        </div><!-- /ring-track -->
-      </div><!-- /ring-container -->
+          </div><!-- /ring-track -->
+        </div><!-- /ring-container -->
 
-      <!-- Hint text -->
-      <div class="ring-hint">← DRAG TO SPIN &nbsp;&nbsp; SCROLL TO ACCELERATE →</div>
-    </div><!-- /ring-viewport -->
+        <div class="ring-hint">← DRAG TO SPIN &nbsp;&nbsp; SCROLL TO ACCELERATE →</div>
+      </div><!-- /ring-viewport -->
+    </div><!-- /team-header -->
 
     <!-- Footer row -->
     <div class="team-footer">
