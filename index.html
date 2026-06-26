@@ -5,7 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Desgro Media — Creative Content Marketing</title>
   <meta name="description" content="Desgro Media brings together strategic insight, inspired design, and a passion for storytelling — helping businesses connect with their audience on a deeper level.">
-  <!-- Fonts loaded locally via @font-face in style.css (Bebas Neue + DM Sans) -->
+  <!-- Preload Anton so it's ready before first paint — eliminates font-swap flash -->
+  <link rel="preload" href="fonts/Anton-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css">
   <!-- Three.js for real 3D glass asterisk rendering -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
