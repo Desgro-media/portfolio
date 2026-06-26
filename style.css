@@ -995,6 +995,160 @@ body {
 .team-back:hover { color: var(--white); }
 
 /* ============================================================
+   OUR WORKS SECTION
+   ============================================================ */
+.works-section {
+  background: #050505;
+  padding: 100px 48px 120px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+.works-header { margin-bottom: 64px; }
+
+.works-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  color: rgba(255,255,255,0.32);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.works-eyebrow-line {
+  width: 28px;
+  height: 2px;
+  background: var(--red);
+  flex-shrink: 0;
+}
+
+.works-title {
+  font-family: var(--font-display);
+  font-size: clamp(52px, 9vw, 130px);
+  line-height: 0.95;
+  color: var(--white);
+  text-transform: uppercase;
+  letter-spacing: -2px;
+}
+
+.works-title-red { color: var(--red); }
+
+/* 3-column grid; 1px gaps create ruled lines between cards */
+.works-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgba(255,255,255,0.07);
+}
+
+.works-card {
+  background: #0a0a0a;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  text-decoration: none;
+  overflow: hidden;
+  transition: background 0.3s ease;
+}
+
+.works-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: rgba(255,255,255,0.07);
+  transition: background 0.3s ease;
+  z-index: 2;
+}
+
+.works-card:hover { background: #111; }
+.works-card:hover::before { background: var(--red); }
+
+/* Coloured visual band — unique gradient per card */
+.works-card-visual {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  position: relative;
+}
+
+.works-cv--1 { background: linear-gradient(135deg, #1c0002 0%, #7a0008 55%, #eb2027 100%); }
+.works-cv--2 { background: linear-gradient(135deg, #000414 0%, #0d1a5e 50%, #eb2027 100%); }
+.works-cv--3 { background: linear-gradient(135deg, #001208 0%, #04421a 45%, #eb2027 100%); }
+.works-cv--4 { background: linear-gradient(135deg, #0d0d0d 0%, #2e2e2e 55%, #eb2027 100%); }
+.works-cv--5 { background: linear-gradient(135deg, #0a0018 0%, #2a1060 50%, #eb2027 100%); }
+.works-cv--6 { background: linear-gradient(135deg, #1a0800 0%, #5c2200 45%, #eb2027 100%); }
+
+/* Shine overlay on the visual */
+.works-card-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.45) 100%);
+}
+
+.works-card-body {
+  padding: 28px 24px 32px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.works-card-cat {
+  font-family: var(--font-body);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 2.5px;
+  color: var(--red);
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.works-card-name {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 1.5vw, 24px);
+  line-height: 1.1;
+  color: var(--white);
+  margin-bottom: 12px;
+}
+
+.works-card-desc {
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.75;
+  color: rgba(255,255,255,0.38);
+  flex: 1;
+}
+
+.works-card-link {
+  display: inline-block;
+  margin-top: 20px;
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  color: rgba(255,255,255,0.22);
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.works-card:hover .works-card-link { color: var(--white); }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .works-section { padding: 72px 32px 90px; }
+  .works-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 600px) {
+  .works-section { padding: 56px 20px 64px; }
+  .works-grid { grid-template-columns: 1fr; }
+  .works-title { font-size: clamp(42px, 12vw, 80px); }
+}
+
+/* ============================================================
    CONTACT SECTION
    ============================================================ */
 .contact-section {
@@ -1624,7 +1778,9 @@ body {
   flex-shrink: 0;
   border-radius: 50%;
   border: none;
-  overflow: hidden;
+  /* No overflow:hidden — it breaks border-radius clipping on Android Chrome
+     when combined with will-change:transform, making orbs look square.
+     background is always clipped to border-radius without overflow:hidden. */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1634,13 +1790,28 @@ body {
   position: relative;
   cursor: pointer;
   will-change: transform;
-  /* Liquid orb base: very dark core with deep red tint pooled at bottom */
-  background: radial-gradient(
-    circle at 50% 68%,
-    rgba(120, 6, 6, 0.72) 0%,
-    rgba(5, 0, 0, 0.97) 46%,
-    rgba(0, 0, 0, 1) 100%
-  );
+  /* All liquid layers live in background — always clipped to the 50% circle */
+  background:
+    /* cursor-tracking micro-glint */
+    radial-gradient(circle at var(--lx, 30%) var(--ly, 24%),
+      rgba(255,255,255,0.95) 0%,
+      rgba(255,255,255,0.50) 3.5%,
+      transparent 8%
+    ),
+    /* large soft liquid highlight cap — upper-left quadrant */
+    radial-gradient(ellipse at 22% 16%,
+      rgba(255,255,255,0.90) 0%,
+      rgba(255,255,255,0.65) 8%,
+      rgba(255,255,255,0.28) 28%,
+      rgba(255,255,255,0.05) 52%,
+      transparent 68%
+    ),
+    /* dark liquid base: deep red tint pooled at bottom */
+    radial-gradient(circle at 50% 68%,
+      rgba(120, 6, 6, 0.72) 0%,
+      rgba(5, 0, 0, 0.97) 46%,
+      rgba(0, 0, 0, 1) 100%
+    );
   box-shadow:
     0 55px 160px rgba(0,0,0,0.96),
     0 0 90px rgba(235,32,39,0.14),
@@ -1649,48 +1820,31 @@ body {
   transition: transform 0.08s ease, box-shadow 0.4s ease, opacity 0.7s ease;
 }
 
-/* Large soft liquid highlight cap — the signature "wet surface" look */
+/* Sphere edge vignette — inset:0, never overflows the circle */
 .sd-orb::before {
   content: '';
   position: absolute;
-  width: 82%;
-  height: 66%;
+  inset: 0;
   border-radius: 50%;
-  background: radial-gradient(ellipse at 36% 38%,
-    rgba(255,255,255,0.92) 0%,
-    rgba(255,255,255,0.72) 10%,
-    rgba(255,255,255,0.34) 34%,
-    rgba(255,255,255,0.06) 60%,
-    transparent 100%
+  background: radial-gradient(circle at 50% 50%,
+    transparent 38%,
+    rgba(0,0,0,0.78) 100%
   );
-  top: -12%;
-  left: -2%;
   pointer-events: none;
-  filter: blur(18px);
   z-index: 1;
 }
 
-/* Hard cursor-tracking micro-glint + red caustic + deep sphere edge vignette */
+/* Red caustic at bottom — inset:0, never overflows */
 .sd-orb::after {
   content: '';
   position: absolute;
   inset: 0;
   border-radius: 50%;
-  background:
-    radial-gradient(circle at var(--lx, 30%) var(--ly, 24%),
-      rgba(255,255,255,0.98) 0%,
-      rgba(255,255,255,0.60) 3.5%,
-      transparent 9%
-    ),
-    radial-gradient(ellipse at 50% 96%,
-      rgba(235,32,39,0.72) 0%,
-      rgba(235,32,39,0.28) 36%,
-      transparent 56%
-    ),
-    radial-gradient(circle at 50% 50%,
-      transparent 38%,
-      rgba(0,0,0,0.82) 100%
-    );
+  background: radial-gradient(ellipse at 50% 96%,
+    rgba(235,32,39,0.72) 0%,
+    rgba(235,32,39,0.28) 36%,
+    transparent 56%
+  );
   pointer-events: none;
   z-index: 1;
 }
@@ -1752,14 +1906,14 @@ body {
 .sd-cards {
   display: flex;
   flex-wrap: nowrap;
-  background: rgba(255,255,255,0.06);
+  background: rgba(0,0,0,0.08);
   gap: 1px;
 }
 
 .sd-card {
   flex: 1 1 0;
   min-width: 0;
-  background: #000;
+  background: #ffffff;
   padding: 44px 24px 40px;
   position: relative;
   display: flex;
@@ -1782,10 +1936,10 @@ body {
   position: absolute;
   top: 0; left: 0; right: 0;
   height: 2px;
-  background: rgba(255,255,255,0.1);
+  background: rgba(0,0,0,0.08);
   transition: background 0.35s ease;
 }
-.sd-card:hover { background: #080808; }
+.sd-card:hover { background: #f7f7f7; }
 .sd-card:hover::before { background: var(--red); }
 
 .sd-card-num {
@@ -1802,20 +1956,21 @@ body {
   font-size: clamp(16px, 1.6vw, 26px);
   font-weight: 400;
   line-height: 1.1;
+  color: #000;
   margin-bottom: 20px;
 }
 .sd-card-desc {
   font-family: var(--font-body);
   font-size: 13px;
   line-height: 1.8;
-  color: rgba(255,255,255,0.4);
+  color: rgba(0,0,0,0.45);
   flex: 1;
 }
 .sd-card-arrow {
   display: block;
   margin-top: 40px;
   font-size: 18px;
-  color: rgba(255,255,255,0.2);
+  color: rgba(0,0,0,0.22);
   transform: translateX(0);
   transition: color 0.3s, transform 0.3s ease;
 }
