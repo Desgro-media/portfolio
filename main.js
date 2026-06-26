@@ -392,14 +392,31 @@
       front.mesh.rotation.y  = -smx * 0.55;
       front.renderer.render(front.scene, front.camera);
     }
+    /* Force an immediate render so the canvas has pixels before the RAF loop fires.
+       On mobile (Android Chrome) requestAnimationFrame is throttled until the first
+       user interaction — without this the canvas stays blank even when opacity-in. */
+    back.renderer.render(back.scene, back.camera);
+    front.renderer.render(front.scene, front.camera);
     animate();
 
-    /* Fade in after the hero title letters have finished revealing */
-    const fadeMs = 2100 + charInners.length * 50 + 400;
+    /* Fade in as the loader exits — force a fresh render before revealing */
+    const fadeMs = 1600;
     setTimeout(() => {
+      back.renderer.render(back.scene, back.camera);
       cBack.classList.add('ast-visible');
-      setTimeout(() => cFront.classList.add('ast-visible'), 300);
+      setTimeout(() => {
+        front.renderer.render(front.scene, front.camera);
+        cFront.classList.add('ast-visible');
+      }, 300);
     }, fadeMs);
+
+    /* Mobile fallback: if the user touches before the timer fires, show immediately */
+    document.addEventListener('touchstart', function onFirstTouch() {
+      back.renderer.render(back.scene, back.camera);
+      front.renderer.render(front.scene, front.camera);
+      cBack.classList.add('ast-visible');
+      cFront.classList.add('ast-visible');
+    }, { once: true, passive: true });
   })();
 
 })(); /* end initAnimations */
