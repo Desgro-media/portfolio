@@ -56,33 +56,6 @@
   /* Mark JS active so CSS can apply pre-animation hidden states */
   document.documentElement.classList.add('js-ready');
 
-  /* Shared flag — set true once the title exits; parallax checks this */
-  let heroTitleExited = false;
-
-  /* Showreel timing constants */
-  const SHOWREEL_HOLD_MS = 1400; /* hold title after reveal before exit */
-
-  function triggerShowreel() {
-    const wrap     = document.getElementById('heroIntroWrap');
-    const showreel = document.getElementById('heroShowreel');
-    const video    = document.getElementById('showreelVideo');
-    if (!wrap || !showreel || !video) return;
-
-    heroTitleExited = true;
-
-    /* Title + labels fade out */
-    wrap.classList.add('title-exit');
-
-    /* Showreel fades in slightly after title starts exiting */
-    setTimeout(() => {
-      showreel.classList.add('sr-active');
-      video.currentTime = 0;
-      video.play().catch(() => {});
-    }, 350);
-
-    /* Showreel loops — no fade-out timer */
-  }
-
   /* ────────────────────────────────
      PAGE LOADER
   ──────────────────────────────── */
@@ -148,9 +121,6 @@
     setTimeout(() => { if (labels)  labels.classList.add('anim-in'); },  60);
     setTimeout(() => { if (tagline) tagline.classList.add('anim-in'); }, 400);
 
-    /* After title fully reveals + hold, transition to showreel */
-    const revealMs = charInners.length * 50 + 650;
-    setTimeout(triggerShowreel, revealMs + SHOWREEL_HOLD_MS);
   }
 
   /* ────────────────────────────────
@@ -257,30 +227,179 @@
   })();
 
   /* ────────────────────────────────
-     PARALLAX — hero title block
-     Title moves at 30% of scroll speed, creating a sense of depth.
-     Only active while the hero section is in the viewport.
+     3D GLASS ASTERISKS — Three.js WebGL
+     Two full-canvas WebGLRenderers (alpha:true) so one canvas sits
+     behind the title (z-index 3) and one in front (z-index 15).
+     Shape: ExtrudeGeometry of a 6-arm rounded star.
+     Material: MeshPhysicalMaterial — dark, glossy, glass-like clearcoat.
+     Spring physics + continuous rotation respond to cursor.
   ──────────────────────────────── */
-  (function setupParallax() {
-    const titleBlock  = document.querySelector('.hero-title-block');
-    const heroSection = document.querySelector('.hero-section');
-    if (!titleBlock || !heroSection) return;
+  (function initAsterisk3D() {
+    if (typeof THREE === 'undefined') return;
 
-    let ticking = false;
+    const hero   = document.getElementById('heroIntroWrap');
+    const cBack  = document.getElementById('astCanvasBack');
+    const cFront = document.getElementById('astCanvasFront');
+    if (!hero || !cBack || !cFront) return;
 
-    function update() {
-      if (heroTitleExited) { titleBlock.style.transform = ''; ticking = false; return; }
-      const y          = window.scrollY;
-      const heroHeight = heroSection.offsetTop + heroSection.offsetHeight;
-      titleBlock.style.transform = y < heroHeight
-        ? `translateY(${y * 0.28}px)`
-        : '';
-      ticking = false;
+    /* 6-arm asterisk using one quadratic bezier per arm.
+       Control point is the extended tip — gives a clean rounded cap.
+       Inner waists are sharp notches (correct for an asterisk).
+       This avoids Catmull-Rom tangent artifacts on alternating radii. */
+    function makeAstShape(rOut, rIn) {
+      const arms  = 6;
+      const step  = (2 * Math.PI) / arms;
+      const sh    = new THREE.Shape();
+
+      const waist0A = -Math.PI / 2 - step / 2;
+      sh.moveTo(rIn * Math.cos(waist0A), rIn * Math.sin(waist0A));
+
+      for (let i = 0; i < arms; i++) {
+        const tipA     = i * step - Math.PI / 2;
+        const nextWaistA = tipA + step / 2;
+        /* Control point slightly beyond the tip → clean convex rounding */
+        sh.quadraticCurveTo(
+          rOut * Math.cos(tipA) * 1.12,
+          rOut * Math.sin(tipA) * 1.12,
+          rIn  * Math.cos(nextWaistA),
+          rIn  * Math.sin(nextWaistA)
+        );
+      }
+
+      sh.closePath();
+      return sh;
     }
 
-    window.addEventListener('scroll', () => {
-      if (!ticking) { requestAnimationFrame(update); ticking = true; }
-    }, { passive: true });
+    /* Create a full-viewport WebGL scene on a given canvas */
+    function buildScene(canvas, cfg) {
+      const W = hero.offsetWidth, H = hero.offsetHeight;
+
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+      renderer.setSize(W, H);
+      renderer.outputColorSpace = THREE.SRGBColorSpace;
+      renderer.toneMapping = THREE.ACESFilmicToneMapping;
+      renderer.toneMappingExposure = 2.2;
+      renderer.shadowMap.enabled = false;
+
+      const scene  = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(42, W / H, 0.1, 100);
+      camera.position.z = 10;
+
+      const geo = new THREE.ExtrudeGeometry(makeAstShape(cfg.rOut, cfg.rIn), {
+        depth:          cfg.depth,
+        bevelEnabled:   true,
+        bevelThickness: cfg.bevel,
+        bevelSize:      cfg.bevel * 0.85,
+        bevelSegments:  20,
+        curveSegments:  56,
+      });
+      geo.center();
+
+      /* Dark glossy material — dark charcoal body, red emissive in shadowed areas */
+      const mat = new THREE.MeshPhysicalMaterial({
+        color:              0x181818,
+        emissive:           0xeb2027,
+        emissiveIntensity:  cfg.emissive,
+        metalness:          0.05,
+        roughness:          0.05,
+        clearcoat:          1.0,
+        clearcoatRoughness: 0.03,
+        reflectivity:       1.0,
+      });
+
+      const mesh = new THREE.Mesh(geo, mat);
+      scene.add(mesh);
+
+      /* Ambient — just enough to lift the shadow side off pure black */
+      scene.add(new THREE.AmbientLight(0x222222, 4));
+
+      /* Key: bright white from upper-left front */
+      const key = new THREE.PointLight(0xffffff, 80, 50);
+      key.position.set(-4, 6, 8);
+      scene.add(key);
+
+      /* Second key: warmer white from right — catches the bevel edges */
+      const key2 = new THREE.PointLight(0xffeedd, 40, 45);
+      key2.position.set(5, 3, 6);
+      scene.add(key2);
+
+      /* Red fill from behind/below — gives the signature red glow on edges */
+      const redFront = new THREE.PointLight(0xeb2027, 20, 25);
+      redFront.position.set(0, -3, 5);
+      scene.add(redFront);
+
+      const redBack = new THREE.PointLight(0xeb2027, 12, 20);
+      redBack.position.set(-3, 3, -5);
+      scene.add(redBack);
+
+      /* Cool rim from below for depth */
+      const rim = new THREE.PointLight(0x334466, 8, 22);
+      rim.position.set(2, -6, -3);
+      scene.add(rim);
+
+      window.addEventListener('resize', () => {
+        const nW = hero.offsetWidth, nH = hero.offsetHeight;
+        camera.aspect = nW / nH;
+        camera.updateProjectionMatrix();
+        renderer.setSize(nW, nH);
+      }, { passive: true });
+
+      return { renderer, scene, camera, mesh };
+    }
+
+    /* Back: bigger, upper-left quadrant — rIn narrow for clear arm separation */
+    const back  = buildScene(cBack,  { rOut: 2.10, rIn: 0.52, depth: 0.70, bevel: 0.16, emissive: 0.30 });
+    /* Front: slightly smaller, lower-right */
+    const front = buildScene(cFront, { rOut: 1.65, rIn: 0.40, depth: 0.58, bevel: 0.12, emissive: 0.18 });
+
+    /* ── Spring / cursor tracking ── */
+    let mx = 0, my = 0;
+    let smx = 0, smy = 0;
+    let vmx = 0, vmy = 0;
+    let inside = false;
+
+    hero.addEventListener('mousemove', e => {
+      const r = hero.getBoundingClientRect();
+      mx = (e.clientX - r.left) / r.width  - 0.5;
+      my = (e.clientY - r.top)  / r.height - 0.5;
+      inside = true;
+    });
+    hero.addEventListener('mouseleave', () => { inside = false; });
+
+    function animate() {
+      requestAnimationFrame(animate);
+
+      const tx = inside ? mx : 0, ty = inside ? my : 0;
+      /* tighter spring = snappier cursor response */
+      vmx = vmx * 0.72 + (tx - smx) * 0.12;
+      vmy = vmy * 0.72 + (ty - smy) * 0.12;
+      smx += vmx; smy += vmy;
+
+      /* Back: upper-left side space, wide parallax travel */
+      back.mesh.position.x  = -3.8 + smx * 3.0;
+      back.mesh.position.y  =  1.4 - smy * 2.0;
+      back.mesh.rotation.z -= 0.0024;
+      back.mesh.rotation.x  = smy * 1.0;
+      back.mesh.rotation.y  = smx * 0.85;
+      back.renderer.render(back.scene, back.camera);
+
+      /* Front: lower-right side space, opposite direction */
+      front.mesh.position.x  =  3.2 - smx * 2.0;
+      front.mesh.position.y  = -1.8 + smy * 1.4;
+      front.mesh.rotation.z += 0.0017;
+      front.mesh.rotation.x  = -smy * 0.70;
+      front.mesh.rotation.y  = -smx * 0.55;
+      front.renderer.render(front.scene, front.camera);
+    }
+    animate();
+
+    /* Fade in after the hero title letters have finished revealing */
+    const fadeMs = 2100 + charInners.length * 50 + 400;
+    setTimeout(() => {
+      cBack.classList.add('ast-visible');
+      setTimeout(() => cFront.classList.add('ast-visible'), 300);
+    }, fadeMs);
   })();
 
 })(); /* end initAnimations */
@@ -585,21 +704,29 @@
   const stmts        = document.querySelectorAll('.sd-stmt');
 
   if (scrollyOuter && stmts.length) {
-    /* Thresholds: what scroll-progress (0→1) activates each line.
-       Keep first > 0 so nothing appears before the user actually scrolls in. */
     const THRESHOLDS = [0.08, 0.42, 0.74];
 
     function updateScrolly() {
       const rect       = scrollyOuter.getBoundingClientRect();
       const scrollable = scrollyOuter.offsetHeight - window.innerHeight;
-      /* Only compute progress when the outer is on-screen */
       if (rect.bottom < 0 || rect.top > window.innerHeight) return;
       const progress = scrollable > 0 ? Math.max(0, Math.min(1, -rect.top / scrollable)) : 1;
       stmts.forEach((s, i) => s.classList.toggle('active', progress >= THRESHOLDS[i]));
     }
 
     window.addEventListener('scroll', updateScrolly, { passive: true });
-    /* Don't call on load — let the user scroll to trigger it */
+
+  } else if (stmts.length) {
+    /* No .sd-scrolly-outer in the DOM — reveal each statement on scroll-into-view */
+    const stmtIO = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        const i = Array.from(stmts).indexOf(e.target);
+        setTimeout(() => e.target.classList.add('active'), i * 220);
+        stmtIO.unobserve(e.target);
+      });
+    }, { threshold: 0.25 });
+    stmts.forEach(s => stmtIO.observe(s));
   }
 
   /* ── 2. STAT COUNTER: animates 0 → target when orb enters view ── */
@@ -641,10 +768,10 @@
       entries.forEach(e => {
         if (!e.isIntersecting) return;
         const idx = Array.from(sdCards).indexOf(e.target);
-        setTimeout(() => e.target.classList.add('card-in'), idx * 110);
+        setTimeout(() => e.target.classList.add('card-in'), idx * 90);
         cardIO.unobserve(e.target);
       });
-    }, { threshold: 0.12 });
+    }, { threshold: 0, rootMargin: '0px 0px -40px 0px' });
     sdCards.forEach(c => cardIO.observe(c));
   }
 
@@ -666,4 +793,185 @@
 
   window.addEventListener('scroll', updateActive, { passive: true });
   updateActive();
+})();
+
+
+/* ──────────────────────────────────────────
+   PERSONALITIES — 3D tilt + holographic shine
+────────────────────────────────────────── */
+(function initPersCards() {
+  const cards  = document.querySelectorAll('.pers-card');
+  if (!cards.length) return;
+
+  const MAX_TILT  = 18;
+  const MAX_TRANS = 12;
+  const isMobile  = () => window.matchMedia('(hover: none)').matches;
+
+  function applyTilt(card, dx, dy, sx, sy) {
+    const shine = card.querySelector('.pers-shine');
+    const rotY  =  dx * MAX_TILT;
+    const rotX  = -dy * MAX_TILT;
+
+    card.style.transform =
+      `perspective(800px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateZ(${MAX_TRANS}px) scale(1.04)`;
+    card.style.boxShadow =
+      `${-dx * 20}px ${-dy * 20}px 60px rgba(0,0,0,0.75),
+       0 0 0 1.5px rgba(255,255,255,0.14)`;
+
+    if (shine) {
+      shine.style.background =
+        `radial-gradient(circle at ${sx}% ${sy}%, rgba(255,255,255,0.24) 0%, transparent 58%)`;
+      shine.style.opacity = '1';
+    }
+  }
+
+  function resetCard(card) {
+    const shine = card.querySelector('.pers-shine');
+    card.style.transition = 'transform 0.65s cubic-bezier(0.23,1,0.32,1), box-shadow 0.65s ease';
+    card.style.transform  = 'perspective(800px) rotateX(0deg) rotateY(0deg) translateZ(0px) scale(1)';
+    card.style.boxShadow  = '0 20px 60px rgba(0,0,0,0.6)';
+    if (shine) shine.style.opacity = '0';
+  }
+
+  /* Desktop: mouse tracking */
+  cards.forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.style.transition = 'transform 0.12s ease, box-shadow 0.3s ease';
+    });
+
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const dx   = (e.clientX - rect.left - rect.width  / 2) / (rect.width  / 2);
+      const dy   = (e.clientY - rect.top  - rect.height / 2) / (rect.height / 2);
+      const sx   = ((e.clientX - rect.left) / rect.width)  * 100;
+      const sy   = ((e.clientY - rect.top)  / rect.height) * 100;
+      applyTilt(card, dx, dy, sx, sy);
+    });
+
+    card.addEventListener('mouseleave', () => resetCard(card));
+  });
+
+  /* Mobile: touch tilt on individual card */
+  cards.forEach(card => {
+    let touchActive = false;
+
+    card.addEventListener('touchstart', () => {
+      touchActive = true;
+      card.style.transition = 'transform 0.12s ease, box-shadow 0.3s ease';
+    }, { passive: true });
+
+    card.addEventListener('touchmove', e => {
+      if (!touchActive) return;
+      const touch = e.touches[0];
+      const rect  = card.getBoundingClientRect();
+      const dx    = (touch.clientX - rect.left - rect.width  / 2) / (rect.width  / 2);
+      const dy    = (touch.clientY - rect.top  - rect.height / 2) / (rect.height / 2);
+      const sx    = ((touch.clientX - rect.left) / rect.width)  * 100;
+      const sy    = ((touch.clientY - rect.top)  / rect.height) * 100;
+      applyTilt(card, Math.max(-1, Math.min(1, dx)), Math.max(-1, Math.min(1, dy)), sx, sy);
+    }, { passive: true });
+
+    card.addEventListener('touchend', () => {
+      touchActive = false;
+      resetCard(card);
+    });
+  });
+
+  /* Mobile: gyroscope tilt */
+  if (window.DeviceOrientationEvent) {
+    let baseBeta = null, baseGamma = null;
+
+    window.addEventListener('deviceorientation', e => {
+      if (!isMobile()) return;
+      if (baseBeta  === null) baseBeta  = e.beta;
+      if (baseGamma === null) baseGamma = e.gamma;
+
+      const dy = Math.max(-1, Math.min(1, (e.beta  - baseBeta)  / 20));
+      const dx = Math.max(-1, Math.min(1, (e.gamma - baseGamma) / 20));
+
+      cards.forEach(card => {
+        const shine = card.querySelector('.pers-shine');
+        card.style.transition = 'transform 0.1s ease';
+        card.style.transform  =
+          `perspective(800px) rotateX(${-dy * 10}deg) rotateY(${dx * 10}deg) translateZ(4px)`;
+        if (shine) {
+          shine.style.background =
+            `radial-gradient(circle at ${50 + dx * 40}% ${50 + dy * 40}%, rgba(255,255,255,0.16) 0%, transparent 60%)`;
+          shine.style.opacity = '0.7';
+        }
+      });
+    }, { passive: true });
+  }
+
+  /* Scroll-in entry animation */
+  const row = document.querySelector('.pers-reel-row');
+  if (!row) return;
+
+  const io = new IntersectionObserver(entries => {
+    if (!entries[0].isIntersecting) return;
+    cards.forEach((card, i) => {
+      card.style.opacity   = '0';
+      card.style.transform = `perspective(800px) rotateX(22deg) translateY(70px)`;
+      setTimeout(() => {
+        card.style.transition = 'transform 0.9s cubic-bezier(0.16,1,0.3,1), opacity 0.75s ease';
+        card.style.opacity    = '1';
+        card.style.transform  = 'perspective(800px) rotateX(0deg) translateY(0px)';
+      }, i * 130);
+    });
+    io.disconnect();
+  }, { threshold: 0.15 });
+
+  io.observe(row);
+})();
+
+
+/* ──────────────────────────────────────────
+   STATS ORBS — 3D sphere interaction
+   Tracks cursor per-orb: moves specular highlight + tilts in 3D
+────────────────────────────────────────── */
+(function initOrbSpheres() {
+  const orbs = document.querySelectorAll('.sd-orb');
+  if (!orbs.length) return;
+
+  orbs.forEach(orb => {
+    orb.addEventListener('mousemove', e => {
+      const rect = orb.getBoundingClientRect();
+      /* Normalized -1 → +1 from centre of orb */
+      const dx = (e.clientX - rect.left - rect.width  / 2) / (rect.width  / 2);
+      const dy = (e.clientY - rect.top  - rect.height / 2) / (rect.height / 2);
+
+      /* Specular highlight follows cursor (offset inward from edge) */
+      const lx = 50 + dx * 22;
+      const ly = 50 + dy * 22;
+      orb.style.setProperty('--lx', lx + '%');
+      orb.style.setProperty('--ly', ly + '%');
+
+      /* 3D tilt */
+      orb.style.transform =
+        `perspective(700px) rotateY(${dx * 20}deg) rotateX(${-dy * 20}deg) scale(1.07)`;
+
+      /* Dynamic shadow follows tilt direction */
+      orb.style.boxShadow = `
+        ${-dx * 35}px ${-dy * 35}px 90px rgba(0,0,0,0.80),
+        0 0 0 1px rgba(255,255,255,0.12),
+        inset 0 -10px 30px rgba(235,32,39,0.20)
+      `;
+    });
+
+    orb.addEventListener('mouseleave', () => {
+      orb.style.transition = 'transform 0.65s cubic-bezier(0.23,1,0.32,1), box-shadow 0.65s ease';
+      orb.style.setProperty('--lx', '34%');
+      orb.style.setProperty('--ly', '28%');
+      orb.style.transform = '';
+      orb.style.boxShadow = '';
+      /* Restore fast transition for next move */
+      setTimeout(() => {
+        orb.style.transition = 'transform 0.08s ease, box-shadow 0.4s ease, opacity 0.7s ease';
+      }, 650);
+    });
+
+    orb.addEventListener('mouseenter', () => {
+      orb.style.transition = 'transform 0.08s ease, box-shadow 0.15s ease';
+    });
+  });
 })();

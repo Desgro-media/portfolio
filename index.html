@@ -7,6 +7,8 @@
   <meta name="description" content="Desgro Media brings together strategic insight, inspired design, and a passion for storytelling — helping businesses connect with their audience on a deeper level.">
   <!-- Fonts loaded locally via @font-face in style.css (Bebas Neue + DM Sans) -->
   <link rel="stylesheet" href="style.css">
+  <!-- Three.js for real 3D glass asterisk rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 </head>
 <body>
 
@@ -19,7 +21,7 @@
       </div>
     </div>
     <ul class="nav-links">
-      <li><a href="#hero">ABOUT</a></li>
+      <li><a href="about.html">ABOUT</a></li>
       <li><a href="#services-detail">SERVICES</a></li>
       <li><a href="#team" class="nav-active">TEAM</a></li>
       <li><a href="#contact">CONTACT</a></li>
@@ -34,7 +36,7 @@
   <div class="mobile-nav" id="mobileNav" aria-hidden="true">
     <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">✕</button>
     <ul>
-      <li><a href="#hero">ABOUT</a></li>
+      <li><a href="about.html">ABOUT</a></li>
       <li><a href="#services-detail">SERVICES</a></li>
       <li><a href="#team">TEAM</a></li>
       <li><a href="#contact">CONTACT</a></li>
@@ -45,57 +47,55 @@
   <!-- ======================== HERO SECTION ======================== -->
   <section id="hero" class="hero-section">
 
-    <!-- Intro wrap: fills viewport — title reveals, then exits, showreel plays -->
+    <!-- Intro wrap: centered title + Two Three.js WebGL canvases for 3D glass asterisks -->
     <div class="hero-intro-wrap" id="heroIntroWrap">
-      <div class="hero-top-labels">
-        <span class="hero-label-left">CREATIVE CONTENT MARKETING</span>
-        <span class="hero-label-right">Est. 2026</span>
-      </div>
 
+      <!-- Canvas A: Three.js renders the BACK asterisk here (z-index 3, behind title) -->
+      <canvas class="ast-canvas ast-back" id="astCanvasBack" aria-hidden="true"></canvas>
+
+      <!-- Centered title — z-index 10 -->
       <div class="hero-title-block">
         <h1 class="hero-title-desgro">DESGRO</h1>
         <div class="hero-subtitle-row">
           <h2 class="hero-title-media">MEDIA</h2>
-          <div class="hero-tagline">
-            <p>BUILDING BRANDS THAT STAND OUT</p>
-            <p>IN TODAY'S COMPETITIVE LANDSCAPE</p>
-          </div>
         </div>
       </div>
 
-      <!-- Showreel: fades in over title, loops -->
-      <div class="hero-showreel" id="heroShowreel">
-        <video id="showreelVideo" muted playsinline loop>
-          <source src="video assets/Enhancer-Ultra HD-Cinematic_animation_subtle_movem…_202606241556.mp4" type="video/mp4">
-        </video>
-        <span class="showreel-label">OUR WORK</span>
-      </div>
+      <!-- Canvas B: Three.js renders the FRONT asterisk here (z-index 15, in front of title) -->
+      <canvas class="ast-canvas ast-front" id="astCanvasFront" aria-hidden="true"></canvas>
+
     </div>
 
     <!-- Service Cards -->
     <div class="sd-cards">
       <div class="sd-card">
         <span class="sd-card-num">01</span>
-        <h3 class="sd-card-name">BRANDING</h3>
-        <p class="sd-card-desc">We craft identities that resonate — from logo and visual language to brand voice and positioning. Every touchpoint tells your story.</p>
+        <h3 class="sd-card-name">PERSONAL<br>BRANDING</h3>
+        <p class="sd-card-desc">Build a powerful personal identity that amplifies your voice, expands your reach, and positions you as the authority in your niche.</p>
         <span class="sd-card-arrow">→</span>
       </div>
       <div class="sd-card">
         <span class="sd-card-num">02</span>
-        <h3 class="sd-card-name">CONTENT<br>MARKETING</h3>
-        <p class="sd-card-desc">Strategic content that moves audiences through the funnel — from awareness to loyalty. We create, distribute, and measure what matters.</p>
+        <h3 class="sd-card-name">SMM</h3>
+        <p class="sd-card-desc">Data-driven social strategies that grow your audience, spark engagement, and turn followers into loyal customers across every platform.</p>
         <span class="sd-card-arrow">→</span>
       </div>
       <div class="sd-card">
         <span class="sd-card-num">03</span>
-        <h3 class="sd-card-name">CONTENT<br>CREATION</h3>
-        <p class="sd-card-desc">From short-form video to long-form storytelling, our creators produce content that stops the scroll and sparks conversation.</p>
+        <h3 class="sd-card-name">PERFORMANCE<br>MARKETING</h3>
+        <p class="sd-card-desc">ROI-focused campaigns across paid channels — from Meta to Google — engineered to convert at every stage of the funnel.</p>
         <span class="sd-card-arrow">→</span>
       </div>
       <div class="sd-card">
         <span class="sd-card-num">04</span>
-        <h3 class="sd-card-name">BRAND<br>STRATEGY</h3>
-        <p class="sd-card-desc">Deep market insight, sharp positioning, and a roadmap for growth. We build brands that own their category.</p>
+        <h3 class="sd-card-name">LOGO<br>BRANDING</h3>
+        <p class="sd-card-desc">Distinctive logos and visual identities that instantly communicate who you are and make your brand impossible to forget.</p>
+        <span class="sd-card-arrow">→</span>
+      </div>
+      <div class="sd-card">
+        <span class="sd-card-num">05</span>
+        <h3 class="sd-card-name">WEB & APP<br>DEVELOPMENT</h3>
+        <p class="sd-card-desc">Clean, fast, conversion-optimised digital products — from landing pages to full-scale web and mobile applications.</p>
         <span class="sd-card-arrow">→</span>
       </div>
     </div>
@@ -115,32 +115,10 @@
       </div>
     </div>
 
-    <!-- About & Services row -->
-    <div class="hero-bottom-row">
+    <!-- About row -->
+    <div class="hero-bottom-row hero-bottom-row--full">
       <div class="about-text">
         <p><span class="about-highlight">DesGro Media</span> brings together <em>strategic insight, inspired design,</em> and a <em>passion for storytelling</em> — helping businesses and personalities connect with their audience on a deeper level. Our team of creators, strategists, and marketers craft personalized solutions that make your brand unforgettable.</p>
-      </div>
-      <div class="services-list" id="services">
-        <div class="service-item">
-          <span class="service-num">01</span>
-          <span class="service-name">BRANDING</span>
-          <span class="service-arrow">›</span>
-        </div>
-        <div class="service-item">
-          <span class="service-num">02</span>
-          <span class="service-name">CONTENT <em>MARKETING</em></span>
-          <span class="service-arrow">›</span>
-        </div>
-        <div class="service-item">
-          <span class="service-num">03</span>
-          <span class="service-name">CONTENT CREATION</span>
-          <span class="service-arrow">›</span>
-        </div>
-        <div class="service-item">
-          <span class="service-num">04</span>
-          <span class="service-name">BRAND STRATEGY</span>
-          <span class="service-arrow">›</span>
-        </div>
       </div>
     </div>
   </section>
@@ -155,44 +133,76 @@
           <h2 class="sd-why-h">Why<br><span class="sd-red">Content<br>Creation?</span></h2>
           <p class="sd-why-p">In today's fast-paced digital environment, content is the currency. Whether you're an entrepreneur, professional, or an aspiring influencer, we empower you with the insights and strategies to make your mark.</p>
         </div>
-        <div class="sd-stmt-wrap">
-          <p class="sd-stmt">We Build <b>Creators</b></p>
-          <p class="sd-stmt sd-stmt--light">and With <b>Creators</b></p>
-          <p class="sd-stmt">We Build <b>Companies</b></p>
+        <div class="sd-stats sd-stats--inline">
+          <div class="sd-orb sd-orb--md" data-val="30" data-suf="+">
+            <div class="sd-orb-val"><span class="sd-orb-num">0</span><span class="sd-orb-suf">+</span></div>
+            <span class="sd-orb-lbl">Creators build</span>
+          </div>
+          <div class="sd-orb sd-orb--sm" data-val="30" data-suf="+">
+            <div class="sd-orb-val"><span class="sd-orb-num">0</span><span class="sd-orb-suf">+</span></div>
+            <span class="sd-orb-lbl">On going<br>projects</span>
+          </div>
+          <div class="sd-orb sd-orb--lg" data-val="50" data-suf="M+">
+            <div class="sd-orb-val"><span class="sd-orb-num">0</span><span class="sd-orb-suf">M+</span></div>
+            <span class="sd-orb-lbl">Viewership</span>
+          </div>
+          <div class="sd-orb sd-orb--xs" data-val="327" data-suf="K+">
+            <div class="sd-orb-val"><span class="sd-orb-num">0</span><span class="sd-orb-suf">K+</span></div>
+            <span class="sd-orb-lbl">Organic Followers<br>Build</span>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="sd-marquee" aria-hidden="true">
-      <div class="sd-mq-track">
-        <span class="sd-mq-item">BRANDING <span class="sd-mq-sep">✦</span></span>
-        <span class="sd-mq-item">CONTENT MARKETING <span class="sd-mq-sep">✦</span></span>
-        <span class="sd-mq-item">CONTENT CREATION <span class="sd-mq-sep">✦</span></span>
-        <span class="sd-mq-item">BRAND STRATEGY <span class="sd-mq-sep">✦</span></span>
-        <span class="sd-mq-item">BRANDING <span class="sd-mq-sep">✦</span></span>
-        <span class="sd-mq-item">CONTENT MARKETING <span class="sd-mq-sep">✦</span></span>
-        <span class="sd-mq-item">CONTENT CREATION <span class="sd-mq-sep">✦</span></span>
-        <span class="sd-mq-item">BRAND STRATEGY <span class="sd-mq-sep">✦</span></span>
+
+
+  </section>
+
+  <!-- ======================== PERSONALITIES SECTION ======================== -->
+  <section id="personalities" class="pers-section">
+
+    <div class="pers-header">
+      <div class="pers-eyebrow">
+        <span class="pers-eyebrow-line"></span>
+        <span>WHOM WE BRANDED</span>
       </div>
+      <h2 class="pers-title">HEAR FROM <span style="color:#eb2027">OUR</span> CLIENTS</h2>
     </div>
 
-    <div class="sd-stats">
-      <div class="sd-orb sd-orb--md" data-val="30" data-suf="+">
-        <div class="sd-orb-val"><span class="sd-orb-num">0</span><span class="sd-orb-suf">+</span></div>
-        <span class="sd-orb-lbl">Creators build</span>
-      </div>
-      <div class="sd-orb sd-orb--sm" data-val="30" data-suf="+">
-        <div class="sd-orb-val"><span class="sd-orb-num">0</span><span class="sd-orb-suf">+</span></div>
-        <span class="sd-orb-lbl">On going<br>projects</span>
-      </div>
-      <div class="sd-orb sd-orb--lg" data-val="50" data-suf="M+">
-        <div class="sd-orb-val"><span class="sd-orb-num">0</span><span class="sd-orb-suf">M+</span></div>
-        <span class="sd-orb-lbl">Viewership</span>
-      </div>
-      <div class="sd-orb sd-orb--xs" data-val="327" data-suf="K+">
-        <div class="sd-orb-val"><span class="sd-orb-num">0</span><span class="sd-orb-suf">K+</span></div>
-        <span class="sd-orb-lbl">Organic Followers<br>Build</span>
-      </div>
+    <div class="pers-reel-row">
+
+      <a class="pers-card" href="https://www.instagram.com/desgro.media?igsh=MWNpeHR1YjJxbzNldQ==" target="_blank" rel="noopener">
+        <video autoplay muted loop playsinline><source src="video assets/video_2026-06-25_16-42-15.mp4" type="video/mp4"></video>
+        <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span></div>
+        <div class="pers-shine"></div>
+      </a>
+
+      <a class="pers-card pers-card--up" href="https://www.instagram.com/desgro.media?igsh=MWNpeHR1YjJxbzNldQ==" target="_blank" rel="noopener">
+        <video autoplay muted loop playsinline><source src="video assets/video_2026-06-25_16-42-22.mp4" type="video/mp4"></video>
+        <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span></div>
+        <div class="pers-shine"></div>
+      </a>
+
+      <a class="pers-card" href="https://www.instagram.com/desgro.media?igsh=MWNpeHR1YjJxbzNldQ==" target="_blank" rel="noopener">
+        <video autoplay muted loop playsinline><source src="video assets/video_2026-06-25_16-42-26.mp4" type="video/mp4"></video>
+        <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span></div>
+        <div class="pers-shine"></div>
+      </a>
+
+      <a class="pers-card pers-card--up" href="https://www.instagram.com/desgro.media?igsh=MWNpeHR1YjJxbzNldQ==" target="_blank" rel="noopener">
+        <video autoplay muted loop playsinline><source src="video assets/video_2026-06-25_16-42-29.mp4" type="video/mp4"></video>
+        <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span></div>
+        <div class="pers-shine"></div>
+      </a>
+
+    </div>
+
+    <!-- View more on Instagram -->
+    <div class="pers-ig-cta">
+      <a href="https://www.instagram.com/desgro.media?igsh=MWNpeHR1YjJxbzNldQ==" target="_blank" rel="noopener" class="pers-ig-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+        VIEW MORE ON INSTAGRAM
+      </a>
     </div>
 
   </section>
