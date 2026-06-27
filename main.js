@@ -149,46 +149,61 @@
   })();
 
   /* ────────────────────────────────
-     CONTACT HEADING — line reveal
-     Splits "START YOUR" and "<span>BRAND STORY</span>" into
-     separate clip containers so each line reveals independently.
+     CONTACT SECTION — title + columns reveal
   ──────────────────────────────── */
-  (function setupContactHeading() {
-    const el = document.querySelector('.contact-heading');
-    if (!el) return;
+  (function initContactReveal() {
+    const title   = document.querySelector('.contact-title');
+    const infoCol = document.querySelector('.contact-info-col');
+    const formCol = document.querySelector('.contact-form-col');
+    const targets = [title, infoCol, formCol].filter(Boolean);
+    if (!targets.length) return;
 
-    /* Collect text + span from existing HTML */
-    let line1 = '';
-    let line2El = null;
-    Array.from(el.childNodes).forEach(n => {
-      if (n.nodeType === Node.TEXT_NODE) line1 += n.textContent;
-      else if (n.tagName === 'SPAN')     line2El = n.cloneNode(true);
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('anim-in');
+        obs.unobserve(entry.target);
+      });
+    }, { threshold: 0.14 });
+
+    targets.forEach(t => obs.observe(t));
+  })();
+
+  /* ────────────────────────────────
+     CONTACT FORM — AJAX submission via FormSubmit
+  ──────────────────────────────── */
+  (function initContactForm() {
+    const form      = document.getElementById('contactForm');
+    const successEl = document.getElementById('cfSuccess');
+    if (!form) return;
+
+    form.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const btn = form.querySelector('.cf-submit');
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+
+      try {
+        const data = new FormData(form);
+        data.append('_captcha', 'false');
+        data.append('_subject', 'New enquiry from Desgro Media website');
+        const res = await fetch('https://formsubmit.co/ajax/hello@desgromedia.com', {
+          method: 'POST',
+          headers: { 'Accept': 'application/json' },
+          body: data,
+        });
+        if (res.ok) {
+          form.reset();
+          if (successEl) successEl.classList.add('visible');
+          setTimeout(() => { if (successEl) successEl.classList.remove('visible'); }, 6000);
+        }
+      } catch (_) {
+        /* silent — user can retry */
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Submit';
+      }
     });
-
-    el.innerHTML = '';
-
-    [line1.trim(), line2El].forEach((content, i) => {
-      if (!content) return;
-      const wrap  = document.createElement('span');
-      wrap.className = 'ch-wrap';
-      const inner = document.createElement('span');
-      inner.className = 'ch-inner';
-      if (typeof content === 'string') inner.textContent = content;
-      else inner.appendChild(content);
-      wrap.appendChild(inner);
-      el.appendChild(wrap);
-      if (i === 0) el.appendChild(document.createElement('br'));
-    });
-
-    const inners = el.querySelectorAll('.ch-inner');
-
-    new IntersectionObserver(([entry], obs) => {
-      if (!entry.isIntersecting) return;
-      inners.forEach((inn, i) =>
-        setTimeout(() => inn.classList.add('anim-in'), i * 160)
-      );
-      obs.disconnect();
-    }, { threshold: 0.4 }).observe(el);
   })();
 
   /* ────────────────────────────────
@@ -201,8 +216,6 @@
       { sel: '.service-item',     cls: 'sr-right'  },
       { sel: '.team-label',       cls: ''          },
       { sel: '.team-descriptors', cls: ''          },
-      { sel: '.contact-label',    cls: ''          },
-      { sel: '.btn-contact',      cls: ''          },
       { sel: '.contact-footer',   cls: ''          },
     ];
 
@@ -746,36 +759,45 @@
     stmts.forEach(s => stmtIO.observe(s));
   }
 
-  /* ── 2. STAT COUNTER: animates 0 → target when orb enters view ── */
-  function runCounter(orb) {
-    const target = parseInt(orb.dataset.val, 10);
-    const numEl  = orb.querySelector('.sd-orb-num');
-    if (!numEl) return;
+  /* ── 2. STAT ROW COUNTER: animates 0 → target, then suffix springs ── */
+  function runRowCounter(row) {
+    const target = parseInt(row.dataset.val, 10);
+    const numEl  = row.querySelector('.sd-stat-num');
+    const sufEl  = row.querySelector('.sd-stat-suf');
+    if (!numEl || isNaN(target)) return;
     const duration = 1800;
     const start    = performance.now();
     (function tick(now) {
       const p    = Math.min(1, (now - start) / duration);
       const ease = 1 - Math.pow(1 - p, 3);
       numEl.textContent = Math.floor(ease * target);
-      if (p < 1) requestAnimationFrame(tick);
-      else numEl.textContent = target;
+      if (p < 1) {
+        requestAnimationFrame(tick);
+      } else {
+        numEl.textContent = target;
+        /* Suffix spring bounce when counter lands */
+        if (sufEl) {
+          sufEl.style.transform = 'scale(1.35) translateY(-4px)';
+          setTimeout(() => { sufEl.style.transform = ''; }, 380);
+        }
+      }
     })(start);
   }
 
-  /* ── 3. ORB ENTRANCE + COUNTER trigger ── */
-  const orbs = document.querySelectorAll('.sd-orb');
-  if (orbs.length) {
-    const orbIO = new IntersectionObserver(entries => {
+  /* ── 3. STAT ROW ENTRANCE + COUNTER trigger ── */
+  const statRows = document.querySelectorAll('.sd-stat-row');
+  if (statRows.length) {
+    const rowIO = new IntersectionObserver(entries => {
       entries.forEach(e => {
         if (!e.isIntersecting) return;
-        const orb   = e.target;
-        const delay = parseInt(orb.dataset.orbDelay || '0', 10);
-        setTimeout(() => { orb.classList.add('orb-in'); runCounter(orb); }, delay);
-        orbIO.unobserve(orb);
+        const row   = e.target;
+        const delay = parseInt(row.dataset.rowDelay || '0', 10);
+        setTimeout(() => { row.classList.add('row-in'); runRowCounter(row); }, delay);
+        rowIO.unobserve(row);
       });
-    }, { threshold: 0.25 });
+    }, { threshold: 0.2 });
 
-    orbs.forEach((orb, i) => { orb.dataset.orbDelay = String(i * 130); orbIO.observe(orb); });
+    statRows.forEach((row, i) => { row.dataset.rowDelay = String(i * 120); rowIO.observe(row); });
   }
 
   /* ── 4. SERVICE CARDS: staggered entrance on scroll ── */
@@ -942,53 +964,3 @@
 })();
 
 
-/* ──────────────────────────────────────────
-   STATS ORBS — 3D sphere interaction
-   Tracks cursor per-orb: moves specular highlight + tilts in 3D
-────────────────────────────────────────── */
-(function initOrbSpheres() {
-  const orbs = document.querySelectorAll('.sd-orb');
-  if (!orbs.length) return;
-
-  orbs.forEach(orb => {
-    orb.addEventListener('mousemove', e => {
-      const rect = orb.getBoundingClientRect();
-      /* Normalized -1 → +1 from centre of orb */
-      const dx = (e.clientX - rect.left - rect.width  / 2) / (rect.width  / 2);
-      const dy = (e.clientY - rect.top  - rect.height / 2) / (rect.height / 2);
-
-      /* Specular highlight follows cursor (offset inward from edge) */
-      const lx = 50 + dx * 22;
-      const ly = 50 + dy * 22;
-      orb.style.setProperty('--lx', lx + '%');
-      orb.style.setProperty('--ly', ly + '%');
-
-      /* 3D tilt */
-      orb.style.transform =
-        `perspective(700px) rotateY(${dx * 20}deg) rotateX(${-dy * 20}deg) scale(1.07)`;
-
-      /* Dynamic shadow follows tilt direction */
-      orb.style.boxShadow = `
-        ${-dx * 35}px ${-dy * 35}px 90px rgba(0,0,0,0.80),
-        0 0 0 1px rgba(255,255,255,0.12),
-        inset 0 -10px 30px rgba(235,32,39,0.20)
-      `;
-    });
-
-    orb.addEventListener('mouseleave', () => {
-      orb.style.transition = 'transform 0.65s cubic-bezier(0.23,1,0.32,1), box-shadow 0.65s ease';
-      orb.style.setProperty('--lx', '34%');
-      orb.style.setProperty('--ly', '28%');
-      orb.style.transform = '';
-      orb.style.boxShadow = '';
-      /* Restore fast transition for next move */
-      setTimeout(() => {
-        orb.style.transition = 'transform 0.08s ease, box-shadow 0.4s ease, opacity 0.7s ease';
-      }, 650);
-    });
-
-    orb.addEventListener('mouseenter', () => {
-      orb.style.transition = 'transform 0.08s ease, box-shadow 0.15s ease';
-    });
-  });
-})();
