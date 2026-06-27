@@ -180,8 +180,9 @@
     form.addEventListener('submit', async function(e) {
       e.preventDefault();
       const btn = form.querySelector('.cf-submit');
+      const btnLabel = btn.querySelector('.ct-btn-label') || btn;
       btn.disabled = true;
-      btn.textContent = 'Sending…';
+      btnLabel.textContent = 'Sending…';
 
       try {
         const data = new FormData(form);
@@ -201,7 +202,7 @@
         /* silent — user can retry */
       } finally {
         btn.disabled = false;
-        btn.textContent = 'Submit';
+        btnLabel.textContent = 'Send Message';
       }
     });
   })();
