@@ -241,6 +241,45 @@
   })();
 
   /* ────────────────────────────────
+     CONTACT HERO — dedicated observer adds .ct-played (not .sr)
+     so the headline text is NEVER hidden before the observer fires.
+  ──────────────────────────────── */
+  (function initContactHero() {
+    const hero = document.getElementById('ctHero');
+    if (!hero) return;
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('ct-played');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.05 });
+    io.observe(hero);
+  })();
+
+  /* ────────────────────────────────
+     TOP CLIENTS ARC — stagger reveal cards on scroll
+  ──────────────────────────────── */
+  (function initTopClients() {
+    const cards = document.querySelectorAll('.tc-pos');
+    if (!cards.length) return;
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        /* stagger by position in the arc */
+        const idx = parseInt(e.target.dataset.tcIdx || '0', 10);
+        setTimeout(() => e.target.classList.add('tc-in'), idx * 60);
+        io.unobserve(e.target);
+      });
+    }, { threshold: 0.1 });
+    cards.forEach((el, i) => {
+      el.dataset.tcIdx = String(i);
+      io.observe(el);
+    });
+  })();
+
+  /* ────────────────────────────────
      3D GLASS ASTERISKS — Three.js WebGL
      Two full-canvas WebGLRenderers (alpha:true) so one canvas sits
      behind the title (z-index 3) and one in front (z-index 15).
