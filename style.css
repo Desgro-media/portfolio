@@ -1328,10 +1328,11 @@ body {
 /* ── Hero headline ── */
 .ct-hero {
   padding-bottom: 64px;
-  transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1);
 }
 
-/* CRITICAL: lift the .sr opacity:0 when anim-in fires */
+/* Override global .sr opacity:0 — ct-hero container must always be visible
+   so it doesn't create a void. Lines inside animate in via .ct-line transforms. */
+.ct-hero.sr,
 .ct-hero.anim-in {
   opacity: 1 !important;
   transform: none !important;
