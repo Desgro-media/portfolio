@@ -254,7 +254,7 @@ body {
 .hero-section {
   min-height: 100vh;
   padding-top: var(--nav-h);
-  background: radial-gradient(ellipse at 50% 44%, #eb2027 0%, #a80d14 55%, #5a0006 100%);
+  background: #000000;
   display: flex;
   flex-direction: column;
   position: relative;
@@ -338,7 +338,7 @@ body {
   font-weight: 400;
   font-size: clamp(55px, 11.2vw, 160px);
   line-height: 1;
-  color: #000;
+  color: var(--red);
   letter-spacing: -1px;
   text-transform: uppercase;
   text-shadow:
@@ -363,8 +363,9 @@ body {
   text-transform: uppercase;
 }
 
-/* ── Video Section — sits directly under red hero, bleeds to black ── */
+/* ── Video Section — hidden per design decision ── */
 .video-section {
+  display: none;
   width: 100%;
   position: relative;
   margin-top: 0;
@@ -459,7 +460,7 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0;
-  background: #f8f7f2;
+  background: var(--red);
   padding: 44px 48px 52px;
   align-items: start;
 }
@@ -481,10 +482,10 @@ body {
   font-size: 13px;
   font-weight: 400;
   line-height: 2.0;
-  color: rgba(0,0,0,0.62);
+  color: rgba(255,255,255,0.80);
 }
 
-.about-highlight { color: #000; font-weight: 700; }
+.about-highlight { color: #ffffff; font-weight: 700; }
 
 .services-list {
   display: flex;
@@ -1025,6 +1026,12 @@ body {
   border-top: 1px solid rgba(255,255,255,0.06);
 }
 
+.news-section {
+  background: #050505;
+  padding: 80px 48px 100px;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+
 .works-header { margin-bottom: 64px; }
 
 .works-eyebrow {
@@ -1285,7 +1292,7 @@ body {
    ============================================================ */
 .tc-section {
   background: #040404;
-  padding: 60px 0 0;
+  padding: 48px 0 0;
   border-top: 1px solid rgba(255,255,255,0.05);
   overflow: hidden;
 }
@@ -1324,60 +1331,41 @@ body {
 
 .tc-red { color: var(--red); }
 
-/* 3D orbit — flat disc viewed from slightly above (Gather-style arc) */
-.tc-orbit-viewport {
+/* ── Horizontal marquee ── */
+.tc-marquee {
   width: 100%;
-  height: 360px;
-  perspective: 680px;
-  /* Perspective origin matches ring-center position (75% down viewport) */
-  perspective-origin: 50% 75%;
-  position: relative;
   overflow: hidden;
-  margin-top: 24px;
+  padding: 24px 0 32px;
+  -webkit-mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
 }
 
-/* Edge fade — cards vanish smoothly at the sides */
-.tc-orbit-viewport::before,
-.tc-orbit-viewport::after {
-  content: '';
-  position: absolute;
-  top: 0; bottom: 0;
-  width: clamp(40px, 8vw, 100px);
-  z-index: 2;
-  pointer-events: none;
-}
-.tc-orbit-viewport::before {
-  left: 0;
-  background: linear-gradient(to right, #040404, transparent);
-}
-.tc-orbit-viewport::after {
-  right: 0;
-  background: linear-gradient(to left,  #040404, transparent);
+.tc-marquee-track {
+  display: flex;
+  gap: 14px;
+  width: max-content;
+  animation: tcScroll 28s linear infinite;
 }
 
-/* Ring origin: anchored at 75% down (matches perspective-origin).
-   rotateX(+72deg) tilts the top TOWARD the viewer so front cards
-   arc up into the visible area; near-bottom cards clip off below. */
-.tc-orbit-track {
-  position: absolute;
-  top: 75%;
-  left: 50%;
-  transform-style: preserve-3d;
-  will-change: transform;
+.tc-marquee:hover .tc-marquee-track {
+  animation-play-state: paused;
 }
 
-/* Cards sized + placed by JS; backface hidden removes bottom-arc cards */
-.tc-orbit-card {
-  position: absolute;
-  border-radius: 20px;
+@keyframes tcScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.tc-logo-card {
+  width: 84px;
+  height: 84px;
+  border-radius: 18px;
   overflow: hidden;
-  box-shadow: 0 6px 24px rgba(0,0,0,0.65), 0 2px 6px rgba(0,0,0,0.4);
-  will-change: transform;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
+  flex-shrink: 0;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.55);
 }
 
-.tc-orbit-card img {
+.tc-logo-card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -1536,25 +1524,21 @@ body {
   to   { transform: translateX(-50%); }
 }
 
-/* ── Body ── */
+/* ── Body: headline + socials side-by-side ── */
 .ct-body {
   display: grid;
-  grid-template-columns: 1fr 1.25fr;
-  gap: 0 100px;
-  align-items: start;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 60px;
+  align-items: center;
   margin-bottom: 80px;
 }
 
-/* ── Left: contact info ── */
+/* ── Left: headline ── */
 .ct-left {
   display: flex;
   flex-direction: column;
-  gap: 40px;
-  transition: opacity 0.85s ease, transform 0.85s cubic-bezier(0.16,1,0.3,1);
+  justify-content: center;
 }
-
-.js-ready .ct-left { opacity: 0; transform: translateX(-28px); }
-.ct-left.anim-in   { opacity: 1 !important; transform: translateX(0) !important; }
 
 .ct-wa-block {
   display: block;
@@ -1714,13 +1698,77 @@ body {
   line-height: 1.9;
 }
 
-/* ── Right: form ── */
+/* ── Right: social links ── */
 .ct-right {
-  transition: opacity 0.85s 0.14s ease, transform 0.85s 0.14s cubic-bezier(0.16,1,0.3,1);
+  display: flex;
+  align-items: center;
 }
 
-.js-ready .ct-right { opacity: 0; transform: translateX(28px); }
-.ct-right.anim-in   { opacity: 1 !important; transform: translateX(0) !important; }
+.ct-socials {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.ct-social-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 20px 28px;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  text-decoration: none;
+  color: #ffffff;
+  transition: background 0.22s ease, border-color 0.22s ease, transform 0.22s ease;
+}
+
+.ct-social-row:hover {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.28);
+  transform: translateX(4px);
+}
+
+.ct-social-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  color: #ffffff;
+}
+
+.ct-social-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  flex: 1;
+}
+
+.ct-social-platform {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 400;
+  line-height: 1;
+  color: #ffffff;
+}
+
+.ct-social-handle {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: rgba(255,255,255,0.45);
+  letter-spacing: 0.5px;
+}
+
+.ct-social-arrow {
+  font-size: 20px;
+  color: rgba(255,255,255,0.35);
+  flex-shrink: 0;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.ct-social-row:hover .ct-social-arrow {
+  color: #ffffff;
+  transform: translateX(4px);
+}
 
 .ct-form {
   display: flex;
@@ -1876,6 +1924,42 @@ body {
   line-height: 1;
 }
 
+.footer-info-block {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 18px 28px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  min-width: 180px;
+  flex: 1;
+  max-width: 280px;
+}
+
+.footer-info-label {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.30);
+}
+
+.footer-info-val {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--white);
+}
+
+.footer-info-link {
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-info-link:hover {
+  color: var(--red);
+}
+
 .footer-copy {
   font-family: var(--font-body);
   font-size: 11px;
@@ -1928,11 +2012,11 @@ body {
   .team-footer { padding: 20px 32px 32px; }
 
   .contact-section { padding: 72px 32px 40px; }
-  .ct-body { gap: 0 60px; }
-  .ct-wa-num { font-size: clamp(24px, 4.5vw, 44px); }
+  .ct-body { gap: 0 40px; }
 
-  /* Works */
+  /* Works / News */
   .works-section { padding: 72px 32px 90px; }
+  .news-section  { padding: 60px 32px 80px; }
   .works-card-body { padding: 22px 20px 26px; }
 }
 
@@ -1984,8 +2068,9 @@ body {
   .ring-hint { font-size: 8px; letter-spacing: 2px; }
   .team-footer { padding: 16px 20px 28px; flex-direction: column; gap: 10px; text-align: center; }
 
-  /* ── Works ── */
+  /* ── Works / News ── */
   .works-section { padding: 60px 20px 72px; }
+  .news-section  { padding: 48px 20px 64px; }
   .works-header { margin-bottom: 40px; }
   .works-title { font-size: clamp(44px, 13vw, 80px); letter-spacing: -1px; }
   .works-card-body { padding: 20px 18px 24px; }
@@ -2003,15 +2088,10 @@ body {
   .contact-section { padding: 56px 20px 40px; }
   .ct-hero { padding-bottom: 44px; }
   .ct-headline { font-size: clamp(56px, 14vw, 110px); letter-spacing: -2px; }
-  .ct-ticker { margin-bottom: 52px; }
   .ct-body { grid-template-columns: 1fr; gap: 48px 0; margin-bottom: 52px; }
-  .ct-wa-block { padding: 24px 24px 22px; }
-  .ct-wa-num { font-size: clamp(28px, 8vw, 52px); }
+  .ct-social-row { padding: 16px 20px; gap: 14px; }
+  .ct-social-platform { font-size: clamp(16px, 5vw, 22px); }
   .contact-footer { flex-direction: column; align-items: flex-start; gap: 12px; }
-
-  /* iOS: prevent auto-zoom on input focus */
-  .ct-field input,
-  .ct-field textarea { font-size: 16px; }
 }
 
 /* ============================================================
@@ -2042,8 +2122,9 @@ body {
   .ring-viewport { min-height: 360px; }
   .team-header { padding: 36px 0 28px 16px; }
 
-  /* ── Works ── */
+  /* ── Works / News ── */
   .works-section { padding: 48px 16px 60px; }
+  .news-section  { padding: 40px 16px 52px; }
   .works-title { font-size: clamp(38px, 14vw, 60px); letter-spacing: -1px; }
   .works-eyebrow { letter-spacing: 2.5px; margin-bottom: 14px; }
   .works-header { margin-bottom: 32px; }
@@ -2621,7 +2702,7 @@ body {
   font-size: clamp(16px, 1.6vw, 26px);
   font-weight: 400;
   line-height: 1.1;
-  color: #000;
+  color: var(--red);
   margin-bottom: 20px;
 }
 .sd-card-desc {

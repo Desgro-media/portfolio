@@ -258,62 +258,6 @@
     io.observe(hero);
   })();
 
-  /* ────────────────────────────────
-     TOP CLIENTS — 3D orbital ring carousel (continuous RAF loop)
-     Same preserve-3d pattern as the team ring but auto-rotating.
-     Cards: rotateY(i*step) translateZ(R) around a tilted ring track.
-     backface-visibility:hidden means only front-facing cards show.
-     IntersectionObserver pauses the loop when section is off-screen.
-  ──────────────────────────────── */
-  (function initClientsOrbit() {
-    const viewport = document.getElementById('tcOrbit');
-    const track    = document.getElementById('tcOrbitTrack');
-    if (!viewport || !track) return;
-
-    const cards  = Array.from(track.querySelectorAll('.tc-orbit-card'));
-    const n      = cards.length;
-    const STEP   = 360 / n;
-    const SPEED  = 0.18;   /* deg/frame */
-    /* +72 deg: top of ring tilts TOWARD viewer.
-       Front cards arc into the upper viewport (visible);
-       near-bottom cards fall below the fold and clip away.
-       Track is anchored at top:75% via CSS — matches perspective-origin. */
-    const TILT_X = 72;
-
-    let angle  = 0;
-    let active = false;
-    let rafId  = 0;
-
-    function getR()  { return Math.min(viewport.offsetWidth * 0.21, 250); }
-    function getSz() { return Math.min(viewport.offsetWidth * 0.075, 88); }
-
-    function tick() {
-      const R    = getR();
-      const sz   = getSz();
-      const half = sz / 2;
-
-      track.style.transform = `rotateX(${TILT_X}deg) rotateY(${angle}deg)`;
-
-      cards.forEach((card, i) => {
-        card.style.transform  = `rotateY(${i * STEP}deg) translateZ(${R}px)`;
-        card.style.width      = `${sz}px`;
-        card.style.height     = `${sz}px`;
-        card.style.marginLeft = `${-half}px`;
-        card.style.marginTop  = `${-half}px`;
-      });
-
-      angle = (angle + SPEED) % 360;
-      if (active) rafId = requestAnimationFrame(tick);
-    }
-
-    const io = new IntersectionObserver(entries => {
-      active = entries[0].isIntersecting;
-      if (active) { cancelAnimationFrame(rafId); rafId = requestAnimationFrame(tick); }
-    }, { threshold: 0 });
-    io.observe(viewport);
-
-    tick();
-  })();
 
   /* ────────────────────────────────
      3D GLASS ASTERISKS — Three.js WebGL
@@ -389,45 +333,41 @@
       });
       geo.center();
 
-      /* Dark metallic — near-black mirror body, white key specular + red fill reflections */
+      /* Dark glossy — dark charcoal body, red emissive glow in shadowed areas */
       const mat = new THREE.MeshPhysicalMaterial({
-        color:              0x0a0a0a,
-        emissive:           0x000000,
-        emissiveIntensity:  0,
-        metalness:          0.90,
-        roughness:          0.06,
+        color:              0x181818,
+        emissive:           0xeb2027,
+        emissiveIntensity:  cfg.emissive,
+        metalness:          0.05,
+        roughness:          0.05,
         clearcoat:          1.0,
-        clearcoatRoughness: 0.02,
+        clearcoatRoughness: 0.03,
         reflectivity:       1.0,
       });
 
       const mesh = new THREE.Mesh(geo, mat);
       scene.add(mesh);
 
-      /* Very low ambient — preserves dramatic light/shadow ratio */
-      scene.add(new THREE.AmbientLight(0x1a0000, 3));
+      scene.add(new THREE.AmbientLight(0x222222, 4));
 
-      /* Key: bright white from upper-left front — creates brilliant specular on black metal */
-      const key = new THREE.PointLight(0xffffff, 100, 50);
+      const key = new THREE.PointLight(0xffffff, 80, 50);
       key.position.set(-4, 6, 8);
       scene.add(key);
 
-      /* Second key: crisp white from right — catches bevel edges */
-      const key2 = new THREE.PointLight(0xffffff, 55, 45);
+      const key2 = new THREE.PointLight(0xffeedd, 40, 45);
       key2.position.set(5, 3, 6);
       scene.add(key2);
 
-      /* Red fill — tints the mid-tone reflections, ties asterisks to the red background */
-      const redFront = new THREE.PointLight(0xeb2027, 28, 25);
+      /* Red fill — signature red glow on edges */
+      const redFront = new THREE.PointLight(0xeb2027, 20, 25);
       redFront.position.set(0, -3, 5);
       scene.add(redFront);
 
-      const redBack = new THREE.PointLight(0xc01018, 18, 22);
+      const redBack = new THREE.PointLight(0xeb2027, 12, 20);
       redBack.position.set(-3, 3, -5);
       scene.add(redBack);
 
-      /* Dark rim from below — adds separation depth */
-      const rim = new THREE.PointLight(0x000000, 4, 18);
+      const rim = new THREE.PointLight(0x334466, 8, 22);
       rim.position.set(2, -6, -3);
       scene.add(rim);
 
