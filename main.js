@@ -270,31 +270,32 @@
     const track    = document.getElementById('tcOrbitTrack');
     if (!viewport || !track) return;
 
-    const cards   = Array.from(track.querySelectorAll('.tc-orbit-card'));
-    const n       = cards.length;
-    const STEP    = 360 / n;
-    const SPEED   = 0.22;   /* deg/frame — ~2 full rotations/min */
-    const TILT_X  = -16;    /* orbital plane tilt, like team ring */
-    const TILT_Z  = -14;
+    const cards  = Array.from(track.querySelectorAll('.tc-orbit-card'));
+    const n      = cards.length;
+    const STEP   = 360 / n;
+    const SPEED  = 0.18;   /* deg/frame */
+    /* +72 deg: top of ring tilts TOWARD viewer.
+       Front cards arc into the upper viewport (visible);
+       near-bottom cards fall below the fold and clip away.
+       Track is anchored at top:75% via CSS — matches perspective-origin. */
+    const TILT_X = 72;
 
     let angle  = 0;
     let active = false;
     let rafId  = 0;
 
-    function getR()  { return Math.min(viewport.offsetWidth * 0.33, 390); }
-    function getSz() { return Math.min(viewport.offsetWidth * 0.079, 106); }
+    function getR()  { return Math.min(viewport.offsetWidth * 0.21, 250); }
+    function getSz() { return Math.min(viewport.offsetWidth * 0.075, 88); }
 
     function tick() {
-      const R  = getR();
-      const sz = getSz();
+      const R    = getR();
+      const sz   = getSz();
       const half = sz / 2;
 
-      track.style.transform =
-        `rotateX(${TILT_X}deg) rotateZ(${TILT_Z}deg) rotateY(${angle}deg)`;
+      track.style.transform = `rotateX(${TILT_X}deg) rotateY(${angle}deg)`;
 
       cards.forEach((card, i) => {
-        const a = i * STEP;
-        card.style.transform  = `rotateY(${a}deg) translateZ(${R}px)`;
+        card.style.transform  = `rotateY(${i * STEP}deg) translateZ(${R}px)`;
         card.style.width      = `${sz}px`;
         card.style.height     = `${sz}px`;
         card.style.marginLeft = `${-half}px`;
@@ -305,14 +306,12 @@
       if (active) rafId = requestAnimationFrame(tick);
     }
 
-    /* Start/stop based on visibility (saves battery) */
     const io = new IntersectionObserver(entries => {
       active = entries[0].isIntersecting;
       if (active) { cancelAnimationFrame(rafId); rafId = requestAnimationFrame(tick); }
     }, { threshold: 0 });
     io.observe(viewport);
 
-    /* Immediate first render so cards aren't invisible on load */
     tick();
   })();
 
