@@ -309,45 +309,45 @@
       });
       geo.center();
 
-      /* Dark glossy material — dark charcoal body, red emissive in shadowed areas */
+      /* Dark metallic — near-black mirror body, white key specular + red fill reflections */
       const mat = new THREE.MeshPhysicalMaterial({
-        color:              0x181818,
-        emissive:           0xeb2027,
-        emissiveIntensity:  cfg.emissive,
-        metalness:          0.05,
-        roughness:          0.05,
+        color:              0x0a0a0a,
+        emissive:           0x000000,
+        emissiveIntensity:  0,
+        metalness:          0.90,
+        roughness:          0.06,
         clearcoat:          1.0,
-        clearcoatRoughness: 0.03,
+        clearcoatRoughness: 0.02,
         reflectivity:       1.0,
       });
 
       const mesh = new THREE.Mesh(geo, mat);
       scene.add(mesh);
 
-      /* Ambient — just enough to lift the shadow side off pure black */
-      scene.add(new THREE.AmbientLight(0x222222, 4));
+      /* Very low ambient — preserves dramatic light/shadow ratio */
+      scene.add(new THREE.AmbientLight(0x1a0000, 3));
 
-      /* Key: bright white from upper-left front */
-      const key = new THREE.PointLight(0xffffff, 80, 50);
+      /* Key: bright white from upper-left front — creates brilliant specular on black metal */
+      const key = new THREE.PointLight(0xffffff, 100, 50);
       key.position.set(-4, 6, 8);
       scene.add(key);
 
-      /* Second key: warmer white from right — catches the bevel edges */
-      const key2 = new THREE.PointLight(0xffeedd, 40, 45);
+      /* Second key: crisp white from right — catches bevel edges */
+      const key2 = new THREE.PointLight(0xffffff, 55, 45);
       key2.position.set(5, 3, 6);
       scene.add(key2);
 
-      /* Red fill from behind/below — gives the signature red glow on edges */
-      const redFront = new THREE.PointLight(0xeb2027, 20, 25);
+      /* Red fill — tints the mid-tone reflections, ties asterisks to the red background */
+      const redFront = new THREE.PointLight(0xeb2027, 28, 25);
       redFront.position.set(0, -3, 5);
       scene.add(redFront);
 
-      const redBack = new THREE.PointLight(0xeb2027, 12, 20);
+      const redBack = new THREE.PointLight(0xc01018, 18, 22);
       redBack.position.set(-3, 3, -5);
       scene.add(redBack);
 
-      /* Cool rim from below for depth */
-      const rim = new THREE.PointLight(0x334466, 8, 22);
+      /* Dark rim from below — adds separation depth */
+      const rim = new THREE.PointLight(0x000000, 4, 18);
       rim.position.set(2, -6, -3);
       scene.add(rim);
 

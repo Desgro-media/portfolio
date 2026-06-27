@@ -254,7 +254,7 @@ body {
 .hero-section {
   min-height: 100vh;
   padding-top: var(--nav-h);
-  background: #000;
+  background: radial-gradient(ellipse at 50% 44%, #eb2027 0%, #a80d14 55%, #5a0006 100%);
   display: flex;
   flex-direction: column;
   position: relative;
@@ -268,7 +268,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #000;
+  background: transparent;
   overflow: hidden;
 }
 
@@ -281,9 +281,9 @@ body {
   pointer-events: none;
   opacity: 0;
   transition: opacity 1.4s ease;
-  /* Subtle red glow cast onto the surrounding black — amplifies the emissive */
-  filter: drop-shadow(0 0 40px rgba(235, 32, 39, 0.55))
-          drop-shadow(0 0 80px rgba(235, 32, 39, 0.25));
+  /* Dark shadow — gives depth and separation from red background */
+  filter: drop-shadow(0 0 28px rgba(0, 0, 0, 0.75))
+          drop-shadow(0 0 56px rgba(0, 0, 0, 0.40));
 }
 
 .ast-canvas.ast-back  { z-index: 3; }   /* behind title (z-index 10) */
@@ -298,7 +298,7 @@ body {
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 2.5px;
-  color: rgba(255,255,255,0.38);
+  color: rgba(255,255,255,0.55);
   text-transform: uppercase;
 }
 
@@ -333,7 +333,7 @@ body {
   font-weight: 400;
   font-size: clamp(55px, 11.2vw, 160px);
   line-height: 1;
-  color: var(--red);
+  color: #000;
   letter-spacing: -1px;
   text-transform: uppercase;
 }
@@ -349,16 +349,17 @@ body {
   font-size: 10px;
   font-weight: 600;
   letter-spacing: 2.5px;
-  color: rgba(255,255,255,0.40);
+  color: rgba(0,0,0,0.50);
   line-height: 2.1;
   text-transform: uppercase;
 }
 
-/* ── Video Section ── */
+/* ── Video Section — sits directly under red hero, bleeds to black ── */
 .video-section {
   width: 100%;
   position: relative;
-  margin-top: 6px;
+  margin-top: 0;
+  background: linear-gradient(to bottom, #5a0006 0%, #000 80px);
 }
 
 .video-label {
