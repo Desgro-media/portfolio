@@ -259,24 +259,61 @@
   })();
 
   /* ────────────────────────────────
-     TOP CLIENTS ARC — stagger reveal cards on scroll
+     TOP CLIENTS — 3D orbital ring carousel (continuous RAF loop)
+     Same preserve-3d pattern as the team ring but auto-rotating.
+     Cards: rotateY(i*step) translateZ(R) around a tilted ring track.
+     backface-visibility:hidden means only front-facing cards show.
+     IntersectionObserver pauses the loop when section is off-screen.
   ──────────────────────────────── */
-  (function initTopClients() {
-    const cards = document.querySelectorAll('.tc-pos');
-    if (!cards.length) return;
-    const io = new IntersectionObserver(entries => {
-      entries.forEach(e => {
-        if (!e.isIntersecting) return;
-        /* stagger by position in the arc */
-        const idx = parseInt(e.target.dataset.tcIdx || '0', 10);
-        setTimeout(() => e.target.classList.add('tc-in'), idx * 60);
-        io.unobserve(e.target);
+  (function initClientsOrbit() {
+    const viewport = document.getElementById('tcOrbit');
+    const track    = document.getElementById('tcOrbitTrack');
+    if (!viewport || !track) return;
+
+    const cards   = Array.from(track.querySelectorAll('.tc-orbit-card'));
+    const n       = cards.length;
+    const STEP    = 360 / n;
+    const SPEED   = 0.22;   /* deg/frame — ~2 full rotations/min */
+    const TILT_X  = -16;    /* orbital plane tilt, like team ring */
+    const TILT_Z  = -14;
+
+    let angle  = 0;
+    let active = false;
+    let rafId  = 0;
+
+    function getR()  { return Math.min(viewport.offsetWidth * 0.33, 390); }
+    function getSz() { return Math.min(viewport.offsetWidth * 0.079, 106); }
+
+    function tick() {
+      const R  = getR();
+      const sz = getSz();
+      const half = sz / 2;
+
+      track.style.transform =
+        `rotateX(${TILT_X}deg) rotateZ(${TILT_Z}deg) rotateY(${angle}deg)`;
+
+      cards.forEach((card, i) => {
+        const a = i * STEP;
+        card.style.transform  = `rotateY(${a}deg) translateZ(${R}px)`;
+        card.style.width      = `${sz}px`;
+        card.style.height     = `${sz}px`;
+        card.style.marginLeft = `${-half}px`;
+        card.style.marginTop  = `${-half}px`;
       });
-    }, { threshold: 0.1 });
-    cards.forEach((el, i) => {
-      el.dataset.tcIdx = String(i);
-      io.observe(el);
-    });
+
+      angle = (angle + SPEED) % 360;
+      if (active) rafId = requestAnimationFrame(tick);
+    }
+
+    /* Start/stop based on visibility (saves battery) */
+    const io = new IntersectionObserver(entries => {
+      active = entries[0].isIntersecting;
+      if (active) { cancelAnimationFrame(rafId); rafId = requestAnimationFrame(tick); }
+    }, { threshold: 0 });
+    io.observe(viewport);
+
+    /* Immediate first render so cards aren't invisible on load */
+    tick();
   })();
 
   /* ────────────────────────────────
