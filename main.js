@@ -286,6 +286,7 @@
     /* Create a full-viewport WebGL scene on a given canvas */
     function buildScene(canvas, cfg) {
       const W = hero.offsetWidth, H = hero.offsetHeight;
+      const isMobile = W < 768;
 
       const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
       renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
@@ -296,8 +297,11 @@
       renderer.shadowMap.enabled = false;
 
       const scene  = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(42, W / H, 0.1, 100);
-      camera.position.z = 10;
+      /* Mobile: wider FOV + closer camera so asterisks fill the viewport */
+      const fov = isMobile ? 62 : 42;
+      const camZ = isMobile ? 6.5 : 10;
+      const camera = new THREE.PerspectiveCamera(fov, W / H, 0.1, 100);
+      camera.position.z = camZ;
 
       const geo = new THREE.ExtrudeGeometry(makeAstShape(cfg.rOut, cfg.rIn), {
         depth:          cfg.depth,
@@ -353,6 +357,9 @@
 
       window.addEventListener('resize', () => {
         const nW = hero.offsetWidth, nH = hero.offsetHeight;
+        const nm = nW < 768;
+        camera.fov = nm ? 62 : 42;
+        camera.position.z = nm ? 6.5 : 10;
         camera.aspect = nW / nH;
         camera.updateProjectionMatrix();
         renderer.setSize(nW, nH);
@@ -389,17 +396,21 @@
       vmy = vmy * 0.72 + (ty - smy) * 0.12;
       smx += vmx; smy += vmy;
 
-      /* Back: upper-left side space, wide parallax travel */
-      back.mesh.position.x  = -3.8 + smx * 3.0;
-      back.mesh.position.y  =  1.4 - smy * 2.0;
+      const mob = window.innerWidth < 768;
+
+      /* Back: upper-left — tighter positions on mobile so it stays on-screen */
+      back.mesh.position.x  = (mob ? -2.0 : -3.8) + smx * (mob ? 1.4 : 3.0);
+      back.mesh.position.y  = (mob ?  0.9 :  1.4) - smy * (mob ? 1.0 : 2.0);
+      back.mesh.position.z  = mob ? 0.8 : 0;
       back.mesh.rotation.z -= 0.0024;
       back.mesh.rotation.x  = smy * 1.0;
       back.mesh.rotation.y  = smx * 0.85;
       back.renderer.render(back.scene, back.camera);
 
-      /* Front: lower-right side space, opposite direction */
-      front.mesh.position.x  =  3.2 - smx * 2.0;
-      front.mesh.position.y  = -1.8 + smy * 1.4;
+      /* Front: lower-right — same treatment */
+      front.mesh.position.x  = (mob ?  1.8 :  3.2) - smx * (mob ? 1.0 : 2.0);
+      front.mesh.position.y  = (mob ? -1.1 : -1.8) + smy * (mob ? 0.7 : 1.4);
+      front.mesh.position.z  = mob ? 0.8 : 0;
       front.mesh.rotation.z += 0.0017;
       front.mesh.rotation.x  = -smy * 0.70;
       front.mesh.rotation.y  = -smx * 0.55;
