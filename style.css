@@ -2246,7 +2246,10 @@ body {
 .ct-social-row:hover {
   background: rgba(255,255,255,0.06);
   border-color: rgba(255,255,255,0.28);
-  transform: translateX(4px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .ct-social-row:hover { transform: translateX(4px); }
 }
 
 .ct-social-icon {
@@ -2285,9 +2288,9 @@ body {
   transition: color 0.2s ease, transform 0.2s ease;
 }
 
-.ct-social-row:hover .ct-social-arrow {
-  color: #ffffff;
-  transform: translateX(4px);
+.ct-social-row:hover .ct-social-arrow { color: #ffffff; }
+@media (hover: hover) and (pointer: fine) {
+  .ct-social-row:hover .ct-social-arrow { transform: translateX(4px); }
 }
 
 .ct-form {
@@ -3348,10 +3351,15 @@ body {
   /* Service cards: horizontal swipe strip — ~3 visible at once */
   .sd-cards { flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
   .sd-cards::-webkit-scrollbar { display: none; }
-  .sd-card { flex: 0 0 32vw; scroll-snap-align: start; min-height: 200px; padding: 0 8px; }
+  .sd-card { flex: 0 0 32vw; scroll-snap-align: start; min-height: 200px; padding: 0 8px; transition: flex-basis 0.3s ease; }
   .sd-card-name { font-size: clamp(13px, 3.8vw, 17px); line-height: 1.1; }
-  .sd-card-desc { display: none; }
+  .sd-card-desc { display: none; font-size: 9.5px; line-height: 1.5; margin-top: 8px; color: rgba(0,0,0,0.6); padding: 0 2px; }
   .sd-card-arrow { width: 28px; height: 28px; font-size: 12px; bottom: 14px; }
+
+  /* Tap-to-reveal: card expands and description shows */
+  .sd-card.card-tap-active { flex: 0 0 72vw; }
+  .sd-card.card-tap-active .sd-card-desc { display: block; }
+  .sd-card.card-tap-active .sd-card-name { font-size: clamp(16px, 5vw, 22px); }
 }
 
 @media (max-width: 480px) {

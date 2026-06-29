@@ -202,6 +202,21 @@
   })();
 
   /* ────────────────────────────────
+     MOBILE SERVICE CARD TAP-TO-REVEAL
+  ──────────────────────────────── */
+  if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+    document.querySelectorAll('.sd-card').forEach(card => {
+      card.addEventListener('click', e => {
+        if (e.target.closest('.sd-card-arrow')) return;
+        const wasActive = card.classList.contains('card-tap-active');
+        document.querySelectorAll('.sd-card.card-tap-active')
+          .forEach(c => c.classList.remove('card-tap-active'));
+        if (!wasActive) card.classList.add('card-tap-active');
+      });
+    });
+  }
+
+  /* ────────────────────────────────
      SCROLL REVEAL  (.sr / .sr-right)
      Applied programmatically to keep HTML clean.
   ──────────────────────────────── */
