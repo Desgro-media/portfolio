@@ -59,17 +59,9 @@
   /* ────────────────────────────────
      PAGE LOADER
   ──────────────────────────────── */
-  const loader = document.createElement('div');
-  loader.className = 'page-loader';
-  loader.setAttribute('aria-hidden', 'true');
-  loader.innerHTML =
-    '<div class="loader-brand">' +
-      '<div class="loader-redbar"></div>' +
-      '<div class="loader-name-wrap"><span class="loader-name">DESGRO</span></div>' +
-      '<span class="loader-sub">MEDIA</span>' +
-    '</div>' +
-    '<div class="loader-track"><div class="loader-fill"></div></div>';
-  document.body.insertBefore(loader, document.body.firstChild);
+  /* Reuse the loader already in the HTML — avoids a flash before JS runs */
+  const loader = document.querySelector('.page-loader');
+  if (!loader) return;
 
   setTimeout(() => {
     loader.classList.add('exit');
