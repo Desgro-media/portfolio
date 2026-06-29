@@ -1926,17 +1926,7 @@ body {
   z-index: 0;
 }
 
-/* Red left accent bar */
-.contact-section::after {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 3px;
-  height: 100%;
-  background: var(--red);
-  opacity: 0.7;
-}
+.contact-section::after { display: none; }
 
 .contact-section > * { position: relative; z-index: 1; }
 
