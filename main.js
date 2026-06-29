@@ -403,16 +403,23 @@
     });
     hero.addEventListener('mouseleave', () => { inside = false; });
 
+    /* Pause rendering when hero is not visible — saves 2 WebGL draws/frame */
+    let astActive = true;
+    new IntersectionObserver(([e]) => { astActive = e.isIntersecting; }, { threshold: 0 }).observe(hero);
+
+    /* Cache mobile breakpoint; re-evaluate only on resize */
+    let mob = window.innerWidth < 768;
+    window.addEventListener('resize', () => { mob = window.innerWidth < 768; }, { passive: true });
+
     function animate() {
       requestAnimationFrame(animate);
+      if (!astActive) return;
 
       const tx = inside ? mx : 0, ty = inside ? my : 0;
       /* tighter spring = snappier cursor response */
       vmx = vmx * 0.72 + (tx - smx) * 0.12;
       vmy = vmy * 0.72 + (ty - smy) * 0.12;
       smx += vmx; smy += vmy;
-
-      const mob = window.innerWidth < 768;
 
       /* Back: upper-left — tighter positions on mobile so it stays on-screen */
       back.mesh.position.x  = (mob ? -2.0 : -3.8) + smx * (mob ? 1.4 : 3.0);
@@ -567,14 +574,14 @@
   function clearHover() {
     if (hoverExitTimer) { clearTimeout(hoverExitTimer); hoverExitTimer = null; }
     if (exitingCard) {
-      const inner = exitingCard.querySelector('.card-inner');
+      const inner = exitingCard._inner;
       if (inner) inner.style.transform = '';
       exitingCard.classList.remove('card-hovered');
       exitingCard  = null;
       exitProgress = 0;
     }
     if (!hoveredCard) return;
-    const inner = hoveredCard.querySelector('.card-inner');
+    const inner = hoveredCard._inner;
     if (inner) inner.style.transform = '';
     hoveredCard.classList.remove('card-hovered');
     hoveredCard   = null;
@@ -594,11 +601,12 @@
 
     if (hoveredCard) {
       if (exitingCard) {
-        const pi = exitingCard.querySelector('.card-inner');
+        const pi = exitingCard._inner;
         if (pi) pi.style.transform = '';
         exitingCard.classList.remove('card-hovered');
       }
       exitingCard  = hoveredCard;
+      exitingCard._inner = hoveredCard._inner;
       exitProgress = hoverProgress;
       exitingCard.classList.remove('card-hovered');
       hoveredCard   = null;
@@ -607,6 +615,7 @@
     }
 
     hoveredCard = card;
+    hoveredCard._inner = card.querySelector('.card-inner'); /* cache once */
     hoverDir    = 1;
     card.classList.add('card-hovered');
   }
@@ -624,7 +633,7 @@
 
   function finishHoverExit() {
     if (!hoveredCard) return;
-    const inner = hoveredCard.querySelector('.card-inner');
+    const inner = hoveredCard._inner;
     if (inner) inner.style.transform = '';
     hoveredCard.classList.remove('card-hovered');
     hoveredCard   = null;
@@ -719,7 +728,7 @@
     /* Animate retreating card */
     if (exitingCard) {
       exitProgress = Math.max(0, exitProgress - dt / HOVER_OUT_MS);
-      const inner = exitingCard.querySelector('.card-inner');
+      const inner = exitingCard._inner;
       if (exitProgress === 0) {
         if (inner) inner.style.transform = '';
         exitingCard = null;
@@ -737,7 +746,7 @@
         if (hoverProgress === 0) { finishHoverExit(); }
       }
       if (hoveredCard) {
-        const inner = hoveredCard.querySelector('.card-inner');
+        const inner = hoveredCard._inner;
         if (inner) inner.style.transform = buildHoverTransform(hoverProgress);
       }
     }
@@ -762,13 +771,19 @@
 
   if (scrollyOuter && stmts.length) {
     const THRESHOLDS = [0.08, 0.42, 0.74];
+    let scrollyPending = false;
 
     function updateScrolly() {
-      const rect       = scrollyOuter.getBoundingClientRect();
-      const scrollable = scrollyOuter.offsetHeight - window.innerHeight;
-      if (rect.bottom < 0 || rect.top > window.innerHeight) return;
-      const progress = scrollable > 0 ? Math.max(0, Math.min(1, -rect.top / scrollable)) : 1;
-      stmts.forEach((s, i) => s.classList.toggle('active', progress >= THRESHOLDS[i]));
+      if (scrollyPending) return;
+      scrollyPending = true;
+      requestAnimationFrame(() => {
+        scrollyPending = false;
+        const rect       = scrollyOuter.getBoundingClientRect();
+        const scrollable = scrollyOuter.offsetHeight - window.innerHeight;
+        if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+        const progress = scrollable > 0 ? Math.max(0, Math.min(1, -rect.top / scrollable)) : 1;
+        stmts.forEach((s, i) => s.classList.toggle('active', progress >= THRESHOLDS[i]));
+      });
     }
 
     window.addEventListener('scroll', updateScrolly, { passive: true });
@@ -850,11 +865,17 @@
 (function initActiveLink() {
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-links a');
+  let activePending = false;
 
   function updateActive() {
-    let current = '';
-    sections.forEach(sec => { if (sec.getBoundingClientRect().top < 100) current = sec.id; });
-    navLinks.forEach(a => a.classList.toggle('nav-active', a.getAttribute('href') === '#' + current));
+    if (activePending) return;
+    activePending = true;
+    requestAnimationFrame(() => {
+      activePending = false;
+      let current = '';
+      sections.forEach(sec => { if (sec.getBoundingClientRect().top < 100) current = sec.id; });
+      navLinks.forEach(a => a.classList.toggle('nav-active', a.getAttribute('href') === '#' + current));
+    });
   }
 
   window.addEventListener('scroll', updateActive, { passive: true });
@@ -1024,6 +1045,12 @@
   track.addEventListener('mouseenter', () => clearInterval(timer));
   track.addEventListener('mouseleave', startAuto);
 
+  /* Pause entirely when scrolled out of view */
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting) startAuto();
+    else clearInterval(timer);
+  }, { threshold: 0.1 }).observe(track);
+
   /* Touch / swipe */
   let touchStartX = 0;
   track.addEventListener('touchstart', e => {
@@ -1044,7 +1071,7 @@ document.querySelectorAll('.wc-imgslider').forEach(slider => {
   const track = slider.querySelector('.wc-imgslider-track');
   const dots  = slider.querySelectorAll('.wc-imgslider-dot');
   const total = track.querySelectorAll('img').length;
-  let cur = 0;
+  let cur = 0, timer = null;
 
   function goTo(idx) {
     cur = (idx + total) % total;
@@ -1052,7 +1079,15 @@ document.querySelectorAll('.wc-imgslider').forEach(slider => {
     dots.forEach((d, i) => d.classList.toggle('wc-imgslider-dot--active', i === cur));
   }
 
-  setInterval(() => goTo(cur + 1), 3000);
+  /* Only run while the card is in the viewport */
+  new IntersectionObserver(([e]) => {
+    if (e.isIntersecting) {
+      timer = setInterval(() => goTo(cur + 1), 3000);
+    } else {
+      clearInterval(timer);
+      timer = null;
+    }
+  }, { threshold: 0.1 }).observe(slider);
 });
 
 /* ── WORKS CARD MODAL ── */

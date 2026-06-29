@@ -26,26 +26,36 @@
     </div>
     <ul class="nav-links">
       <li><a href="about.html">ABOUT</a></li>
-      <li><a href="#services-detail">SERVICES</a></li>
+      <li><a href="#services">SERVICES</a></li>
       <li><a href="#team" class="nav-active">TEAM</a></li>
       <li><a href="#works">WORKS</a></li>
       <li><a href="#contact">CONTACT</a></li>
+      <li><a href="careers.html">CAREER</a></li>
     </ul>
-    <a href="#contact" class="btn-get-started" id="btn-get-started">GET STARTED →</a>
-    <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
+    <div class="nav-right">
+      <a href="https://www.instagram.com/demand.school?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" class="nav-circle-btn" aria-label="Demand School on Instagram">
+        <img src="image assets/demandlogo.jpg" alt="Demand School">
+      </a>
+      <a href="https://erp.desgromedia.com/accounts/login/?next=/" target="_blank" rel="noopener" class="nav-circle-btn" aria-label="DesGro ERP Login">
+        <img src="image assets/desgrologo.jpg" alt="DesGro Media">
+      </a>
+      <a href="#contact" class="btn-get-started" id="btn-get-started">GET STARTED →</a>
+      <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
 
   <!-- Mobile Nav Overlay -->
   <div class="mobile-nav" id="mobileNav" aria-hidden="true">
-    <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu">✕</button>
+    <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu"></button>
     <ul>
       <li><a href="about.html">ABOUT</a></li>
-      <li><a href="#services-detail">SERVICES</a></li>
+      <li><a href="#services">SERVICES</a></li>
       <li><a href="#team">TEAM</a></li>
       <li><a href="#works">WORKS</a></li>
       <li><a href="#contact">CONTACT</a></li>
+      <li><a href="careers.html">CAREER</a></li>
     </ul>
     <a href="#contact" class="btn-get-started mobile-nav-cta">GET STARTED →</a>
   </div>
@@ -73,36 +83,48 @@
     </div>
 
     <!-- Service Cards -->
-    <div class="sd-cards">
+    <div class="sd-cards" id="services">
       <div class="sd-card">
         <span class="sd-card-num">01</span>
         <h3 class="sd-card-name">PERSONAL<br>BRANDING</h3>
         <p class="sd-card-desc">Build a powerful personal identity that amplifies your voice, expands your reach, and positions you as the authority in your niche.</p>
-        <span class="sd-card-arrow">→</span>
+        <a href="#contact" class="sd-card-arrow">→</a>
       </div>
       <div class="sd-card">
         <span class="sd-card-num">02</span>
         <h3 class="sd-card-name">SMM</h3>
         <p class="sd-card-desc">Data-driven social strategies that grow your audience, spark engagement, and turn followers into loyal customers across every platform.</p>
-        <span class="sd-card-arrow">→</span>
+        <a href="#contact" class="sd-card-arrow">→</a>
       </div>
       <div class="sd-card">
         <span class="sd-card-num">03</span>
         <h3 class="sd-card-name">PERFORMANCE<br>MARKETING</h3>
         <p class="sd-card-desc">ROI-focused campaigns across paid channels — from Meta to Google — engineered to convert at every stage of the funnel.</p>
-        <span class="sd-card-arrow">→</span>
+        <a href="#contact" class="sd-card-arrow">→</a>
       </div>
       <div class="sd-card">
         <span class="sd-card-num">04</span>
         <h3 class="sd-card-name">LOGO<br>BRANDING</h3>
         <p class="sd-card-desc">Distinctive logos and visual identities that instantly communicate who you are and make your brand impossible to forget.</p>
-        <span class="sd-card-arrow">→</span>
+        <a href="#contact" class="sd-card-arrow">→</a>
       </div>
       <div class="sd-card">
         <span class="sd-card-num">05</span>
         <h3 class="sd-card-name">WEB & APP<br>DEVELOPMENT</h3>
         <p class="sd-card-desc">Clean, fast, conversion-optimised digital products — from landing pages to full-scale web and mobile applications.</p>
-        <span class="sd-card-arrow">→</span>
+        <a href="#contact" class="sd-card-arrow">→</a>
+      </div>
+      <div class="sd-card">
+        <span class="sd-card-num">06</span>
+        <h3 class="sd-card-name">AI<br>REELS</h3>
+        <p class="sd-card-desc">Hyper-realistic AI-generated video content that looks human, feels authentic, and performs at scale — no shoots, no delays, just scroll-stopping reels built for your brand.</p>
+        <a href="#contact" class="sd-card-arrow">→</a>
+      </div>
+      <div class="sd-card">
+        <span class="sd-card-num">07</span>
+        <h3 class="sd-card-name">TV<br>ADS</h3>
+        <p class="sd-card-desc">High-impact television commercials crafted to put your brand in front of mass audiences — concept to final cut, produced to broadcast standard.</p>
+        <a href="#contact" class="sd-card-arrow">→</a>
       </div>
     </div>
 
@@ -249,7 +271,7 @@
 
             <div class="team-card" data-index="0">
               <div class="card-inner">
-                <img src="image assets/3..jpg" alt="Nisam VM" draggable="false">
+                <img src="image assets/3..jpg" alt="Nisam VM" draggable="false" loading="lazy" decoding="async">
                 <div class="card-story">
                   <span class="card-story-role">FOUNDER</span>
                   <span class="card-story-name">Nisam VM</span>
@@ -258,7 +280,7 @@
             </div>
             <div class="team-card" data-index="1">
               <div class="card-inner">
-                <img src="image assets/2.jpg" alt="Thanseem CA" draggable="false">
+                <img src="image assets/2.jpg" alt="Thanseem CA" draggable="false" loading="lazy" decoding="async">
                 <div class="card-story">
                   <span class="card-story-role">CO-FOUNDER</span>
                   <span class="card-story-name">Thanseem CA</span>
@@ -267,7 +289,7 @@
             </div>
             <div class="team-card" data-index="2">
               <div class="card-inner">
-                <img src="image assets/1.jpg" alt="Shamaz" draggable="false">
+                <img src="image assets/1.jpg" alt="Shamaz" draggable="false" loading="lazy" decoding="async">
                 <div class="card-story">
                   <span class="card-story-role">CREATIVE HEAD</span>
                   <span class="card-story-name">Shamaz</span>
@@ -276,7 +298,7 @@
             </div>
             <div class="team-card" data-index="3">
               <div class="card-inner">
-                <img src="image assets/4th.jpg" alt="Aflah Al Zaman" draggable="false">
+                <img src="image assets/4th.jpg" alt="Aflah Al Zaman" draggable="false" loading="lazy" decoding="async">
                 <div class="card-story">
                   <span class="card-story-role">BRAND STRATEGIST</span>
                   <span class="card-story-name">Aflah Al Zaman</span>
@@ -285,7 +307,7 @@
             </div>
             <div class="team-card" data-index="4">
               <div class="card-inner">
-                <img src="image assets/5th.jpg" alt="Ansid" draggable="false">
+                <img src="image assets/5th.jpg" alt="Ansid" draggable="false" loading="lazy" decoding="async">
                 <div class="card-story">
                   <span class="card-story-role">VIDEOGRAPHER</span>
                   <span class="card-story-name">Ansid</span>
@@ -294,7 +316,7 @@
             </div>
             <div class="team-card" data-index="5">
               <div class="card-inner">
-                <img src="image assets/6th.jpg" alt="Anchala Rasheed" draggable="false">
+                <img src="image assets/6th.jpg" alt="Anchala Rasheed" draggable="false" loading="lazy" decoding="async">
                 <div class="card-story">
                   <span class="card-story-role">CONTENT HEAD</span>
                   <span class="card-story-name">Anchala Rasheed</span>
@@ -303,7 +325,7 @@
             </div>
             <div class="team-card" data-index="6">
               <div class="card-inner">
-                <img src="image assets/7th.jpg" alt="Nihal" draggable="false">
+                <img src="image assets/7th.jpg" alt="Nihal" draggable="false" loading="lazy" decoding="async">
                 <div class="card-story">
                   <span class="card-story-role">MULTIMEDIA HEAD</span>
                   <span class="card-story-name">Nihal</span>
@@ -312,7 +334,7 @@
             </div>
             <div class="team-card" data-index="7">
               <div class="card-inner">
-                <img src="image assets/8th.jpg" alt="Asna" draggable="false">
+                <img src="image assets/8th.jpg" alt="Asna" draggable="false" loading="lazy" decoding="async">
                 <div class="card-story">
                   <span class="card-story-role">CONTENT WRITER</span>
                   <span class="card-story-name">Asna</span>
@@ -321,7 +343,7 @@
             </div>
             <div class="team-card" data-index="8">
               <div class="card-inner">
-                <img src="image assets/9th.jpg" alt="Nisthar" draggable="false">
+                <img src="image assets/9th.jpg" alt="Nisthar" draggable="false" loading="lazy" decoding="async">
                 <div class="card-story">
                   <span class="card-story-role">PERFORMANCE MARKETER</span>
                   <span class="card-story-name">Nisthar</span>
@@ -330,7 +352,7 @@
             </div>
             <div class="team-card" data-index="9">
               <div class="card-inner">
-                <img src="image assets/10th.jpg" alt="Afra" draggable="false">
+                <img src="image assets/10th.jpg" alt="Afra" draggable="false" loading="lazy" decoding="async">
                 <div class="card-story">
                   <span class="card-story-role">DIGITAL MARKETER</span>
                   <span class="card-story-name">Afra</span>
@@ -339,7 +361,7 @@
             </div>
             <div class="team-card" data-index="10">
               <div class="card-inner">
-                <img src="image assets/11th.jpg" alt="Yasir" draggable="false">
+                <img src="image assets/11th.jpg" alt="Yasir" draggable="false" loading="lazy" decoding="async">
                 <div class="card-story">
                   <span class="card-story-role">VIDEO EDITOR</span>
                   <span class="card-story-name">Yasir</span>
@@ -621,31 +643,31 @@
 
     <div class="tc-marquee">
       <div class="tc-marquee-track">
-        <div class="tc-logo-card"><img src="topclients/c1.jpg"  alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c2.jpg"  alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c3.jpg"  alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c4.jpg"  alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c5.jpg"  alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c6.jpg"  alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c7.jpg"  alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c8.jpg"  alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c9.jpg"  alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c10.jpg" alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c11.jpg" alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c12.jpg" alt="Client" draggable="false"></div>
+        <div class="tc-logo-card"><img src="topclients/c1.jpg"  alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c2.jpg"  alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c3.jpg"  alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c4.jpg"  alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c5.jpg"  alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c6.jpg"  alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c7.jpg"  alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c8.jpg"  alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c9.jpg"  alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c10.jpg" alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c11.jpg" alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c12.jpg" alt="Client" decoding="async"></div>
         <!-- duplicate for seamless loop -->
-        <div class="tc-logo-card"><img src="topclients/c1.jpg"  alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c2.jpg"  alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c3.jpg"  alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c4.jpg"  alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c5.jpg"  alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c6.jpg"  alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c7.jpg"  alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c8.jpg"  alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c9.jpg"  alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c10.jpg" alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c11.jpg" alt="Client" draggable="false"></div>
-        <div class="tc-logo-card"><img src="topclients/c12.jpg" alt="Client" draggable="false"></div>
+        <div class="tc-logo-card"><img src="topclients/c1.jpg"  alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c2.jpg"  alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c3.jpg"  alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c4.jpg"  alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c5.jpg"  alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c6.jpg"  alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c7.jpg"  alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c8.jpg"  alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c9.jpg"  alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c10.jpg" alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c11.jpg" alt="Client" decoding="async"></div>
+        <div class="tc-logo-card"><img src="topclients/c12.jpg" alt="Client" decoding="async"></div>
       </div>
     </div>
   </section>
@@ -730,9 +752,9 @@
 
       <div class="wc-modal-gallery">
         <div class="wc-modal-gallery-track">
-          <img src="image assets/work5.png"    alt="HU AI UGC Content" draggable="false">
-          <img src="image assets/work5(2).png" alt="HU AI Content" draggable="false">
-          <img src="image assets/work5(3).png" alt="HU AI Content" draggable="false">
+          <img src="image assets/work5.png"    alt="HU AI UGC Content" draggable="false" loading="lazy" decoding="async">
+          <img src="image assets/work5(2).png" alt="HU AI Content" draggable="false" loading="lazy" decoding="async">
+          <img src="image assets/work5(3).png" alt="HU AI Content" draggable="false" loading="lazy" decoding="async">
         </div>
         <div class="wc-modal-gallery-nav">
           <button class="wc-modal-dot wc-modal-dot--active" aria-label="Image 1"></button>
@@ -764,10 +786,10 @@
 
       <div class="wc-modal-gallery">
         <div class="wc-modal-gallery-track">
-          <img src="image assets/work4.png"    alt="Matrix Finbiz branding" draggable="false">
-          <img src="image assets/work4(2).png" alt="Matrix Finbiz" draggable="false">
-          <img src="image assets/work4(3).png" alt="Matrix Finbiz" draggable="false">
-          <img src="image assets/work4(4).png" alt="Matrix Finbiz" draggable="false">
+          <img src="image assets/work4.png"    alt="Matrix Finbiz branding" draggable="false" loading="lazy" decoding="async">
+          <img src="image assets/work4(2).png" alt="Matrix Finbiz" draggable="false" loading="lazy" decoding="async">
+          <img src="image assets/work4(3).png" alt="Matrix Finbiz" draggable="false" loading="lazy" decoding="async">
+          <img src="image assets/work4(4).png" alt="Matrix Finbiz" draggable="false" loading="lazy" decoding="async">
         </div>
         <div class="wc-modal-gallery-nav">
           <button class="wc-modal-dot wc-modal-dot--active" aria-label="Image 1"></button>
@@ -800,9 +822,9 @@
 
       <div class="wc-modal-gallery">
         <div class="wc-modal-gallery-track">
-          <img src="image assets/work3.jpg"    alt="Kerala Taste website" draggable="false">
-          <img src="image assets/work3(2).jpg" alt="Kerala Taste" draggable="false">
-          <img src="image assets/work3(3).jpg" alt="Kerala Taste" draggable="false">
+          <img src="image assets/work3.jpg"    alt="Kerala Taste website" draggable="false" loading="lazy" decoding="async">
+          <img src="image assets/work3(2).jpg" alt="Kerala Taste" draggable="false" loading="lazy" decoding="async">
+          <img src="image assets/work3(3).jpg" alt="Kerala Taste" draggable="false" loading="lazy" decoding="async">
         </div>
         <div class="wc-modal-gallery-nav">
           <button class="wc-modal-dot wc-modal-dot--active" aria-label="Image 1"></button>
@@ -834,9 +856,9 @@
 
       <div class="wc-modal-gallery">
         <div class="wc-modal-gallery-track">
-          <img src="image assets/work2.jpg"      alt="AR Foods by Abida Rasheed" draggable="false">
-          <img src="image assets/work2 (1).png"  alt="AR Foods" draggable="false">
-          <img src="image assets/work2 (2).png"  alt="AR Foods" draggable="false">
+          <img src="image assets/work2.jpg"      alt="AR Foods by Abida Rasheed" draggable="false" loading="lazy" decoding="async">
+          <img src="image assets/work2 (1).png"  alt="AR Foods" draggable="false" loading="lazy" decoding="async">
+          <img src="image assets/work2 (2).png"  alt="AR Foods" draggable="false" loading="lazy" decoding="async">
         </div>
         <div class="wc-modal-gallery-nav">
           <button class="wc-modal-dot wc-modal-dot--active" aria-label="Image 1"></button>
@@ -869,9 +891,9 @@
       <!-- Gallery -->
       <div class="wc-modal-gallery">
         <div class="wc-modal-gallery-track">
-          <img src="image assets/work1.png"   alt="Fumme" draggable="false">
-          <img src="image assets/work1.2.png" alt="Fumme" draggable="false">
-          <img src="image assets/work1.3.jpg" alt="Fumme" draggable="false">
+          <img src="image assets/work1.png"   alt="Fumme" draggable="false" loading="lazy" decoding="async">
+          <img src="image assets/work1.2.png" alt="Fumme" draggable="false" loading="lazy" decoding="async">
+          <img src="image assets/work1.3.jpg" alt="Fumme" draggable="false" loading="lazy" decoding="async">
         </div>
         <div class="wc-modal-gallery-nav">
           <button class="wc-modal-dot wc-modal-dot--active" aria-label="Image 1"></button>
