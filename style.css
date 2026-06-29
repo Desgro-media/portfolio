@@ -199,44 +199,53 @@ body {
   justify-content: center;
   align-items: center;
   gap: 5px;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   background: none;
-  border: 1px solid rgba(255,255,255,0.2);
+  border: 1px solid rgba(255,255,255,0.22);
   border-radius: 10px;
   cursor: pointer;
   padding: 0;
   transition: border-color 0.25s, background 0.25s;
+  -webkit-tap-highlight-color: transparent;
 }
-.nav-hamburger:hover {
-  border-color: rgba(255,255,255,0.5);
-  background: rgba(255,255,255,0.05);
+/* hover only on real pointer devices */
+@media (hover: hover) {
+  .nav-hamburger:hover {
+    border-color: rgba(255,255,255,0.5);
+    background: rgba(255,255,255,0.05);
+  }
+}
+.nav-hamburger:active {
+  border-color: rgba(255,255,255,0.45);
+  background: rgba(255,255,255,0.04);
 }
 
 .nav-hamburger span {
   display: block;
-  height: 1.5px;
+  height: 2px;
   background: var(--white);
   border-radius: 2px;
   transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), opacity 0.25s ease, width 0.25s ease;
   transform-origin: center;
 }
-.nav-hamburger span:nth-child(1) { width: 18px; }
-.nav-hamburger span:nth-child(2) { width: 14px; }
+.nav-hamburger span:nth-child(1) { width: 20px; }
+.nav-hamburger span:nth-child(2) { width: 15px; }
 .nav-hamburger span:nth-child(3) { width: 10px; }
 
 .nav-hamburger.active { border-color: var(--red); background: rgba(235,32,39,0.08); }
-.nav-hamburger.active span:nth-child(1) { width: 18px; transform: translateY(6.5px) rotate(45deg); }
+.nav-hamburger.active span:nth-child(1) { width: 18px; transform: translateY(7px) rotate(45deg); }
 .nav-hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-.nav-hamburger.active span:nth-child(3) { width: 18px; transform: translateY(-6.5px) rotate(-45deg); }
+.nav-hamburger.active span:nth-child(3) { width: 18px; transform: translateY(-7px) rotate(-45deg); }
 
-/* ── Mobile Nav Overlay ── */
+/* ── Mobile Nav Overlay — z-index ABOVE navbar (1000) ── */
 .mobile-nav {
   position: fixed;
   inset: 0;
-  z-index: 999;
+  z-index: 1001;
   background: rgba(0,0,0,0.97);
   backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -262,48 +271,56 @@ body {
 
 .mobile-nav ul a {
   font-family: var(--font-display);
-  font-size: 40px;
-  color: rgba(255,255,255,0.8);
+  font-size: clamp(32px, 10vw, 44px);
+  color: rgba(255,255,255,0.85);
   text-decoration: none;
   letter-spacing: 2px;
   transition: color 0.2s;
+  -webkit-tap-highlight-color: transparent;
 }
+@media (hover: hover) {
+  .mobile-nav ul a:hover { color: var(--red); }
+}
+.mobile-nav ul a:active { color: var(--red); }
 
-.mobile-nav ul a:hover { color: var(--red); }
-
+/* ── Close button ── */
 .mobile-nav-close {
   position: absolute;
-  top: 18px;
-  right: 20px;
-  width: 42px;
-  height: 42px;
+  top: 14px;
+  right: 16px;
+  width: 44px;
+  height: 44px;
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.15);
   border-radius: 10px;
-  color: rgba(255,255,255,0.7);
-  font-size: 0;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.25s, border-color 0.25s, color 0.25s;
+  -webkit-tap-highlight-color: transparent;
+  transition: background 0.2s, border-color 0.2s;
 }
+/* X drawn with pseudo-elements, explicitly centred */
 .mobile-nav-close::before,
 .mobile-nav-close::after {
   content: '';
   position: absolute;
+  top: 50%;
+  left: 50%;
   width: 18px;
-  height: 1.5px;
-  background: currentColor;
+  height: 2px;
+  background: rgba(255,255,255,0.75);
   border-radius: 2px;
 }
-.mobile-nav-close::before { transform: rotate(45deg); }
-.mobile-nav-close::after  { transform: rotate(-45deg); }
+.mobile-nav-close::before { transform: translate(-50%, -50%) rotate(45deg); }
+.mobile-nav-close::after  { transform: translate(-50%, -50%) rotate(-45deg); }
 
-.mobile-nav-close:hover {
-  background: rgba(235,32,39,0.12);
+.mobile-nav-close:active {
+  background: rgba(235,32,39,0.18);
   border-color: var(--red);
-  color: var(--white);
+}
+@media (hover: hover) {
+  .mobile-nav-close:hover {
+    background: rgba(235,32,39,0.12);
+    border-color: var(--red);
+  }
 }
 
 .mobile-nav-cta {

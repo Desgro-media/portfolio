@@ -231,6 +231,21 @@
     </div>
   </nav>
 
+  <!-- ── MOBILE NAV ── -->
+  <div class="mobile-nav" id="mobileNav">
+    <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu"></button>
+    <ul>
+      <li><a href="index.html">HOME</a></li>
+      <li><a href="about.html">ABOUT</a></li>
+      <li><a href="index.html#services">SERVICES</a></li>
+      <li><a href="index.html#team">TEAM</a></li>
+      <li><a href="index.html#works">WORKS</a></li>
+      <li><a href="index.html#contact">CONTACT</a></li>
+      <li><a href="careers.html" class="nav-active">CAREER</a></li>
+    </ul>
+    <a href="index.html#contact" class="btn-get-started mobile-nav-cta">GET STARTED →</a>
+  </div>
+
   <!-- ── HERO ── -->
   <div class="cp-hero">
     <div class="cp-eyebrow">
@@ -376,11 +391,17 @@
   </div>
 
   <script>
-    /* Hamburger toggle for mobile nav */
-    const hamburger = document.getElementById('navHamburger');
-    if (hamburger) {
-      hamburger.addEventListener('click', () => hamburger.classList.toggle('active'));
-    }
+    (function () {
+      const hamburger = document.getElementById('navHamburger');
+      const mobileNav = document.getElementById('mobileNav');
+      const closeBtn  = document.getElementById('mobileNavClose');
+      if (!hamburger || !mobileNav) return;
+      function openNav()  { mobileNav.classList.add('open'); document.body.style.overflow = 'hidden'; hamburger.classList.add('active'); }
+      function closeNav() { mobileNav.classList.remove('open'); document.body.style.overflow = ''; hamburger.classList.remove('active'); }
+      hamburger.addEventListener('click', openNav);
+      if (closeBtn) closeBtn.addEventListener('click', closeNav);
+      mobileNav.querySelectorAll('a').forEach(a => a.addEventListener('click', closeNav));
+    })();
   </script>
 </body>
 </html>
