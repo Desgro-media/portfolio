@@ -1364,7 +1364,7 @@ body {
 }
 
 @media (max-width: 600px) {
-  .works-grid { grid-template-columns: 1fr; }
+  .works-grid { grid-template-columns: repeat(2, 1fr); }
   .works-card-stats { gap: 16px; }
 }
 
@@ -3320,23 +3320,31 @@ body {
   .sd-scrolly-outer { height: 180vh; }
   .sd-scrolly-pin { padding: 0 5%; }
 
-  .sd-card { flex: 1 1 45%; }
+  /* Stats: sit in right column alongside "Why Content Creation?" heading */
+  .sd-why-grid { grid-template-columns: 1fr 1fr; gap: 4vw; }
+  .sd-why-h { font-size: clamp(20px, 6vw, 38px); }
+  .sd-why-p { font-size: 10.5px; line-height: 1.75; }
+  .sd-stats-rows { margin-top: 0; align-self: flex-start; padding-top: 4px; }
+  .sd-stat-num, .sd-stat-suf { font-size: clamp(18px, 5vw, 28px); }
+  .sd-stat-row { grid-template-columns: 20px 1fr; gap: 0 6px; }
+  .sd-stat-label { display: none; }
 
-  .sd-stats-rows { margin-top: 40px; }
-  .sd-stat-num, .sd-stat-suf { font-size: clamp(44px, 10vw, 72px); }
+  /* Service cards: horizontal swipe strip — ~3 visible at once */
+  .sd-cards { flex-wrap: nowrap; overflow-x: auto; overflow-y: hidden; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .sd-cards::-webkit-scrollbar { display: none; }
+  .sd-card { flex: 0 0 32vw; scroll-snap-align: start; min-height: 200px; padding: 0 8px; }
+  .sd-card-name { font-size: clamp(13px, 3.8vw, 17px); line-height: 1.1; }
+  .sd-card-desc { display: none; }
+  .sd-card-arrow { width: 28px; height: 28px; font-size: 12px; bottom: 14px; }
 }
 
 @media (max-width: 480px) {
   .sd-why-panel { padding: 44px 20px 52px; }
-  .sd-card { flex: 1 1 100%; }
+  .sd-card { flex: 0 0 68vw; min-height: 180px; padding: 0 14px; }
+  .sd-card-name { font-size: clamp(18px, 5vw, 24px); line-height: 1.1; }
   .sd-scrolly-outer { height: 160vh; }
   .sd-stmt { font-size: clamp(26px, 8vw, 42px); }
   .sd-stmt--light { font-size: clamp(16px, 5.5vw, 28px); }
-
-  .sd-stats-rows { margin-top: 32px; }
-  .sd-stat-row { grid-template-columns: 28px 1fr; }
-  .sd-stat-label { display: none; }
-  .sd-stat-num, .sd-stat-suf { font-size: clamp(36px, 11vw, 56px); }
 }
 
 /* ============================================================
