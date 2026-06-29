@@ -61,12 +61,14 @@
   ──────────────────────────────── */
   /* Reuse the loader already in the HTML — avoids a flash before JS runs */
   const loader = document.querySelector('.page-loader');
-  if (!loader) return;
 
   setTimeout(() => {
-    loader.classList.add('exit');
     revealHero();
-    loader.addEventListener('transitionend', () => loader.remove(), { once: true });
+    if (loader) {
+      loader.classList.add('exit');
+      /* Hard-remove after transition + buffer; transitionend is unreliable on mobile */
+      setTimeout(() => { try { loader.remove(); } catch(e) {} }, 1000);
+    }
   }, 2100);
 
   /* ────────────────────────────────
