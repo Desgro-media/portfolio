@@ -1364,8 +1364,13 @@ body {
 }
 
 @media (max-width: 600px) {
-  .works-grid { grid-template-columns: repeat(2, 1fr); }
-  .works-card-stats { gap: 16px; }
+  .works-grid { grid-template-columns: repeat(3, 1fr); }
+  .works-card-body { padding: 8px 6px 10px; }
+  .works-card-name { font-size: 10px; line-height: 1.2; margin-bottom: 0; }
+  .works-card-cat { display: none; }
+  .works-card-desc { display: none; }
+  .works-card-link { display: none; }
+  .works-card-stats { display: none; }
 }
 
 /* ── NEWS SLIDER ── */
@@ -2422,15 +2427,23 @@ body {
   pointer-events: auto;
 }
 
+/* ── Info strip (Location + Email) between body and footer bar ── */
+.ct-info-strip {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 36px;
+}
+
 /* ── Footer ── */
 .contact-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
   border-top: 1px solid rgba(255,255,255,0.06);
-  padding-top: 28px;
-  flex-wrap: wrap;
-  gap: 16px;
+  padding-top: 20px;
+  margin-top: 20px;
+  gap: 12px;
 }
 
 .footer-logo {
@@ -2486,11 +2499,13 @@ body {
 /* Contact responsive rules are consolidated in the main responsive blocks below */
 
 /* ============================================================
-   SCROLLBAR
+   SCROLLBAR — desktop only; mobile gets no custom scrollbar
    ============================================================ */
-::-webkit-scrollbar { width: 4px; }
-::-webkit-scrollbar-track { background: #111; }
-::-webkit-scrollbar-thumb { background: var(--red); border-radius: 2px; }
+@media (hover: hover) and (pointer: fine) {
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #111; }
+  ::-webkit-scrollbar-thumb { background: var(--red); border-radius: 2px; }
+}
 
 /* ============================================================
    SCROLL-FADE ANIMATIONS
@@ -2606,7 +2621,8 @@ body {
   .ct-body { grid-template-columns: 1fr; gap: 48px 0; margin-bottom: 52px; }
   .ct-social-row { padding: 16px 20px; gap: 14px; }
   .ct-social-platform { font-size: clamp(16px, 5vw, 22px); }
-  .contact-footer { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .contact-footer { flex-direction: row; align-items: center; gap: 12px; }
+  .ct-info-strip { margin-top: 24px; gap: 8px; }
 }
 
 /* ============================================================
