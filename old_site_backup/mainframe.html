@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mainframe — Creative Agency</title>
+  <meta name="description" content="Mainframe is a creative agency building brands, digital experiences, and campaigns that connect. Let's build something together.">
+
+  <!--
+    FONT: Mundial by TypeMates (commercial)
+    ─────────────────────────────────────────────────────────────
+    Drop these files into the fonts/ folder to activate Mundial:
+      fonts/Mundial-Regular.woff2
+      fonts/Mundial-DemiBold.woff2
+    They are declared in mainframe.css via @font-face.
+    Fallback: Outfit (loaded below from Google Fonts) → DM Sans
+    ─────────────────────────────────────────────────────────────
+  -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="mainframe.css">
+</head>
+<body>
+
+  <!-- ═══════════════════════════════════════════════════════════
+       BACKGROUND VIDEO (mouse-scrub controlled, no autoplay)
+       ═══════════════════════════════════════════════════════════ -->
+  <video
+    id="mf-video"
+    muted
+    playsinline
+    preload="auto"
+  >
+    <source
+      src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260530_042513_df96a13b-6155-4f6e-8b93-c9dee66fba08.mp4"
+      type="video/mp4"
+    >
+  </video>
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       NAVBAR  (fixed, z-index 10)
+       ═══════════════════════════════════════════════════════════ -->
+  <nav id="mf-nav" role="navigation" aria-label="Main navigation">
+
+    <!-- Logo (left) -->
+    <a href="#" class="mf-logo" aria-label="Mainframe home">
+      <span class="mf-logo-text">Mainframe&#174;</span>
+      <span class="mf-logo-asterisk" aria-hidden="true">&#10035;&#65038;</span>
+    </a>
+
+    <!-- Desktop nav links (center, hidden below md) -->
+    <ul class="mf-nav-links" role="list">
+      <li>
+        <a href="#" class="mf-nav-link" id="nav-labs">Labs</a>
+      </li>
+      <li>
+        <span class="mf-nav-sep" aria-hidden="true">,&nbsp;</span>
+        <a href="#" class="mf-nav-link" id="nav-studio">Studio</a>
+      </li>
+      <li>
+        <span class="mf-nav-sep" aria-hidden="true">,&nbsp;</span>
+        <a href="#" class="mf-nav-link" id="nav-openings">Openings</a>
+      </li>
+      <li>
+        <span class="mf-nav-sep" aria-hidden="true">,&nbsp;</span>
+        <a href="#" class="mf-nav-link" id="nav-shop">Shop</a>
+      </li>
+    </ul>
+
+    <!-- Desktop CTA (right, hidden below md) -->
+    <a href="mailto:hello@mainframe.co" class="mf-nav-cta" id="nav-cta">
+      Get in touch
+    </a>
+
+    <!-- Mobile hamburger (visible below md) -->
+    <button
+      class="mf-hamburger"
+      id="mf-hamburger"
+      aria-label="Toggle navigation menu"
+      aria-expanded="false"
+      aria-controls="mf-mobile-overlay"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+  </nav><!-- /mf-nav -->
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       MOBILE OVERLAY NAV  (z-index 9)
+       ═══════════════════════════════════════════════════════════ -->
+  <div
+    id="mf-mobile-overlay"
+    role="dialog"
+    aria-modal="true"
+    aria-label="Mobile navigation"
+  >
+    <ul class="mf-mobile-nav-links" role="list">
+      <li><a href="#" id="mob-labs">Labs</a></li>
+      <li><a href="#" id="mob-studio">Studio</a></li>
+      <li><a href="#" id="mob-openings">Openings</a></li>
+      <li><a href="#" id="mob-shop">Shop</a></li>
+    </ul>
+    <a href="mailto:hello@mainframe.co" class="mf-mobile-cta" id="mob-cta">
+      Get in touch
+    </a>
+  </div><!-- /mf-mobile-overlay -->
+
+
+  <!-- ═══════════════════════════════════════════════════════════
+       HERO SECTION  (z-index 1)
+       ═══════════════════════════════════════════════════════════ -->
+  <section id="mf-hero" aria-label="Hero">
+
+    <div class="mf-hero-content">
+
+      <!-- 1. Blurred intro label -->
+      <p class="mf-intro-label" aria-hidden="true">
+        Hey there, meet A.R.I.A,<br>
+        Mainframe's Adaptive Response Interface Agent
+      </p>
+
+      <!-- 2. Typewriter text + blinking cursor -->
+      <p>
+        <span id="mf-typewriter-text" aria-live="polite" aria-atomic="false"></span>
+        <span
+          class="mf-cursor"
+          id="mf-cursor"
+          aria-hidden="true"
+        ></span>
+      </p>
+
+      <!-- 3. Action pill buttons -->
+      <div class="mf-pills" id="mf-pills" role="group" aria-label="Quick actions">
+
+        <!-- White pill buttons -->
+        <button type="button" class="mf-pill" id="pill-pitch">
+          Pitch us an idea
+        </button>
+        <button type="button" class="mf-pill" id="pill-work">
+          Come work here
+        </button>
+        <button type="button" class="mf-pill" id="pill-hello">
+          Send a brief hello
+        </button>
+        <button type="button" class="mf-pill" id="pill-operate">
+          See how we operate
+        </button>
+
+        <!-- Outline pill — email / copy to clipboard -->
+        <button
+          type="button"
+          class="mf-pill mf-pill-outline"
+          id="mf-email-pill"
+          aria-label="Copy hello@mainframe.co to clipboard"
+          title="Click to copy email address"
+        >
+          Reach us:&nbsp;<span class="mf-email-underline">hello@mainframe.co</span>
+
+          <!-- Copy icon: two overlapping rectangles -->
+          <svg
+            class="mf-copy-icon"
+            viewBox="0 0 12 12"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            aria-hidden="true"
+          >
+            <rect x="4" y="0" width="8" height="8" rx="1" stroke="currentColor" stroke-width="1"/>
+            <rect x="0" y="4" width="8" height="8" rx="1" fill="currentColor" fill-opacity="0.15" stroke="currentColor" stroke-width="1"/>
+          </svg>
+        </button>
+
+      </div><!-- /mf-pills -->
+
+    </div><!-- /mf-hero-content -->
+
+  </section><!-- /mf-hero -->
+
+
+  <script src="mainframe.js"></script>
+</body>
+</html>
