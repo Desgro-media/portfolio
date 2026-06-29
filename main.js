@@ -991,3 +991,130 @@
 })();
 
 
+
+
+/* ── NEWS SLIDER ── */
+(function () {
+  const track = document.querySelector('.news-slider-track');
+  if (!track) return;
+
+  const dots  = document.querySelectorAll('.news-dot');
+  const prev  = document.querySelector('.news-nav-prev');
+  const next  = document.querySelector('.news-nav-next');
+  const total = track.querySelectorAll('.news-slide').length;
+  let current = 0;
+  let timer;
+
+  function goTo(idx) {
+    current = (idx + total) % total;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('news-dot--active', i === current));
+  }
+
+  function startAuto() {
+    clearInterval(timer);
+    timer = setInterval(() => goTo(current + 1), 4000);
+  }
+
+  if (prev) prev.addEventListener('click', () => { goTo(current - 1); startAuto(); });
+  if (next) next.addEventListener('click', () => { goTo(current + 1); startAuto(); });
+  dots.forEach((d, i) => d.addEventListener('click', () => { goTo(i); startAuto(); }));
+
+  /* Pause on hover, resume on leave */
+  track.addEventListener('mouseenter', () => clearInterval(timer));
+  track.addEventListener('mouseleave', startAuto);
+
+  /* Touch / swipe */
+  let touchStartX = 0;
+  track.addEventListener('touchstart', e => {
+    touchStartX = e.touches[0].clientX;
+    clearInterval(timer);
+  }, { passive: true });
+  track.addEventListener('touchend', e => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 48) goTo(current + (dx < 0 ? 1 : -1));
+    startAuto();
+  }, { passive: true });
+
+  startAuto();
+})();
+
+/* ── WORKS CARD IMAGE SLIDERS ── */
+document.querySelectorAll('.wc-imgslider').forEach(slider => {
+  const track = slider.querySelector('.wc-imgslider-track');
+  const dots  = slider.querySelectorAll('.wc-imgslider-dot');
+  const total = track.querySelectorAll('img').length;
+  let cur = 0;
+
+  function goTo(idx) {
+    cur = (idx + total) % total;
+    track.style.transform = `translateX(-${cur * 100}%)`;
+    dots.forEach((d, i) => d.classList.toggle('wc-imgslider-dot--active', i === cur));
+  }
+
+  setInterval(() => goTo(cur + 1), 3000);
+});
+
+/* ── WORKS CARD MODAL ── */
+(function () {
+  function openModal(modal) {
+    modal.classList.add('is-open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(modal) {
+    modal.classList.remove('is-open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+
+  /* Open on card click */
+  document.querySelectorAll('[data-modal]').forEach(card => {
+    card.addEventListener('click', () => {
+      const modal = document.getElementById(card.dataset.modal);
+      if (modal) openModal(modal);
+    });
+  });
+
+  /* Each modal: close btn, backdrop, Escape key, gallery slider */
+  document.querySelectorAll('.wc-modal').forEach(modal => {
+    modal.querySelector('.wc-modal-close')
+         .addEventListener('click', () => closeModal(modal));
+    modal.querySelector('.wc-modal-backdrop')
+         .addEventListener('click', () => closeModal(modal));
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) closeModal(modal);
+    });
+
+    /* Gallery inside modal */
+    const gTrack = modal.querySelector('.wc-modal-gallery-track');
+    if (!gTrack) return;
+    const gDots  = modal.querySelectorAll('.wc-modal-dot');
+    const gTotal = gTrack.querySelectorAll('img').length;
+    let gCur = 0, gTimer;
+
+    function gGoTo(idx) {
+      gCur = (idx + gTotal) % gTotal;
+      gTrack.style.transform = `translateX(-${gCur * 100}%)`;
+      gDots.forEach((d, i) => d.classList.toggle('wc-modal-dot--active', i === gCur));
+    }
+
+    gDots.forEach((d, i) => d.addEventListener('click', () => {
+      gGoTo(i);
+      clearInterval(gTimer);
+      gTimer = setInterval(() => gGoTo(gCur + 1), 3500);
+    }));
+
+    /* Auto-play while open, reset when closed */
+    new MutationObserver(() => {
+      if (modal.classList.contains('is-open')) {
+        gGoTo(0);
+        gTimer = setInterval(() => gGoTo(gCur + 1), 3500);
+      } else {
+        clearInterval(gTimer);
+      }
+    }).observe(modal, { attributes: true, attributeFilter: ['class'] });
+  });
+})();
