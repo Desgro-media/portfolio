@@ -1779,11 +1779,23 @@ body {
   mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
 }
 
+/* Two-track seamless loop: each track animates its own -100% width,
+   so there is no dependency on max-content percentage math.
+   Track 2 starts where track 1 ends — when both reset, it's invisible. */
+.tc-marquee-inner {
+  display: flex;
+  width: max-content;
+}
+
 .tc-marquee-track {
   display: flex;
   gap: 14px;
-  width: max-content;
+  flex-shrink: 0;
+  padding-right: 14px;
   animation: tcScroll 28s linear infinite;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  will-change: transform;
 }
 
 .tc-marquee:hover .tc-marquee-track {
@@ -1792,12 +1804,7 @@ body {
 
 @keyframes tcScroll {
   0%   { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-50%, 0, 0); }
-}
-/* Safari: ensure GPU layer on marquee track */
-.tc-marquee-track {
-  -webkit-backface-visibility: hidden;
-  backface-visibility: hidden;
+  100% { transform: translate3d(-100%, 0, 0); }
 }
 
 .tc-logo-card {
@@ -3452,7 +3459,7 @@ body {
 }
 
 /* GPU layer for marquee track */
-.tc-marquee-track { will-change: transform; }
+.tc-marquee-inner { will-change: transform; }
 
 /* ══════════════════════════════════════════
    FILM STRIP SECTION
