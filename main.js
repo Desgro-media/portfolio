@@ -999,20 +999,29 @@
     }, { passive: true });
   }
 
-  /* Scroll-in entry animation */
-  const row = document.querySelector('.pers-reel-row');
-  if (!row) return;
+  /* ── Seamless marquee: clone the track so the loop never jumps ── */
+  const row   = document.querySelector('.pers-reel-row');
+  const track = document.querySelector('.pers-reel-track');
+  if (!row || !track) return;
 
+  const clone = track.cloneNode(true);
+  clone.setAttribute('aria-hidden', 'true');
+  /* cloned videos should also autoplay */
+  clone.querySelectorAll('video').forEach(v => { v.muted = true; v.play().catch(() => {}); });
+  row.appendChild(clone);
+
+  /* Scroll-in entry animation (original cards only) */
+  const origCards = track.querySelectorAll('.pers-card');
   const io = new IntersectionObserver(entries => {
     if (!entries[0].isIntersecting) return;
-    cards.forEach((card, i) => {
+    origCards.forEach((card, i) => {
       card.style.opacity   = '0';
       card.style.transform = `perspective(800px) rotateX(22deg) translateY(70px)`;
       setTimeout(() => {
         card.style.transition = 'transform 0.9s cubic-bezier(0.16,1,0.3,1), opacity 0.75s ease';
         card.style.opacity    = '1';
         card.style.transform  = 'perspective(800px) rotateX(0deg) translateY(0px)';
-      }, i * 130);
+      }, i * 110);
     });
     io.disconnect();
   }, { threshold: 0.15 });
