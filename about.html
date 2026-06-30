@@ -32,6 +32,14 @@
     }
     .ab-story-label::after { content: ''; display: block; width: 40px; height: 1px; background: var(--red); }
 
+    .ab-story-heading {
+      font-family: var(--font-display);
+      font-size: clamp(44px, 6vw, 84px);
+      line-height: 0.94; color: #000;
+      margin-bottom: 52px;
+    }
+    .ab-story-heading em { color: var(--red); font-style: normal; }
+
     /* Milestones — dark text on white */
     .ab-milestone {
       border-left: 1px solid rgba(0,0,0,0.1);
@@ -253,6 +261,7 @@
     <!-- LEFT: timeline milestones -->
     <div class="ab-story-left">
       <div class="ab-story-label">Our Story</div>
+      <h2 class="ab-story-heading">HOW IT<br><em>BEGAN</em></h2>
       <div class="ab-milestone" data-reveal>
         <span class="ab-milestone-year">2023 &mdash; FRIBOURG, SWITZERLAND</span>
         <h3>THE SEED</h3>
