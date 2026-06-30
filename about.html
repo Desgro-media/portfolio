@@ -14,125 +14,33 @@
 
     .about-page { overflow-x: hidden; }
 
-    /* HERO */
-    .ab-hero {
-      position: relative;
-      min-height: 100vh;
-      background: #000;
+    /* ── STORY (now first section) ──
+       Background: #0f1419 — dark charcoal with a cool blue-grey tint.
+       Colour theory: the scattered photos carry warm skin tones / orange
+       hues; placing them on a cool-dark ground creates complementary
+       contrast so the warmth of the photos leaps forward visually. */
+    .ab-story {
+      background: #0f1419;
+      padding: calc(var(--nav-h) + 80px) 6% 100px;
       display: grid;
       grid-template-columns: 1fr 1fr;
+      gap: 80px;
       align-items: center;
-      padding: calc(var(--nav-h) + 60px) 6% 80px;
-      gap: 40px;
-      overflow: hidden;
-    }
-    .ab-hero::before {
-      content: '';
-      position: absolute; top: -10%; right: -5%;
-      width: 55vw; height: 55vw;
-      max-width: 650px; max-height: 650px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(235,32,39,0.15) 0%, transparent 65%);
-      pointer-events: none;
-      animation: ab-glow 7s ease-in-out infinite alternate;
-    }
-    @keyframes ab-glow {
-      from { transform: scale(1); opacity: 0.6; }
-      to   { transform: scale(1.12); opacity: 1; }
-    }
-    .ab-hero-left { position: relative; z-index: 2; display: flex; flex-direction: column; }
-
-    .ab-eyebrow {
-      display: flex; align-items: center; gap: 12px;
-      font-family: var(--font-body); font-size: 11px; font-weight: 500;
-      letter-spacing: 3px; color: var(--red); text-transform: uppercase;
-      margin-bottom: 28px; opacity: 0; transform: translateY(20px);
-      transition: opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s;
-    }
-    .ab-eyebrow.in { opacity: 1; transform: translateY(0); }
-    .ab-eyebrow span { display: block; width: 36px; height: 1px; background: var(--red); }
-
-    .ab-title {
-      font-family: var(--font-display);
-      font-size: clamp(52px, 8vw, 118px);
-      line-height: 0.96; color: var(--white); letter-spacing: -1px;
-    }
-    .ab-word { display: block; overflow: hidden; }
-    .ab-wi {
-      display: block; transform: translateY(110%);
-      transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .ab-wi.in { transform: translateY(0); }
-    .ab-red { color: var(--red); }
-
-    .ab-sub {
-      margin-top: 32px; font-family: var(--font-body);
-      font-size: clamp(13px, 1.1vw, 15px); font-weight: 300;
-      color: rgba(255,255,255,0.42); letter-spacing: 0.5px;
-      max-width: 380px; line-height: 1.9;
-      opacity: 0; transform: translateY(20px);
-      transition: opacity 0.8s ease 0.8s, transform 0.8s ease 0.8s;
-    }
-    .ab-sub.in { opacity: 1; transform: translateY(0); }
-
-    .ab-scroll-hint {
-      margin-top: 44px; display: flex; align-items: center; gap: 12px;
-      font-family: var(--font-body); font-size: 10px; font-weight: 500;
-      letter-spacing: 3px; color: rgba(255,255,255,0.25); text-transform: uppercase;
-      opacity: 0; animation: ab-fadein 0.5s ease 1.5s forwards;
-    }
-    @keyframes ab-fadein { to { opacity: 1; } }
-    .ab-scroll-line {
-      width: 1px; height: 40px;
-      background: linear-gradient(to bottom, var(--red), transparent);
-      animation: ab-drop 1.5s ease-in-out infinite;
-    }
-    @keyframes ab-drop {
-      0%   { transform: scaleY(0); transform-origin: top; }
-      50%  { transform: scaleY(1); transform-origin: top; }
-      51%  { transform: scaleY(1); transform-origin: bottom; }
-      100% { transform: scaleY(0); transform-origin: bottom; }
+      min-height: 100vh;
     }
 
-    /* Scattered photos */
-    .ab-hero-right { position: relative; height: 600px; z-index: 2; }
-    .ab-photo {
-      position: absolute; background: #fff; padding: 9px 9px 30px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.7);
-      opacity: 0; transition: box-shadow 0.4s ease; cursor: default;
-    }
-    .ab-photo.in { opacity: 1; }
-    .ab-photo:hover { box-shadow: 0 28px 80px rgba(0,0,0,0.9); z-index: 10 !important; }
-    .ab-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
-    .ab-p1 { width: 258px; height: 222px; top: 0;    left: 3%;  rotate: -7deg; z-index: 5; }
-    .ab-p2 { width: 276px; height: 238px; top: 4%;  right: 0;  rotate:  5deg; z-index: 4; }
-    .ab-p3 { width: 238px; height: 206px; top: 43%; left: 0;   rotate: -4deg; z-index: 6; }
-    .ab-p4 { width: 254px; height: 220px; top: 36%; left: 35%; rotate:  8deg; z-index: 3; }
-    .ab-p5 { width: 220px; height: 190px; bottom: 0; right: 0;  rotate: -6deg; z-index: 5; }
-
-    /* STORY */
-    .ab-story {
-      background: #fff; padding: 100px 6%;
-      display: grid; grid-template-columns: 1fr 1fr;
-      gap: 80px; align-items: start;
-    }
     .ab-story-label {
       font-family: var(--font-body); font-size: 11px; font-weight: 500;
       letter-spacing: 4px; color: var(--red); text-transform: uppercase;
-      margin-bottom: 32px; display: flex; align-items: center; gap: 14px;
+      margin-bottom: 36px; display: flex; align-items: center; gap: 14px;
     }
     .ab-story-label::after { content: ''; display: block; width: 40px; height: 1px; background: var(--red); }
-    .ab-story-heading {
-      font-family: var(--font-display); font-size: clamp(44px, 6vw, 84px);
-      line-height: 0.96; color: #000;
-    }
-    .ab-story-heading em { color: var(--red); font-style: normal; }
-    .ab-story-right { padding-top: 16px; }
 
+    /* Milestones — light text on dark bg */
     .ab-milestone {
-      border-left: 1px solid rgba(0,0,0,0.1);
+      border-left: 1px solid rgba(255,255,255,0.1);
       padding: 0 0 44px 28px; position: relative;
-      opacity: 0; transform: translateX(30px);
+      opacity: 0; transform: translateX(-30px);
       transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1);
     }
     .ab-milestone.visible { opacity: 1; transform: translateX(0); }
@@ -148,12 +56,28 @@
     }
     .ab-milestone h3 {
       font-family: var(--font-display); font-size: clamp(18px, 2.2vw, 26px);
-      color: #000; line-height: 1.1; margin-bottom: 10px;
+      color: var(--white); line-height: 1.1; margin-bottom: 10px;
     }
     .ab-milestone p {
       font-family: var(--font-body); font-size: 14px; font-weight: 300;
-      color: rgba(0,0,0,0.52); line-height: 1.75;
+      color: rgba(255,255,255,0.48); line-height: 1.78;
     }
+
+    /* Scattered polaroid photos — right column of story */
+    .ab-hero-right { position: relative; height: 600px; z-index: 2; }
+    .ab-photo {
+      position: absolute; background: #fff; padding: 9px 9px 30px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+      opacity: 0; transition: box-shadow 0.4s ease, opacity 0.6s ease; cursor: default;
+    }
+    .ab-photo.in { opacity: 1; }
+    .ab-photo:hover { box-shadow: 0 28px 80px rgba(0,0,0,0.95); z-index: 10 !important; }
+    .ab-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .ab-p1 { width: 258px; height: 222px; top: 0;    left: 3%;  rotate: -7deg; z-index: 5; }
+    .ab-p2 { width: 276px; height: 238px; top: 4%;  right: 0;  rotate:  5deg; z-index: 4; }
+    .ab-p3 { width: 238px; height: 206px; top: 43%; left: 0;   rotate: -4deg; z-index: 6; }
+    .ab-p4 { width: 254px; height: 220px; top: 36%; left: 35%; rotate:  8deg; z-index: 3; }
+    .ab-p5 { width: 220px; height: 190px; bottom: 0; right: 0;  rotate: -6deg; z-index: 5; }
 
     /* STATS */
     .ab-stats {
@@ -242,14 +166,14 @@
 
     /* RESPONSIVE */
     @media (max-width: 900px) {
-      .ab-hero { grid-template-columns: 1fr; padding-top: calc(var(--nav-h) + 40px); padding-bottom: 60px; gap: 28px; }
+      /* Story stacks: milestones on top, photos below */
+      .ab-story { grid-template-columns: 1fr; gap: 52px; padding-top: calc(var(--nav-h) + 48px); padding-bottom: 72px; }
       .ab-hero-right { height: 340px; }
       .ab-p1 { width: 160px; height: 138px; }
       .ab-p2 { width: 170px; height: 150px; }
       .ab-p3 { width: 148px; height: 128px; }
       .ab-p4 { width: 162px; height: 140px; }
       .ab-p5 { width: 140px; height: 122px; }
-      .ab-story { grid-template-columns: 1fr; gap: 40px; }
       .ab-stats { grid-template-columns: repeat(2, 1fr); }
       .ab-stat:nth-child(2), .ab-stat:nth-child(4) { border-right: none; }
       .ab-founders-grid { grid-template-columns: 1fr 1fr; max-width: 100%; }
@@ -268,7 +192,6 @@
       .ab-stats { grid-template-columns: 1fr 1fr; }
       .ab-cta-title { font-size: clamp(44px, 14vw, 80px); }
     }
-
     @media (max-width: 380px) {
       .ab-hero-right { height: 200px; }
       .ab-p1 { width: 100px; height: 86px; }
@@ -327,42 +250,11 @@
     <a href="https://erp.desgromedia.com/apply/" class="btn-get-started mobile-nav-cta" target="_blank" rel="noopener">GET STARTED &rarr;</a>
   </div>
 
-  <!-- HERO -->
-  <section class="ab-hero" id="abHero">
-    <div class="ab-hero-left">
-      <p class="ab-eyebrow" id="abEyebrow"><span></span>Our Story</p>
-      <h1 class="ab-title" aria-label="We Are Desgro Media">
-        <span class="ab-word"><span class="ab-wi" data-d="0">WE</span></span>
-        <span class="ab-word"><span class="ab-wi" data-d="120">ARE</span></span>
-        <span class="ab-word"><span class="ab-wi ab-red" data-d="260">DESGRO</span></span>
-        <span class="ab-word"><span class="ab-wi" data-d="400">MEDIA</span></span>
-      </h1>
-      <p class="ab-sub" id="abSub">
-        From Fribourg, Switzerland to 40+ creatives<br>
-        redefining brand storytelling across the globe.
-      </p>
-      <div class="ab-scroll-hint">
-        <div class="ab-scroll-line"></div>
-        Scroll
-      </div>
-    </div>
-
-    <div class="ab-hero-right">
-      <div class="ab-photo ab-p1"><img src="image assets/about1.jpg" alt="" loading="eager"></div>
-      <div class="ab-photo ab-p2"><img src="image assets/about2.jpg" alt="" loading="eager"></div>
-      <div class="ab-photo ab-p3"><img src="image assets/about3.jpg" alt="" loading="eager"></div>
-      <div class="ab-photo ab-p4"><img src="image assets/about4.jpg" alt="" loading="eager"></div>
-      <div class="ab-photo ab-p5"><img src="image assets/about5.jpg" alt="" loading="eager"></div>
-    </div>
-  </section>
-
-  <!-- STORY TIMELINE -->
+  <!-- STORY TIMELINE (first section) -->
   <section class="ab-story">
+    <!-- LEFT: timeline milestones -->
     <div class="ab-story-left">
-      <div class="ab-story-label">The Journey</div>
-      <h2 class="ab-story-heading">HOW IT<br><em>BEGAN</em></h2>
-    </div>
-    <div class="ab-story-right">
+      <div class="ab-story-label">Our Story</div>
       <div class="ab-milestone" data-reveal>
         <span class="ab-milestone-year">2023 &mdash; FRIBOURG, SWITZERLAND</span>
         <h3>THE SEED</h3>
@@ -383,6 +275,15 @@
         <h3>THE MOVEMENT</h3>
         <p>What started with 3 is now a powerhouse of 40+ creators, strategists and marketers across 7+ departments &mdash; 150+ creators built, 100M+ views generated, and still accelerating.</p>
       </div>
+    </div>
+
+    <!-- RIGHT: scattered polaroid photos -->
+    <div class="ab-hero-right">
+      <div class="ab-photo ab-p1"><img src="image assets/about1.jpg" alt="" loading="eager"></div>
+      <div class="ab-photo ab-p2"><img src="image assets/about2.jpg" alt="" loading="eager"></div>
+      <div class="ab-photo ab-p3"><img src="image assets/about3.jpg" alt="" loading="eager"></div>
+      <div class="ab-photo ab-p4"><img src="image assets/about4.jpg" alt="" loading="eager"></div>
+      <div class="ab-photo ab-p5"><img src="image assets/about5.jpg" alt="" loading="eager"></div>
     </div>
   </section>
 
@@ -473,20 +374,12 @@
       );
     }
 
-    /* Hero entrance */
+    /* Photos entrance — stagger in on page load */
     setTimeout(() => {
-      const eyebrow = document.getElementById('abEyebrow');
-      const sub     = document.getElementById('abSub');
-      const wis     = document.querySelectorAll('.ab-wi');
-      const photos  = document.querySelectorAll('.ab-photo');
-      if (eyebrow) eyebrow.classList.add('in');
-      wis.forEach(w => {
-        const d = parseInt(w.dataset.d || '0', 10);
-        setTimeout(() => w.classList.add('in'), d + 100);
-      });
-      if (sub) setTimeout(() => sub.classList.add('in'), 600);
-      photos.forEach((p, i) => setTimeout(() => p.classList.add('in'), 400 + i * 110));
-    }, 150);
+      document.querySelectorAll('.ab-photo').forEach((p, i) =>
+        setTimeout(() => p.classList.add('in'), 200 + i * 110)
+      );
+    }, 100);
 
     /* Photo hover tilt */
     document.querySelectorAll('.ab-photo').forEach(photo => {
