@@ -3479,12 +3479,12 @@ body {
   content: '';
   position: absolute;
   top: 0; bottom: 0;
-  width: 200px;
+  width: clamp(40px, 12vw, 200px);
   z-index: 3;
   pointer-events: none;
 }
-.filmstrip-row::before { left:  0; background: linear-gradient(to right, #000, transparent); }
-.filmstrip-row::after  { right: 0; background: linear-gradient(to left,  #000, transparent); }
+.filmstrip-row::before { left:  0; background: linear-gradient(to right, #000 40%, transparent); }
+.filmstrip-row::after  { right: 0; background: linear-gradient(to left,  #000 40%, transparent); }
 
 /* Inner wrapper — JS drives translateX on this */
 .filmstrip-inner {
@@ -3588,4 +3588,105 @@ body {
 
 @media (max-width: 768px) {
   .back-to-top { bottom: 20px; right: 20px; width: 42px; height: 42px; }
+}
+
+/* ═══════════════════════════════════════
+   GLOBAL MOBILE OVERFLOW GUARD
+   Prevents any child from causing horizontal scroll
+═══════════════════════════════════════ */
+html, body {
+  overflow-x: hidden;
+  max-width: 100%;
+}
+img, video, iframe, canvas {
+  max-width: 100%;
+}
+
+/* ═══════════════════════════════════════
+   CONTACT — mobile refinements
+═══════════════════════════════════════ */
+@media (max-width: 768px) {
+  .ct-get-started-btn {
+    font-size: 13px;
+    padding: 18px 28px;
+    width: 100%;
+    justify-content: center;
+    box-sizing: border-box;
+  }
+  .ct-social-row { gap: 12px; }
+  .ct-social-icon { width: 22px; height: 22px; }
+  .ct-social-platform { font-size: clamp(14px, 4.5vw, 18px); }
+  .ct-info-strip {
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px 0;
+  }
+  .footer-info-block { flex-direction: row; gap: 8px; align-items: center; }
+}
+
+@media (max-width: 480px) {
+  .ct-get-started-btn {
+    font-size: 12px;
+    padding: 16px 20px;
+    letter-spacing: 1.5px;
+  }
+  .ct-social-platform { font-size: 15px; }
+  .ct-social-handle { font-size: 11px; }
+}
+
+/* ═══════════════════════════════════════
+   WORKS — mobile overflow / height caps
+═══════════════════════════════════════ */
+@media (max-width: 768px) {
+  .works-cv7-visual { min-height: 200px; max-height: 280px; }
+  .works-card img,
+  .works-cv7-panel img { max-width: 100%; }
+}
+@media (max-width: 480px) {
+  .works-cv7-visual { min-height: 160px; max-height: 220px; }
+}
+@media (max-width: 360px) {
+  .works-cv7-visual { min-height: 130px; max-height: 180px; }
+  .wcs-num { font-size: 18px; }
+}
+
+/* ═══════════════════════════════════════
+   SERVICE CARDS — mobile scroll polish
+═══════════════════════════════════════ */
+@media (max-width: 768px) {
+  .sd-cards {
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .sd-cards::-webkit-scrollbar { display: none; }
+}
+
+/* ═══════════════════════════════════════
+   ABOUT TEXT — line-height on mobile
+═══════════════════════════════════════ */
+@media (max-width: 480px) {
+  .about-text p { line-height: 1.9; }
+  .service-item { padding: 14px 0; }
+}
+
+/* ═══════════════════════════════════════
+   PERFORMANCE — reduce motion on mobile
+   Disables heavy transitions for users 
+   who prefer reduced motion or on
+   lower-power mobile devices
+═══════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ═══════════════════════════════════════
+   FILMSTRIP — mobile sizing
+═══════════════════════════════════════ */
+@media (max-width: 480px) {
+  .filmstrip-section { padding: 14px 0; }
+  .filmstrip-track { gap: 8px; padding-right: 8px; }
 }
