@@ -34,7 +34,7 @@
   --font-body:    'DM Sans', sans-serif;
 }
 
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; overflow-x: hidden; }
 
 /* Remove 300ms tap delay on all interactive elements */
 a, button, [role="button"], input, textarea, select,
@@ -55,6 +55,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
+  max-width: 100%;
 }
 
 /* ============================================================
@@ -623,6 +624,7 @@ body {
   background: #0a0a0a;
   padding: 100px 0 120px;
   border-top: 1px solid rgba(255,255,255,0.06);
+  contain: layout style;
 }
 
 .pers-header {
@@ -694,9 +696,10 @@ body {
   gap: 20px;
   flex-shrink: 0;
   align-items: flex-start;
-  /* padding-right = same as gap so the clone joins seamlessly */
   padding-right: 20px;
   animation: pers-marquee 36s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 /* pause on hover anywhere in the row */
@@ -3443,6 +3446,89 @@ body {
 
 /* GPU layer for marquee track */
 .tc-marquee-track { will-change: transform; }
+
+/* ══════════════════════════════════════════
+   FILM STRIP SECTION
+   ══════════════════════════════════════════ */
+
+.filmstrip-section {
+  background: #000;
+  padding: 10px 0;
+  position: relative;
+  overflow: hidden;
+  contain: layout style;        /* isolate reflows from rest of page */
+}
+
+.filmstrip-row {
+  display: flex;
+  overflow: hidden;
+  position: relative;
+  /* perspective removed — no 3D on the row itself, cards use local perspective() */
+}
+
+/* Edge fades to black */
+.filmstrip-row::before,
+.filmstrip-row::after {
+  content: '';
+  position: absolute;
+  top: 0; bottom: 0;
+  width: 200px;
+  z-index: 3;
+  pointer-events: none;
+}
+.filmstrip-row::before { left:  0; background: linear-gradient(to right, #000, transparent); }
+.filmstrip-row::after  { right: 0; background: linear-gradient(to left,  #000, transparent); }
+
+/* Inner wrapper — JS drives translateX on this */
+.filmstrip-inner {
+  display: flex;
+  will-change: transform;
+  backface-visibility: hidden;  /* prevent GPU layer churn on 3D children */
+}
+
+/* Each track: flex row of frames */
+.filmstrip-track {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+  padding-right: 10px;
+}
+
+/* Photo frame — natural aspect ratio, no crop */
+.filmstrip-frame {
+  flex: 0 0 auto;
+  height: 148px;
+  border-radius: 3px;
+  overflow: hidden;
+  border: 1.5px solid rgba(255,255,255,0.06);
+  box-shadow: 0 4px 18px rgba(0,0,0,0.9);
+  transition: box-shadow 0.35s ease, filter 0.35s ease;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+.filmstrip-frame img {
+  height: 100%;
+  width: auto;
+  display: block;
+  pointer-events: none;
+}
+
+/* Dim siblings when a frame is hovered */
+.filmstrip-inner:has(.filmstrip-frame:hover) .filmstrip-frame:not(:hover) {
+  filter: brightness(0.45);
+}
+.filmstrip-frame:hover {
+  box-shadow: 0 8px 36px rgba(235,32,39,0.25), 0 4px 18px rgba(0,0,0,0.9);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .filmstrip-frame { height: 110px; }
+}
+@media (max-width: 480px) {
+  .filmstrip-frame { height: 84px; }
+}
 
 /* Respect user's motion preference — disable all non-essential animation */
 @media (prefers-reduced-motion: reduce) {

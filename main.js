@@ -1171,3 +1171,78 @@ document.querySelectorAll('.wc-imgslider').forEach(slider => {
     }).observe(modal, { attributes: true, attributeFilter: ['class'] });
   });
 })();
+
+
+/* ── Film strip: cursor-speed control + per-card 3D tilt ── */
+(function initFilmStrip() {
+  const row   = document.querySelector('.filmstrip-row');
+  const inner = document.querySelector('.filmstrip-inner');
+  const track = document.querySelector('.filmstrip-track');
+  if (!row || !inner || !track) return;
+
+  /* Clone for seamless loop */
+  const clone = track.cloneNode(true);
+  clone.setAttribute('aria-hidden', 'true');
+  inner.appendChild(clone);
+
+  /* ── Delegated tilt: one listener on inner instead of N×2 per-frame ──
+     getBoundingClientRect only called when the cursor enters a NEW frame  */
+  let activeFrame = null;
+  let tiltRect    = null;
+
+  inner.addEventListener('mousemove', e => {
+    const frame = e.target.closest('.filmstrip-frame');
+    if (!frame) return;
+    if (frame !== activeFrame) {
+      if (activeFrame) activeFrame.style.transform = '';
+      activeFrame = frame;
+      tiltRect = frame.getBoundingClientRect();   /* read rect once per frame-change */
+    }
+    const x = (e.clientX - tiltRect.left) / tiltRect.width  - 0.5;
+    const y = (e.clientY - tiltRect.top)  / tiltRect.height - 0.5;
+    frame.style.transform = `perspective(480px) rotateY(${x * 18}deg) rotateX(${-y * 12}deg) scale(1.05)`;
+  }, { passive: true });
+
+  inner.addEventListener('mouseleave', () => {
+    if (activeFrame) { activeFrame.style.transform = ''; activeFrame = null; }
+    tiltRect = null;
+  });
+
+  /* ── Speed control — cache row rect, only recalculate on resize ── */
+  const BASE = 0.65;
+  let speed    = BASE;
+  let target   = BASE;
+  let rowRect  = null;
+
+  const resizeObs = new ResizeObserver(() => { rowRect = null; });
+  resizeObs.observe(row);
+
+  row.addEventListener('mousemove', e => {
+    if (!rowRect) rowRect = row.getBoundingClientRect();
+    const rx = (e.clientX - rowRect.left) / rowRect.width;
+    target = BASE * (0.1 + rx * 2.1);
+  }, { passive: true });
+
+  row.addEventListener('mouseleave', () => { target = BASE; rowRect = null; });
+
+  /* ── Wait for images to load so natural widths are settled ── */
+  const imgs = [...track.querySelectorAll('img')];
+  Promise.all(
+    imgs.map(img => img.complete
+      ? Promise.resolve()
+      : new Promise(r => { img.onload = r; img.onerror = r; })
+    )
+  ).then(() => {
+    const trackW = track.scrollWidth;
+    let offset   = 0;
+
+    (function loop() {
+      speed  += (target - speed) * 0.06;
+      offset += speed;
+      if (offset >= trackW) offset -= trackW;
+      if (offset < 0)       offset += trackW;
+      inner.style.transform = `translateX(${-offset}px)`;
+      requestAnimationFrame(loop);
+    })();
+  });
+})();
