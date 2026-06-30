@@ -699,7 +699,9 @@ body {
   padding-right: 20px;
   animation: pers-marquee 36s linear infinite;
   will-change: transform;
+  -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  transform: translateZ(0); /* force GPU layer on Safari */
 }
 
 /* pause on hover anywhere in the row */
@@ -1791,6 +1793,11 @@ body {
 @keyframes tcScroll {
   0%   { transform: translate3d(0, 0, 0); }
   100% { transform: translate3d(-50%, 0, 0); }
+}
+/* Safari: ensure GPU layer on marquee track */
+.tc-marquee-track {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
 }
 
 .tc-logo-card {
@@ -3453,7 +3460,7 @@ body {
 
 .filmstrip-section {
   background: #000;
-  padding: 10px 0;
+  padding: 20px 0;
   position: relative;
   overflow: hidden;
   contain: layout style;        /* isolate reflows from rest of page */
@@ -3489,16 +3496,16 @@ body {
 /* Each track: flex row of frames */
 .filmstrip-track {
   display: flex;
-  gap: 10px;
+  gap: 14px;
   flex-shrink: 0;
-  padding-right: 10px;
+  padding-right: 14px;
 }
 
 /* Photo frame — natural aspect ratio, no crop */
 .filmstrip-frame {
   flex: 0 0 auto;
-  height: 148px;
-  border-radius: 3px;
+  height: 268px;
+  border-radius: 6px;
   overflow: hidden;
   border: 1.5px solid rgba(255,255,255,0.06);
   box-shadow: 0 4px 18px rgba(0,0,0,0.9);
@@ -3512,6 +3519,11 @@ body {
   width: auto;
   display: block;
   pointer-events: none;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.filmstrip-frame:hover img {
+  transform: scale(1.14);
 }
 
 /* Dim siblings when a frame is hovered */
@@ -3524,10 +3536,10 @@ body {
 
 /* Responsive */
 @media (max-width: 768px) {
-  .filmstrip-frame { height: 110px; }
+  .filmstrip-frame { height: 190px; }
 }
 @media (max-width: 480px) {
-  .filmstrip-frame { height: 84px; }
+  .filmstrip-frame { height: 140px; }
 }
 
 /* Respect user's motion preference — disable all non-essential animation */
@@ -3541,4 +3553,39 @@ body {
   .news-slider-track,
   .wc-imgslider-track,
   .wc-modal-gallery-track { transition: none !important; }
+}
+
+/* ═══════════════════════════════════════
+   BACK TO TOP BUTTON
+═══════════════════════════════════════ */
+.back-to-top {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  z-index: 999;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: var(--red);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  box-shadow: 0 4px 24px rgba(235,32,39,0.45);
+  opacity: 0;
+  transform: translateY(16px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease, background 0.2s ease;
+}
+.back-to-top.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+.back-to-top:hover { background: #c0181e; }
+
+@media (max-width: 768px) {
+  .back-to-top { bottom: 20px; right: 20px; width: 42px; height: 42px; }
 }

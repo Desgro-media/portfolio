@@ -2,641 +2,269 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>About — Desgro Media</title>
-  <meta name="description" content="We are Desgro Media — a creative content marketing agency built to make brands impossible to ignore.">
-  <!-- Preload Anton so it's ready before first paint — eliminates font-swap flash -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <title>About &mdash; Desgro Media</title>
+  <link rel="icon" type="image/jpeg" href="image assets/desgrologo.jpg">
+  <link rel="apple-touch-icon" href="image assets/desgrologo.jpg">
+  <meta name="description" content="From a university town in Switzerland to 40+ creatives redefining brands across the globe.">
   <link rel="preload" href="fonts/Anton-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css">
   <style>
 
-    /* ── About page base ── */
     .about-page { overflow-x: hidden; }
 
-    /* ─────────────────────────────────────────
-       HERO
-    ───────────────────────────────────────── */
+    /* HERO */
     .ab-hero {
       position: relative;
       min-height: 100vh;
       background: #000;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: calc(var(--nav-h) + 80px) 6% 80px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: calc(var(--nav-h) + 60px) 6% 80px;
+      gap: 40px;
       overflow: hidden;
     }
-
-    /* red radial glow */
     .ab-hero::before {
       content: '';
-      position: absolute;
-      top: -20%;
-      right: -10%;
-      width: 70vw;
-      height: 70vw;
-      max-width: 800px;
-      max-height: 800px;
+      position: absolute; top: -10%; right: -5%;
+      width: 55vw; height: 55vw;
+      max-width: 650px; max-height: 650px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(235,32,39,0.22) 0%, transparent 65%);
+      background: radial-gradient(circle, rgba(235,32,39,0.15) 0%, transparent 65%);
       pointer-events: none;
-      animation: ab-glow-pulse 6s ease-in-out infinite alternate;
+      animation: ab-glow 7s ease-in-out infinite alternate;
     }
-
-    @keyframes ab-glow-pulse {
-      from { transform: scale(1) translate(0, 0); opacity: 0.7; }
-      to   { transform: scale(1.12) translate(-3%, 4%); opacity: 1; }
+    @keyframes ab-glow {
+      from { transform: scale(1); opacity: 0.6; }
+      to   { transform: scale(1.12); opacity: 1; }
     }
+    .ab-hero-left { position: relative; z-index: 2; display: flex; flex-direction: column; }
 
-    .ab-hero-eyebrow {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-family: var(--font-body);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 3px;
-      color: var(--red);
-      text-transform: uppercase;
-      margin-bottom: 32px;
-      opacity: 0;
-      transform: translateY(20px);
+    .ab-eyebrow {
+      display: flex; align-items: center; gap: 12px;
+      font-family: var(--font-body); font-size: 11px; font-weight: 500;
+      letter-spacing: 3px; color: var(--red); text-transform: uppercase;
+      margin-bottom: 28px; opacity: 0; transform: translateY(20px);
       transition: opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s;
     }
+    .ab-eyebrow.in { opacity: 1; transform: translateY(0); }
+    .ab-eyebrow span { display: block; width: 36px; height: 1px; background: var(--red); }
 
-    .ab-hero-eyebrow.in { opacity: 1; transform: translateY(0); }
-
-    .ab-hero-eyebrow span {
-      display: block;
-      width: 40px;
-      height: 1px;
-      background: var(--red);
-    }
-
-    .ab-hero-title {
+    .ab-title {
       font-family: var(--font-display);
-      font-size: clamp(44px, 9vw, 140px);
-      line-height: 1.02;
-      color: var(--white);
-      letter-spacing: -1px;
-      position: relative;
-      z-index: 1;
+      font-size: clamp(52px, 8vw, 118px);
+      line-height: 0.96; color: var(--white); letter-spacing: -1px;
     }
-
-    /* Each word of the hero title is a clip container */
-    .ab-word {
-      display: block;
-      overflow: hidden;
-    }
-
-    .ab-word-inner {
-      display: block;
-      transform: translateY(110%);
+    .ab-word { display: block; overflow: hidden; }
+    .ab-wi {
+      display: block; transform: translateY(110%);
       transition: transform 0.9s cubic-bezier(0.16, 1, 0.3, 1);
     }
+    .ab-wi.in { transform: translateY(0); }
+    .ab-red { color: var(--red); }
 
-    .ab-word-inner.in { transform: translateY(0); }
-
-    /* DESGRO in red */
-    .ab-hero-title .ab-red { color: var(--red); }
-
-    .ab-hero-sub {
-      margin-top: 40px;
-      font-family: var(--font-body);
-      font-size: clamp(14px, 1.5vw, 18px);
-      font-weight: 300;
-      color: rgba(255,255,255,0.5);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      max-width: 480px;
-      line-height: 1.8;
-      opacity: 0;
-      transform: translateY(24px);
-      transition: opacity 0.8s ease 0.7s, transform 0.8s ease 0.7s;
+    .ab-sub {
+      margin-top: 32px; font-family: var(--font-body);
+      font-size: clamp(13px, 1.1vw, 15px); font-weight: 300;
+      color: rgba(255,255,255,0.42); letter-spacing: 0.5px;
+      max-width: 380px; line-height: 1.9;
+      opacity: 0; transform: translateY(20px);
+      transition: opacity 0.8s ease 0.8s, transform 0.8s ease 0.8s;
     }
-
-    .ab-hero-sub.in { opacity: 1; transform: translateY(0); }
+    .ab-sub.in { opacity: 1; transform: translateY(0); }
 
     .ab-scroll-hint {
-      position: absolute;
-      bottom: 36px;
-      left: 6%;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-family: var(--font-body);
-      font-size: 10px;
-      font-weight: 500;
-      letter-spacing: 3px;
-      color: rgba(255,255,255,0.3);
-      text-transform: uppercase;
-      opacity: 0;
-      animation: ab-hint-in 0.6s ease 1.4s forwards;
+      margin-top: 44px; display: flex; align-items: center; gap: 12px;
+      font-family: var(--font-body); font-size: 10px; font-weight: 500;
+      letter-spacing: 3px; color: rgba(255,255,255,0.25); text-transform: uppercase;
+      opacity: 0; animation: ab-fadein 0.5s ease 1.5s forwards;
     }
-
-    @keyframes ab-hint-in {
-      to { opacity: 1; }
-    }
-
+    @keyframes ab-fadein { to { opacity: 1; } }
     .ab-scroll-line {
-      width: 1px;
-      height: 48px;
+      width: 1px; height: 40px;
       background: linear-gradient(to bottom, var(--red), transparent);
-      animation: ab-line-drop 1.5s ease-in-out infinite;
+      animation: ab-drop 1.5s ease-in-out infinite;
     }
-
-    @keyframes ab-line-drop {
+    @keyframes ab-drop {
       0%   { transform: scaleY(0); transform-origin: top; }
       50%  { transform: scaleY(1); transform-origin: top; }
       51%  { transform: scaleY(1); transform-origin: bottom; }
       100% { transform: scaleY(0); transform-origin: bottom; }
     }
 
-    /* ─────────────────────────────────────────
-       MANIFESTO — sticky word-reveal
-    ───────────────────────────────────────── */
-    .ab-manifesto-outer {
-      height: 320vh;
-      position: relative;
+    /* Scattered photos */
+    .ab-hero-right { position: relative; height: 520px; z-index: 2; }
+    .ab-photo {
+      position: absolute; background: #fff; padding: 9px 9px 30px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+      opacity: 0; transition: box-shadow 0.4s ease; cursor: default;
     }
+    .ab-photo.in { opacity: 1; }
+    .ab-photo:hover { box-shadow: 0 28px 80px rgba(0,0,0,0.9); z-index: 10 !important; }
+    .ab-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+    .ab-p1 { width: 195px; height: 168px; top: 0;   left: 6%;  rotate: -7deg; z-index: 5; }
+    .ab-p2 { width: 210px; height: 182px; top: 7%;  right: 3%; rotate:  5deg; z-index: 4; }
+    .ab-p3 { width: 180px; height: 158px; top: 42%; left: 0;   rotate: -4deg; z-index: 6; }
+    .ab-p4 { width: 200px; height: 172px; top: 38%; left: 37%; rotate:  8deg; z-index: 3; }
+    .ab-p5 { width: 170px; height: 150px; bottom: 0; right: 1%; rotate: -6deg; z-index: 5; }
 
-    .ab-manifesto-pin {
-      position: sticky;
-      top: 0;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background: var(--white);
-      padding: 0 8%;
-      overflow: hidden;
-    }
-
-    .ab-manifesto-pin::before {
-      content: 'STORY';
-      position: absolute;
-      font-family: var(--font-display);
-      font-size: clamp(120px, 22vw, 280px);
-      color: rgba(0,0,0,0.04);
-      letter-spacing: -4px;
-      pointer-events: none;
-      user-select: none;
-      z-index: 0;
-    }
-
-    .ab-manifesto-text {
-      position: relative;
-      z-index: 1;
-      font-family: var(--font-display);
-      font-size: clamp(32px, 5.5vw, 80px);
-      line-height: 1.1;
-      color: #000;
-      max-width: 900px;
-      text-align: center;
-    }
-
-    .ab-mw {
-      display: inline;
-      opacity: 0.12;
-      color: #000;
-      transition: opacity 0.4s ease, color 0.4s ease;
-    }
-
-    .ab-mw.lit {
-      opacity: 1;
-      color: #000;
-    }
-
-    .ab-mw.lit.accent { color: var(--red); }
-
-    /* ─────────────────────────────────────────
-       STORY TIMELINE
-    ───────────────────────────────────────── */
+    /* STORY */
     .ab-story {
-      background: #000;
-      padding: 120px 6%;
-      position: relative;
+      background: #fff; padding: 100px 6%;
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 80px; align-items: start;
     }
-
-    .ab-story::before {
-      content: '';
-      position: absolute;
-      left: 50%;
-      top: 0;
-      bottom: 0;
-      width: 1px;
-      background: linear-gradient(to bottom, transparent, rgba(235,32,39,0.4), transparent);
-      transform: translateX(-50%);
+    .ab-story-label {
+      font-family: var(--font-body); font-size: 11px; font-weight: 500;
+      letter-spacing: 4px; color: var(--red); text-transform: uppercase;
+      margin-bottom: 32px; display: flex; align-items: center; gap: 14px;
     }
-
-    .ab-section-label {
-      text-align: center;
-      font-family: var(--font-body);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 4px;
-      color: var(--red);
-      text-transform: uppercase;
-      margin-bottom: 80px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 16px;
+    .ab-story-label::after { content: ''; display: block; width: 40px; height: 1px; background: var(--red); }
+    .ab-story-heading {
+      font-family: var(--font-display); font-size: clamp(44px, 6vw, 84px);
+      line-height: 0.96; color: #000;
     }
+    .ab-story-heading em { color: var(--red); font-style: normal; }
+    .ab-story-right { padding-top: 16px; }
 
-    .ab-section-label::before,
-    .ab-section-label::after {
-      content: '';
-      display: block;
-      width: 40px;
-      height: 1px;
-      background: var(--red);
-    }
-
-    .ab-timeline-item {
-      display: grid;
-      grid-template-columns: 1fr 60px 1fr;
-      align-items: center;
-      margin-bottom: 80px;
-      gap: 0;
-    }
-
-    .ab-timeline-item:last-child { margin-bottom: 0; }
-
-    .ab-tl-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--red);
-      margin: 0 auto;
-      position: relative;
-      flex-shrink: 0;
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
-
-    .ab-timeline-item.visible .ab-tl-dot {
-      transform: scale(1.4);
-      box-shadow: 0 0 0 6px rgba(235,32,39,0.2);
-    }
-
-    .ab-tl-card {
-      background: #111;
-      border: 1px solid rgba(255,255,255,0.07);
-      padding: 36px 32px;
-      transition: border-color 0.5s ease;
-    }
-
-    .ab-timeline-item.visible .ab-tl-card { border-color: rgba(235,32,39,0.25); }
-
-    .ab-tl-card .year {
-      font-family: var(--font-display);
-      font-size: 13px;
-      color: var(--red);
-      letter-spacing: 3px;
-      margin-bottom: 12px;
-      display: block;
-    }
-
-    .ab-tl-card h3 {
-      font-family: var(--font-display);
-      font-size: clamp(22px, 3vw, 36px);
-      color: var(--white);
-      line-height: 1.1;
-      margin-bottom: 14px;
-    }
-
-    .ab-tl-card p {
-      font-family: var(--font-body);
-      font-size: 14px;
-      font-weight: 300;
-      color: rgba(255,255,255,0.5);
-      line-height: 1.7;
-    }
-
-    /* odd: card on left, even: card on right */
-    .ab-timeline-item:nth-child(odd)  .ab-tl-left  { order: 0; }
-    .ab-timeline-item:nth-child(odd)  .ab-tl-center { order: 1; }
-    .ab-timeline-item:nth-child(odd)  .ab-tl-right  { order: 2; visibility: hidden; }
-
-    .ab-timeline-item:nth-child(even) .ab-tl-left   { order: 0; visibility: hidden; }
-    .ab-timeline-item:nth-child(even) .ab-tl-center { order: 1; }
-    .ab-timeline-item:nth-child(even) .ab-tl-right  { order: 2; }
-
-    /* slide in from sides — default hidden */
-    .ab-tl-left.ab-tl-card {
-      opacity: 0;
-      transform: translateX(-60px);
-      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1);
-    }
-
-    .ab-tl-right.ab-tl-card {
-      opacity: 0;
-      transform: translateX(60px);
-      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1);
-    }
-
-    .ab-timeline-item.visible .ab-tl-left.ab-tl-card,
-    .ab-timeline-item.visible .ab-tl-right.ab-tl-card {
-      opacity: 1;
-      transform: translateX(0);
-    }
-
-    /* ─────────────────────────────────────────
-       VALUES
-    ───────────────────────────────────────── */
-    .ab-values {
-      background: var(--red);
-      padding: 120px 6%;
-    }
-
-    .ab-values .ab-section-label { color: rgba(0,0,0,0.6); }
-    .ab-values .ab-section-label::before,
-    .ab-values .ab-section-label::after { background: rgba(0,0,0,0.4); }
-
-    .ab-values-title {
-      font-family: var(--font-display);
-      font-size: clamp(40px, 7vw, 96px);
-      color: #000;
-      line-height: 1;
-      text-align: center;
-      margin-bottom: 72px;
-      opacity: 0;
-      transform: translateY(40px);
-      transition: opacity 0.7s ease, transform 0.7s ease;
-    }
-
-    .ab-values-title.visible { opacity: 1; transform: translateY(0); }
-
-    .ab-values-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 2px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .ab-val-card {
-      background: #000;
-      padding: 52px 44px;
-      opacity: 0;
-      transform: scale(0.9);
+    .ab-milestone {
+      border-left: 1px solid rgba(0,0,0,0.1);
+      padding: 0 0 44px 28px; position: relative;
+      opacity: 0; transform: translateX(30px);
       transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1);
     }
-
-    .ab-val-card.visible { opacity: 1; transform: scale(1); }
-
-    .ab-val-num {
-      font-family: var(--font-display);
-      font-size: 13px;
-      color: var(--red);
-      letter-spacing: 3px;
-      display: block;
-      margin-bottom: 20px;
+    .ab-milestone.visible { opacity: 1; transform: translateX(0); }
+    .ab-milestone:last-child { padding-bottom: 0; }
+    .ab-milestone::before {
+      content: ''; position: absolute; left: -5px; top: 4px;
+      width: 9px; height: 9px; border-radius: 50%; background: var(--red);
+    }
+    .ab-milestone-year {
+      font-family: var(--font-display); font-size: 11px;
+      letter-spacing: 3px; color: var(--red);
+      margin-bottom: 8px; display: block;
+    }
+    .ab-milestone h3 {
+      font-family: var(--font-display); font-size: clamp(18px, 2.2vw, 26px);
+      color: #000; line-height: 1.1; margin-bottom: 10px;
+    }
+    .ab-milestone p {
+      font-family: var(--font-body); font-size: 14px; font-weight: 300;
+      color: rgba(0,0,0,0.52); line-height: 1.75;
     }
 
-    .ab-val-card h3 {
-      font-family: var(--font-display);
-      font-size: clamp(28px, 3.5vw, 48px);
-      color: var(--white);
-      line-height: 1;
-      margin-bottom: 16px;
+    /* STATS */
+    .ab-stats {
+      background: #000; display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 1px solid rgba(255,255,255,0.06);
     }
-
-    .ab-val-card p {
-      font-family: var(--font-body);
-      font-size: 14px;
-      font-weight: 300;
-      color: rgba(255,255,255,0.5);
-      line-height: 1.75;
+    .ab-stat {
+      padding: 52px 32px; text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.06);
+      opacity: 0; transform: translateY(24px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
     }
+    .ab-stat:last-child { border-right: none; }
+    .ab-stat.visible { opacity: 1; transform: translateY(0); }
+    .ab-stat-num { font-family: var(--font-display); font-size: clamp(48px, 6vw, 80px); line-height: 1; color: var(--white); display: block; }
+    .ab-stat-val { color: var(--red); }
+    .ab-stat-lbl { display: block; font-family: var(--font-body); font-size: 11px; font-weight: 400; letter-spacing: 2px; color: rgba(255,255,255,0.38); text-transform: uppercase; margin-top: 10px; }
 
-    /* ─────────────────────────────────────────
-       NUMBERS
-    ───────────────────────────────────────── */
-    .ab-numbers {
-      background: #0a0a0a;
-      padding: 120px 6%;
-      border-top: 1px solid rgba(255,255,255,0.05);
+    /* FOUNDERS */
+    .ab-founders { background: #0a0a0a; padding: 100px 6%; }
+    .ab-section-header {
+      display: flex; align-items: flex-end;
+      justify-content: space-between; margin-bottom: 64px;
     }
-
-    .ab-numbers-title {
-      font-family: var(--font-display);
-      font-size: clamp(36px, 6vw, 80px);
-      color: var(--white);
-      text-align: center;
-      margin-bottom: 80px;
-      opacity: 0;
-      transform: translateY(30px);
+    .ab-section-label-sm {
+      font-family: var(--font-body); font-size: 11px; font-weight: 500;
+      letter-spacing: 4px; color: var(--red); text-transform: uppercase;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .ab-section-label-sm::before { content: ''; display: block; width: 36px; height: 1px; background: var(--red); }
+    .ab-founders-heading {
+      font-family: var(--font-display); font-size: clamp(36px, 5vw, 72px);
+      color: var(--white); line-height: 0.95;
+      opacity: 0; transform: translateY(30px);
       transition: opacity 0.7s ease, transform 0.7s ease;
     }
+    .ab-founders-heading.visible { opacity: 1; transform: translateY(0); }
+    .ab-founders-heading em { color: var(--red); font-style: normal; display: block; }
 
-    .ab-numbers-title.visible { opacity: 1; transform: translateY(0); }
-
-    .ab-numbers-title em {
-      color: var(--red);
-      font-style: normal;
-    }
-
-    .ab-stats-row {
+    .ab-founders-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1px;
-      background: rgba(255,255,255,0.06);
-      max-width: 1000px;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      max-width: 960px;
       margin: 0 auto;
     }
 
-    .ab-stat {
-      background: #0a0a0a;
-      padding: 52px 32px;
-      text-align: center;
-      opacity: 0;
-      transform: translateY(30px);
-      transition: opacity 0.6s ease, transform 0.6s ease;
+    .ab-founder {
+      background: #111; border: 1px solid rgba(255,255,255,0.06); overflow: hidden;
+      opacity: 0; transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1), border-color 0.3s ease;
     }
+    .ab-founder.visible { opacity: 1; transform: translateY(0); }
+    .ab-founder:hover { border-color: rgba(235,32,39,0.28); }
 
-    .ab-stat.visible { opacity: 1; transform: translateY(0); }
-
-    .ab-stat-num {
-      font-family: var(--font-display);
-      font-size: clamp(44px, 6vw, 80px);
-      color: var(--white);
-      line-height: 1;
-      display: block;
+    .ab-founder-img { width: 100%; aspect-ratio: 4 / 5; overflow: hidden; }
+    .ab-founder-img img {
+      width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block;
+      transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
     }
+    .ab-founder:hover .ab-founder-img img { transform: scale(1.12); }
 
-    .ab-stat-num .ab-stat-val { color: var(--red); }
+    .ab-founder-info { padding: 18px 20px 24px; }
+    .ab-founder-role { font-family: var(--font-body); font-size: 10px; font-weight: 600; letter-spacing: 3px; color: var(--red); text-transform: uppercase; display: block; margin-bottom: 8px; }
+    .ab-founder-name { font-family: var(--font-display); font-size: clamp(22px, 2.5vw, 32px); color: var(--white); line-height: 1; margin-bottom: 12px; }
+    .ab-founder-bio { font-family: var(--font-body); font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.4); line-height: 1.75; }
 
-    .ab-stat-lbl {
-      display: block;
-      font-family: var(--font-body);
-      font-size: 12px;
-      font-weight: 400;
-      letter-spacing: 2px;
-      color: rgba(255,255,255,0.4);
-      text-transform: uppercase;
-      margin-top: 10px;
-    }
-
-    /* ─────────────────────────────────────────
-       MARQUEE (horizontal scrolling text)
-    ───────────────────────────────────────── */
-    .ab-marquee-outer {
-      background: var(--red);
-      overflow: hidden;
-      padding: 18px 0;
-      border-top: 1px solid rgba(0,0,0,0.1);
-      border-bottom: 1px solid rgba(0,0,0,0.1);
-    }
-
-    .ab-marquee-track {
-      display: flex;
-      white-space: nowrap;
-      animation: ab-mq-scroll 18s linear infinite;
-    }
-
-    /* Reverse on hover */
-    .ab-marquee-outer:hover .ab-marquee-track {
-      animation-direction: reverse;
-    }
-
-    @keyframes ab-mq-scroll {
-      from { transform: translateX(0); }
-      to   { transform: translateX(-50%); }
-    }
-
-    .ab-mq-item {
-      font-family: var(--font-display);
-      font-size: clamp(15px, 2vw, 22px);
-      color: #000;
-      letter-spacing: 2px;
-      padding: 0 32px;
-      flex-shrink: 0;
-    }
-
-    .ab-mq-sep { margin-left: 32px; opacity: 0.4; }
-
-    /* ─────────────────────────────────────────
-       CTA
-    ───────────────────────────────────────── */
-    .ab-cta {
-      background: #000;
-      padding: 160px 6%;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
+    /* CTA */
+    .ab-cta { background: #000; padding: 140px 6%; text-align: center; position: relative; overflow: hidden; }
     .ab-cta::before {
-      content: '';
-      position: absolute;
-      bottom: -30%;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 80vw;
-      height: 80vw;
-      max-width: 900px;
-      max-height: 900px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(235,32,39,0.18) 0%, transparent 65%);
+      content: ''; position: absolute; bottom: -30%; left: 50%;
+      transform: translateX(-50%); width: 80vw; height: 80vw;
+      max-width: 900px; max-height: 900px; border-radius: 50%;
+      background: radial-gradient(circle, rgba(235,32,39,0.14) 0%, transparent 65%);
       pointer-events: none;
     }
-
-    .ab-cta-label {
-      font-family: var(--font-body);
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 4px;
-      color: var(--red);
-      text-transform: uppercase;
-      margin-bottom: 28px;
-      opacity: 0;
-      transition: opacity 0.7s ease;
-    }
-
-    .ab-cta-label.visible { opacity: 1; }
-
-    .ab-cta-title {
-      font-family: var(--font-display);
-      font-size: clamp(48px, 10vw, 140px);
-      line-height: 0.9;
-      color: var(--white);
-      position: relative;
-      z-index: 1;
-      margin-bottom: 48px;
-      opacity: 0;
-      transform: translateY(50px);
-      transition: opacity 0.8s ease 0.15s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.15s;
-    }
-
+    .ab-cta-lbl { font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: 4px; color: var(--red); text-transform: uppercase; margin-bottom: 24px; opacity: 0; transition: opacity 0.7s ease; }
+    .ab-cta-lbl.visible { opacity: 1; }
+    .ab-cta-title { font-family: var(--font-display); font-size: clamp(56px, 11vw, 150px); line-height: 0.88; color: var(--white); position: relative; z-index: 1; margin-bottom: 48px; opacity: 0; transform: translateY(50px); transition: opacity 0.8s ease 0.15s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.15s; }
     .ab-cta-title.visible { opacity: 1; transform: translateY(0); }
-
-    .ab-cta-title em {
-      color: var(--red);
-      font-style: normal;
-      display: block;
-    }
-
-    .ab-cta-btn {
-      display: inline-block;
-      background: var(--red);
-      color: var(--white);
-      font-family: var(--font-body);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      text-decoration: none;
-      padding: 18px 48px;
-      position: relative;
-      z-index: 1;
-      transition: background 0.2s, transform 0.2s;
-      opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.7s ease 0.35s, transform 0.7s ease 0.35s, background 0.2s;
-    }
-
+    .ab-cta-title em { color: var(--red); font-style: normal; display: block; }
+    .ab-cta-btn { display: inline-block; background: var(--red); color: var(--white); font-family: var(--font-body); font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; text-decoration: none; padding: 18px 52px; position: relative; z-index: 1; opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease 0.35s, transform 0.7s ease 0.35s, background 0.2s; }
     .ab-cta-btn.visible { opacity: 1; transform: translateY(0); }
-    .ab-cta-btn:hover { background: #c0181e; transform: translateY(-2px) !important; }
+    .ab-cta-btn:hover { background: #c0181e; }
 
-    /* ─────────────────────────────────────────
-       RESPONSIVE
-    ───────────────────────────────────────── */
+    /* RESPONSIVE */
     @media (max-width: 900px) {
-      .ab-story::before { display: none; }
-
-      .ab-timeline-item {
-        grid-template-columns: 1fr;
-        gap: 0;
-      }
-
-      .ab-timeline-item .ab-tl-center { display: none; }
-
-      .ab-timeline-item:nth-child(odd) .ab-tl-left,
-      .ab-timeline-item:nth-child(even) .ab-tl-left { order: 0; visibility: visible; }
-      .ab-timeline-item:nth-child(odd) .ab-tl-right,
-      .ab-timeline-item:nth-child(even) .ab-tl-right { order: 1; visibility: visible; display: none; }
-
-      .ab-tl-left.ab-tl-card, .ab-tl-right.ab-tl-card { transform: translateX(0) translateY(30px); }
-      .ab-timeline-item.visible .ab-tl-left.ab-tl-card,
-      .ab-timeline-item.visible .ab-tl-right.ab-tl-card { transform: translateX(0) translateY(0); }
-
-      .ab-values-grid { grid-template-columns: 1fr; }
-      .ab-stats-row { grid-template-columns: repeat(2, 1fr); }
-
-      .ab-manifesto-text { font-size: clamp(24px, 6vw, 48px); }
+      .ab-hero { grid-template-columns: 1fr; padding-top: calc(var(--nav-h) + 40px); }
+      .ab-hero-right { height: 340px; }
+      .ab-p1 { width: 160px; height: 138px; }
+      .ab-p2 { width: 170px; height: 150px; }
+      .ab-p3 { width: 148px; height: 128px; }
+      .ab-p4 { width: 162px; height: 140px; }
+      .ab-p5 { width: 140px; height: 122px; }
+      .ab-story { grid-template-columns: 1fr; gap: 40px; }
+      .ab-stats { grid-template-columns: repeat(2, 1fr); }
+      .ab-stat:nth-child(2), .ab-stat:nth-child(4) { border-right: none; }
+      .ab-founders-grid { grid-template-columns: 1fr 1fr; max-width: 100%; }
+      .ab-section-header { flex-direction: column; align-items: flex-start; gap: 20px; }
     }
-
-    @media (max-width: 480px) {
-      .ab-stats-row { grid-template-columns: 1fr 1fr; }
-      .ab-val-card { padding: 36px 28px; }
+    @media (max-width: 600px) {
+      .ab-hero-right { display: none; }
+      .ab-founders-grid { grid-template-columns: 1fr; }
     }
 
   </style>
 </head>
 <body class="about-page">
 
-  <!-- ── NAV (identical to index.html) ── -->
+  <!-- NAV -->
   <nav id="navbar">
     <div class="nav-logo">
       <a href="index.html" style="text-decoration:none;">
@@ -657,20 +285,16 @@
       <li><a href="careers.html">CAREER</a></li>
     </ul>
     <div class="nav-right">
-      <a href="https://www.instagram.com/demand.school?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" class="nav-circle-btn" aria-label="Demand School on Instagram">
+      <a href="https://www.instagram.com/demand.school?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" class="nav-circle-btn" aria-label="Demand School">
         <img src="image assets/demandlogo.jpg" alt="Demand School">
       </a>
-      <a href="https://erp.desgromedia.com/accounts/login/?next=/" target="_blank" rel="noopener" class="nav-circle-btn" aria-label="DesGro ERP Login">
-        <img src="image assets/desgrologo.jpg" alt="DesGro Media">
-      </a>
-      <a href="index.html#contact" class="btn-get-started">GET STARTED →</a>
+      <a href="https://erp.desgromedia.com/apply/" class="btn-get-started" target="_blank" rel="noopener">GET STARTED &rarr;</a>
       <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
     </div>
   </nav>
 
-  <!-- Mobile Nav -->
   <div class="mobile-nav" id="mobileNav" aria-hidden="true">
     <button class="mobile-nav-close" id="mobileNavClose" aria-label="Close menu"></button>
     <ul>
@@ -682,177 +306,135 @@
       <li><a href="index.html#contact">CONTACT</a></li>
       <li><a href="careers.html">CAREER</a></li>
     </ul>
-    <a href="index.html#contact" class="btn-get-started mobile-nav-cta">GET STARTED →</a>
+    <a href="https://erp.desgromedia.com/apply/" class="btn-get-started mobile-nav-cta" target="_blank" rel="noopener">GET STARTED &rarr;</a>
   </div>
 
-  <!-- ═══════════════════════════════════════
-       HERO
-  ═══════════════════════════════════════ -->
+  <!-- HERO -->
   <section class="ab-hero" id="abHero">
-
-    <p class="ab-hero-eyebrow" id="abEyebrow">
-      <span></span>Our Story
-    </p>
-
-    <h1 class="ab-hero-title" aria-label="We Are Desgro Media">
-      <span class="ab-word"><span class="ab-word-inner" data-delay="0">WE</span></span>
-      <span class="ab-word"><span class="ab-word-inner" data-delay="120">ARE</span></span>
-      <span class="ab-word"><span class="ab-word-inner ab-red" data-delay="260">DESGRO</span></span>
-      <span class="ab-word"><span class="ab-word-inner" data-delay="400">MEDIA</span></span>
-    </h1>
-
-    <p class="ab-hero-sub" id="abHeroSub">
-      A creative content marketing agency<br>
-      built to make brands impossible to ignore.
-    </p>
-
-    <div class="ab-scroll-hint">
-      <div class="ab-scroll-line"></div>
-      SCROLL
-    </div>
-
-  </section>
-
-  <!-- ═══════════════════════════════════════
-       MANIFESTO — sticky word reveal
-  ═══════════════════════════════════════ -->
-  <div class="ab-manifesto-outer" id="manifestoOuter">
-    <div class="ab-manifesto-pin" id="manifestoPin">
-      <p class="ab-manifesto-text" id="manifestoText" aria-label="We don't just make content. We build movements that shape culture, grow audiences, and turn ideas into empires.">
-        <!-- words injected by JS -->
+    <div class="ab-hero-left">
+      <p class="ab-eyebrow" id="abEyebrow"><span></span>Our Story</p>
+      <h1 class="ab-title" aria-label="We Are Desgro Media">
+        <span class="ab-word"><span class="ab-wi" data-d="0">WE</span></span>
+        <span class="ab-word"><span class="ab-wi" data-d="120">ARE</span></span>
+        <span class="ab-word"><span class="ab-wi ab-red" data-d="260">DESGRO</span></span>
+        <span class="ab-word"><span class="ab-wi" data-d="400">MEDIA</span></span>
+      </h1>
+      <p class="ab-sub" id="abSub">
+        From Fribourg, Switzerland to 40+ creatives<br>
+        redefining brand storytelling across the globe.
       </p>
+      <div class="ab-scroll-hint">
+        <div class="ab-scroll-line"></div>
+        Scroll
+      </div>
     </div>
-  </div>
 
-  <!-- ═══════════════════════════════════════
-       STORY TIMELINE
-  ═══════════════════════════════════════ -->
+    <div class="ab-hero-right">
+      <div class="ab-photo ab-p1"><img src="image assets/about1.jpg" alt="" loading="eager"></div>
+      <div class="ab-photo ab-p2"><img src="image assets/about2.jpg" alt="" loading="eager"></div>
+      <div class="ab-photo ab-p3"><img src="image assets/about3.jpg" alt="" loading="eager"></div>
+      <div class="ab-photo ab-p4"><img src="image assets/about4.jpg" alt="" loading="eager"></div>
+      <div class="ab-photo ab-p5"><img src="image assets/about5.jpg" alt="" loading="eager"></div>
+    </div>
+  </section>
+
+  <!-- STORY TIMELINE -->
   <section class="ab-story">
-    <div class="ab-section-label">Our Journey</div>
-
-    <div class="ab-timeline-item" data-tl>
-      <div class="ab-tl-left ab-tl-card">
-        <span class="year">2026</span>
-        <h3>THE SPARK</h3>
-        <p>Desgro Media was founded with one conviction — that great storytelling is the most powerful growth engine any brand can have. We built our first team of four creators with a shared obsession for craft and results.</p>
-      </div>
-      <div class="ab-tl-center"><div class="ab-tl-dot"></div></div>
-      <div class="ab-tl-right"></div>
+    <div class="ab-story-left">
+      <div class="ab-story-label">The Journey</div>
+      <h2 class="ab-story-heading">HOW IT<br><em>BEGAN</em></h2>
     </div>
-
-    <div class="ab-timeline-item" data-tl>
-      <div class="ab-tl-left"></div>
-      <div class="ab-tl-center"><div class="ab-tl-dot"></div></div>
-      <div class="ab-tl-right ab-tl-card">
-        <span class="year">2026 — Q2</span>
-        <h3>FIRST 30 CREATORS</h3>
-        <p>Within months we'd partnered with 30+ creators across niches — from finance to fitness. Our frameworks for personal branding and social strategy started generating real, measurable audience growth.</p>
+    <div class="ab-story-right">
+      <div class="ab-milestone" data-reveal>
+        <span class="ab-milestone-year">2023 &mdash; FRIBOURG, SWITZERLAND</span>
+        <h3>THE SEED</h3>
+        <p>Two founders completed their Masters in Marketing at a quiet Swiss university town. Late nights, big ideas, and a shared obsession with brand storytelling planted the seed for what would become DesGro.</p>
+      </div>
+      <div class="ab-milestone" data-reveal data-delay="120">
+        <span class="ab-milestone-year">2023 &mdash; DUBAI, UAE</span>
+        <h3>THE CATALYST</h3>
+        <p>Mentored by Mahdi Shafiei of Trifid Media &mdash; the biggest marketing agency in the GCC &mdash; the founders gained frontline insight into elite-level brand strategy and what it takes to build agencies that last.</p>
+      </div>
+      <div class="ab-milestone" data-reveal data-delay="240">
+        <span class="ab-milestone-year">2024 &mdash; CALICUT, INDIA</span>
+        <h3>THE LAUNCH</h3>
+        <p>Armed with a world-class education and Dubai-forged instincts, DesGro was born at Hilite Business Park, Calicut &mdash; starting with a founding team of just 3.</p>
+      </div>
+      <div class="ab-milestone" data-reveal data-delay="360">
+        <span class="ab-milestone-year">2025&ndash;2026 &mdash; SCALING FAST</span>
+        <h3>THE MOVEMENT</h3>
+        <p>What started with 3 is now a powerhouse of 40+ creators, strategists and marketers across 7+ departments &mdash; 150+ creators built, 100M+ views generated, and still accelerating.</p>
       </div>
     </div>
-
-    <div class="ab-timeline-item" data-tl>
-      <div class="ab-tl-left ab-tl-card">
-        <span class="year">2026 — Q3</span>
-        <h3>50M+ VIEWS</h3>
-        <p>The content we craft crossed 50 million organic views. We proved the model works at scale. Brands began approaching us not just for content, but for full-stack digital growth — and we delivered.</p>
-      </div>
-      <div class="ab-tl-center"><div class="ab-tl-dot"></div></div>
-      <div class="ab-tl-right"></div>
-    </div>
-
   </section>
 
-  <!-- ═══════════════════════════════════════
-       MARQUEE
-  ═══════════════════════════════════════ -->
-  <div class="ab-marquee-outer">
-    <div class="ab-marquee-track">
-      <span class="ab-mq-item">PERSONAL BRANDING <span class="ab-mq-sep">✦</span></span>
-      <span class="ab-mq-item">SMM <span class="ab-mq-sep">✦</span></span>
-      <span class="ab-mq-item">PERFORMANCE MARKETING <span class="ab-mq-sep">✦</span></span>
-      <span class="ab-mq-item">LOGO BRANDING <span class="ab-mq-sep">✦</span></span>
-      <span class="ab-mq-item">WEB & APP DEVELOPMENT <span class="ab-mq-sep">✦</span></span>
-      <span class="ab-mq-item">PERSONAL BRANDING <span class="ab-mq-sep">✦</span></span>
-      <span class="ab-mq-item">SMM <span class="ab-mq-sep">✦</span></span>
-      <span class="ab-mq-item">PERFORMANCE MARKETING <span class="ab-mq-sep">✦</span></span>
-      <span class="ab-mq-item">LOGO BRANDING <span class="ab-mq-sep">✦</span></span>
-      <span class="ab-mq-item">WEB & APP DEVELOPMENT <span class="ab-mq-sep">✦</span></span>
-    </div>
+  <!-- STATS -->
+  <div class="ab-stats">
+    <div class="ab-stat" data-stat data-val="150" data-suf="+" data-lbl="Creators Built" data-delay="0"></div>
+    <div class="ab-stat" data-stat data-val="100" data-suf="M+" data-lbl="Total Views" data-delay="100"></div>
+    <div class="ab-stat" data-stat data-val="500" data-suf="K+" data-lbl="Organic Followers" data-delay="200"></div>
+    <div class="ab-stat" data-stat data-val="40" data-suf="+" data-lbl="Team Members" data-delay="300"></div>
   </div>
 
-  <!-- ═══════════════════════════════════════
-       VALUES
-  ═══════════════════════════════════════ -->
-  <section class="ab-values">
-    <div class="ab-section-label">What Drives Us</div>
-    <h2 class="ab-values-title" data-reveal>OUR FOUR<br>PILLARS</h2>
-
-    <div class="ab-values-grid">
-
-      <div class="ab-val-card" data-reveal data-delay="0">
-        <span class="ab-val-num">01</span>
-        <h3>CREATIVE<br>VISION</h3>
-        <p>We don't follow trends — we set them. Every piece of content we make is built from a deep understanding of the brand's voice, audience psychology, and cultural moment.</p>
+  <!-- FOUNDERS -->
+  <section class="ab-founders">
+    <div class="ab-section-header">
+      <span class="ab-section-label-sm">The Visionaries</span>
+      <h2 class="ab-founders-heading" data-reveal>MEET THE<br><em>MINDS</em></h2>
+    </div>
+    <div class="ab-founders-grid">
+      <div class="ab-founder" data-reveal data-delay="0">
+        <div class="ab-founder-img">
+          <img src="image assets/3..jpg" alt="Nisam VM" loading="lazy" decoding="async">
+        </div>
+        <div class="ab-founder-info">
+          <span class="ab-founder-role">Founder</span>
+          <h3 class="ab-founder-name">Nisam VM</h3>
+          <p class="ab-founder-bio">Masters in Marketing, Fribourg. The founding vision behind DesGro &mdash; from 3 to 40+, from Calicut to global. Mentored by the GCC&rsquo;s finest.</p>
+        </div>
       </div>
-
-      <div class="ab-val-card" data-reveal data-delay="100">
-        <span class="ab-val-num">02</span>
-        <h3>STRATEGIC<br>THINKING</h3>
-        <p>Creativity without strategy is just noise. Every campaign, reel, and post we produce is underpinned by data, audience research, and a clear growth objective.</p>
+      <div class="ab-founder" data-reveal data-delay="150">
+        <div class="ab-founder-img">
+          <img src="image assets/2.jpg" alt="Thanseem CA" loading="lazy" decoding="async">
+        </div>
+        <div class="ab-founder-info">
+          <span class="ab-founder-role">Co-Founder</span>
+          <h3 class="ab-founder-name">Thanseem CA</h3>
+          <p class="ab-founder-bio">Masters in Marketing, Fribourg. The operational architect of DesGro&rsquo;s growth systems, client partnerships, and culture.</p>
+        </div>
       </div>
-
-      <div class="ab-val-card" data-reveal data-delay="200">
-        <span class="ab-val-num">03</span>
-        <h3>AUTHENTIC<br>STORIES</h3>
-        <p>Audiences can smell fake from a mile away. We help brands and creators find the truest, most compelling version of their story — and tell it in a way that lands.</p>
+      <div class="ab-founder" data-reveal data-delay="300">
+        <div class="ab-founder-img">
+          <img src="image assets/4th.jpg" alt="Aflah Al Zaman" loading="lazy" decoding="async">
+        </div>
+        <div class="ab-founder-info">
+          <span class="ab-founder-role">Brand Strategist</span>
+          <h3 class="ab-founder-name">Aflah Al Zaman</h3>
+          <p class="ab-founder-bio">The strategic mind turning audience insights into brand positioning that makes businesses impossible to ignore.</p>
+        </div>
       </div>
-
-      <div class="ab-val-card" data-reveal data-delay="300">
-        <span class="ab-val-num">04</span>
-        <h3>REAL<br>RESULTS</h3>
-        <p>Views, followers, leads, revenue — we care about all of it. Our work is measured against real business outcomes, not vanity metrics.</p>
-      </div>
-
     </div>
   </section>
 
-  <!-- ═══════════════════════════════════════
-       NUMBERS
-  ═══════════════════════════════════════ -->
-  <section class="ab-numbers">
-    <h2 class="ab-numbers-title" data-reveal>THE NUMBERS<br><em>DON'T LIE</em></h2>
-
-    <div class="ab-stats-row">
-      <div class="ab-stat" data-stat data-val="30" data-suf="+" data-lbl="Creators Built" data-delay="0"></div>
-      <div class="ab-stat" data-stat data-val="50"  data-suf="M+" data-lbl="Total Views" data-delay="100"></div>
-      <div class="ab-stat" data-stat data-val="327" data-suf="K+" data-lbl="Organic Followers" data-delay="200"></div>
-      <div class="ab-stat" data-stat data-val="30"  data-suf="+" data-lbl="Active Projects" data-delay="300"></div>
-    </div>
-  </section>
-
-  <!-- ═══════════════════════════════════════
-       CTA
-  ═══════════════════════════════════════ -->
+  <!-- CTA -->
   <section class="ab-cta">
-    <p class="ab-cta-label" data-reveal>Let's Work Together</p>
-    <h2 class="ab-cta-title" data-reveal>
-      READY TO<br><em>GROW?</em>
-    </h2>
-    <a href="index.html#contact" class="ab-cta-btn" data-reveal>Get Started →</a>
+    <p class="ab-cta-lbl" data-reveal>Let&rsquo;s Build Together</p>
+    <h2 class="ab-cta-title" data-reveal>READY TO<br><em>GROW?</em></h2>
+    <a href="https://erp.desgromedia.com/apply/" class="ab-cta-btn" data-reveal target="_blank" rel="noopener">Get Started &rarr;</a>
   </section>
 
+  <!-- BACK TO TOP -->
+  <button id="backToTop" class="back-to-top" aria-label="Back to top">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+  </button>
 
   <script>
-  /* ════════════════════════════════════════════
-     ABOUT PAGE — animations + scroll effects
-  ════════════════════════════════════════════ */
   (function() {
 
-    /* ── NAV hamburger (mirrors main.js) ── */
+    /* NAV hamburger */
     const hamburger = document.getElementById('navHamburger');
     const mobileNav = document.getElementById('mobileNav');
     const closeBtn  = document.getElementById('mobileNavClose');
-
     if (hamburger && mobileNav) {
       hamburger.addEventListener('click', () => {
         const open = mobileNav.classList.toggle('open');
@@ -873,168 +455,104 @@
       );
     }
 
-    /* ── Hero entrance ── */
-    (function heroEntrance() {
-      const eyebrow  = document.getElementById('abEyebrow');
-      const sub      = document.getElementById('abHeroSub');
-      const wordInners = document.querySelectorAll('.ab-word-inner');
+    /* Hero entrance */
+    setTimeout(() => {
+      const eyebrow = document.getElementById('abEyebrow');
+      const sub     = document.getElementById('abSub');
+      const wis     = document.querySelectorAll('.ab-wi');
+      const photos  = document.querySelectorAll('.ab-photo');
+      if (eyebrow) eyebrow.classList.add('in');
+      wis.forEach(w => {
+        const d = parseInt(w.dataset.d || '0', 10);
+        setTimeout(() => w.classList.add('in'), d + 100);
+      });
+      if (sub) setTimeout(() => sub.classList.add('in'), 600);
+      photos.forEach((p, i) => setTimeout(() => p.classList.add('in'), 400 + i * 110));
+    }, 150);
 
-      /* Small delay so fonts are loaded */
-      setTimeout(() => {
-        if (eyebrow) eyebrow.classList.add('in');
+    /* Photo hover tilt */
+    document.querySelectorAll('.ab-photo').forEach(photo => {
+      photo.addEventListener('mousemove', e => {
+        const r = photo.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width  - 0.5;
+        const y = (e.clientY - r.top)  / r.height - 0.5;
+        photo.style.transform = 'perspective(600px) rotateY(' + (x*14) + 'deg) rotateX(' + (-y*10) + 'deg) scale(1.04)';
+      });
+      photo.addEventListener('mouseleave', () => { photo.style.transform = ''; });
+    });
 
-        wordInners.forEach(w => {
-          const delay = parseInt(w.dataset.delay || '0', 10);
-          setTimeout(() => w.classList.add('in'), delay + 100);
-        });
-
-        if (sub) {
-          const last = Math.max(...Array.from(wordInners).map(w =>
-            parseInt(w.dataset.delay || '0', 10)));
-          setTimeout(() => sub.classList.add('in'), last + 300);
-        }
-      }, 150);
-    })();
-
-    /* ── Manifesto — sticky word-by-word reveal ── */
-    (function manifestoSetup() {
-      const outer = document.getElementById('manifestoOuter');
-      const text  = document.getElementById('manifestoText');
-      if (!outer || !text) return;
-
-      const SENTENCE = "We don't just make content. We build movements that shape culture, grow audiences, and turn ideas into empires.";
-
-      /* accent words */
-      const ACCENTS = new Set(['movements', 'culture,', 'audiences,', 'empires.']);
-
-      /* Build word spans */
-      const words = SENTENCE.split(' ');
-      text.innerHTML = words.map((w, i) => {
-        const isAccent = ACCENTS.has(w) ? ' accent' : '';
-        return `<span class="ab-mw${isAccent}" data-wi="${i}"> ${w}</span>`;
-      }).join('');
-
-      const spans      = text.querySelectorAll('.ab-mw');
-      const total      = spans.length;
-      let   ticking    = false;
-
-      function updateManifesto() {
-        const rect       = outer.getBoundingClientRect();
-        const scrollable = outer.offsetHeight - window.innerHeight;
-        if (rect.bottom < 0 || rect.top > window.innerHeight) return;
-        const progress = scrollable > 0
-          ? Math.max(0, Math.min(1, -rect.top / scrollable))
-          : 1;
-
-        spans.forEach((s, i) => {
-          /* Each word lights up when progress passes its threshold.
-             Goes dark again below it (reverse scroll). */
-          const threshold = (i / total) * 0.85;
-          s.classList.toggle('lit', progress >= threshold);
-        });
-        ticking = false;
-      }
-
-      window.addEventListener('scroll', () => {
-        if (!ticking) { requestAnimationFrame(updateManifesto); ticking = true; }
-      }, { passive: true });
-
-      updateManifesto();
-    })();
-
-    /* ── Generic reverse-scroll observer ──
-       Adds/removes 'visible' class as elements enter & leave viewport.
-       Transition CSS handles both in and out animation. */
-    function makeRevealObserver(selector, options) {
+    /* Reveal observer */
+    function reveal(selector, opts) {
       const els = document.querySelectorAll(selector);
       if (!els.length) return;
-
       const io = new IntersectionObserver(entries => {
         entries.forEach(e => {
-          const delay = parseInt(e.target.dataset.delay || '0', 10);
-          if (e.isIntersecting) {
-            setTimeout(() => e.target.classList.add('visible'), delay);
-          } else {
-            e.target.classList.remove('visible');
-          }
+          const d = parseInt(e.target.dataset.delay || '0', 10);
+          if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), d);
+          else e.target.classList.remove('visible');
         });
-      }, options || { threshold: 0.15 });
-
+      }, opts || { threshold: 0.15 });
       els.forEach(el => io.observe(el));
     }
+    reveal('[data-reveal]',        { threshold: 0.15 });
+    reveal('.ab-milestone',        { threshold: 0.2  });
+    reveal('.ab-founders-heading', { threshold: 0.2  });
+    reveal('.ab-founder',          { threshold: 0.1  });
+    reveal('.ab-cta-lbl',          { threshold: 0.2  });
+    reveal('.ab-cta-title',        { threshold: 0.15 });
+    reveal('.ab-cta-btn',          { threshold: 0.1  });
 
-    /* Timeline items */
-    makeRevealObserver('[data-tl]', { threshold: 0.2 });
-
-    /* Values title + cards */
-    makeRevealObserver('.ab-values-title', { threshold: 0.2 });
-    makeRevealObserver('.ab-val-card',     { threshold: 0.15 });
-
-    /* Numbers */
-    makeRevealObserver('.ab-numbers-title', { threshold: 0.2 });
-
-    /* CTA */
-    makeRevealObserver('.ab-cta-label', { threshold: 0.2 });
-    makeRevealObserver('.ab-cta-title', { threshold: 0.15 });
-    makeRevealObserver('.ab-cta-btn',   { threshold: 0.1 });
-
-    /* ── Stat counters ── */
-    (function initStats() {
-      const stats = document.querySelectorAll('[data-stat]');
-      if (!stats.length) return;
-
-      /* Build the inner HTML for each stat */
-      stats.forEach(s => {
-        const val = s.dataset.val;
-        const suf = s.dataset.suf || '';
-        const lbl = s.dataset.lbl || '';
-        s.innerHTML =
-          `<span class="ab-stat-num"><span class="ab-stat-val" data-target="${val}">0</span>${suf}</span>` +
-          `<span class="ab-stat-lbl">${lbl}</span>`;
+    /* Stat counters */
+    const stats = document.querySelectorAll('[data-stat]');
+    stats.forEach(function(s) {
+      var val = s.dataset.val, suf = s.dataset.suf || '', lbl = s.dataset.lbl || '';
+      s.innerHTML =
+        '<span class="ab-stat-num"><span class="ab-stat-val" data-target="' + val + '">0</span>' + suf + '</span>' +
+        '<span class="ab-stat-lbl">' + lbl + '</span>';
+    });
+    function counter(el) {
+      var target = parseInt(el.dataset.target, 10);
+      var dur = 1600, start = performance.now();
+      (function tick(now) {
+        var p = Math.min(1, (now - start) / dur);
+        el.textContent = Math.floor((1 - Math.pow(1 - p, 3)) * target);
+        if (p < 1) requestAnimationFrame(tick);
+        else el.textContent = target;
+      })(start);
+    }
+    var statIO = new IntersectionObserver(function(entries) {
+      entries.forEach(function(e) {
+        var d = parseInt(e.target.dataset.delay || '0', 10);
+        if (e.isIntersecting) {
+          setTimeout(function() {
+            e.target.classList.add('visible');
+            var n = e.target.querySelector('.ab-stat-val');
+            if (n) counter(n);
+          }, d);
+        } else {
+          e.target.classList.remove('visible');
+          var n = e.target.querySelector('.ab-stat-val');
+          if (n) n.textContent = '0';
+        }
       });
+    }, { threshold: 0.25 });
+    stats.forEach(function(s) { statIO.observe(s); });
 
-      function runCounter(el) {
-        const target  = parseInt(el.dataset.target, 10);
-        const numEl   = el;
-        const dur     = 1800;
-        const start   = performance.now();
-        (function tick(now) {
-          const p    = Math.min(1, (now - start) / dur);
-          const ease = 1 - Math.pow(1 - p, 3);
-          numEl.textContent = Math.floor(ease * target);
-          if (p < 1) requestAnimationFrame(tick);
-          else numEl.textContent = target;
-        })(start);
-      }
-
-      const statIO = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          const delay = parseInt(e.target.dataset.delay || '0', 10);
-          if (e.isIntersecting) {
-            setTimeout(() => {
-              e.target.classList.add('visible');
-              const numEl = e.target.querySelector('.ab-stat-val');
-              if (numEl) runCounter(numEl);
-            }, delay);
-          } else {
-            e.target.classList.remove('visible');
-            /* Reset counter when scrolled away so it re-animates on return */
-            const numEl = e.target.querySelector('.ab-stat-val');
-            if (numEl) numEl.textContent = '0';
-          }
-        });
-      }, { threshold: 0.2 });
-
-      stats.forEach(s => statIO.observe(s));
-    })();
-
-    /* ── Nav scroll shadow ── */
-    const navbar = document.getElementById('navbar');
+    /* Nav scroll */
+    var navbar = document.getElementById('navbar');
     if (navbar) {
-      window.addEventListener('scroll', () => {
-        navbar.style.borderBottomColor =
-          window.scrollY > 10 ? 'rgba(255,255,255,0.1)' : 'rgba(255,255,255,0.06)';
+      window.addEventListener('scroll', function() {
+        navbar.style.background = window.scrollY > 20 ? 'rgba(0,0,0,0.99)' : 'rgba(0,0,0,0.97)';
       }, { passive: true });
+    }
+
+    /* Back to top */
+    var btn = document.getElementById('backToTop');
+    if (btn) {
+      window.addEventListener('scroll', function() {
+        btn.classList.toggle('visible', window.scrollY > 500);
+      }, { passive: true });
+      btn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
     }
 
   })();
