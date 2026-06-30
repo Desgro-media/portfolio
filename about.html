@@ -14,13 +14,9 @@
 
     .about-page { overflow-x: hidden; }
 
-    /* ── STORY (now first section) ──
-       Background: #0f1419 — dark charcoal with a cool blue-grey tint.
-       Colour theory: the scattered photos carry warm skin tones / orange
-       hues; placing them on a cool-dark ground creates complementary
-       contrast so the warmth of the photos leaps forward visually. */
+    /* ── STORY (first section, white background) ── */
     .ab-story {
-      background: #0f1419;
+      background: #fff;
       padding: calc(var(--nav-h) + 80px) 6% 100px;
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -36,9 +32,9 @@
     }
     .ab-story-label::after { content: ''; display: block; width: 40px; height: 1px; background: var(--red); }
 
-    /* Milestones — light text on dark bg */
+    /* Milestones — dark text on white */
     .ab-milestone {
-      border-left: 1px solid rgba(255,255,255,0.1);
+      border-left: 1px solid rgba(0,0,0,0.1);
       padding: 0 0 44px 28px; position: relative;
       opacity: 0; transform: translateX(-30px);
       transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1);
@@ -56,22 +52,24 @@
     }
     .ab-milestone h3 {
       font-family: var(--font-display); font-size: clamp(18px, 2.2vw, 26px);
-      color: var(--white); line-height: 1.1; margin-bottom: 10px;
+      color: #000; line-height: 1.1; margin-bottom: 10px;
     }
     .ab-milestone p {
       font-family: var(--font-body); font-size: 14px; font-weight: 300;
-      color: rgba(255,255,255,0.48); line-height: 1.78;
+      color: rgba(0,0,0,0.52); line-height: 1.78;
     }
 
-    /* Scattered polaroid photos — right column of story */
+    /* Scattered photos — dark frames on white bg */
     .ab-hero-right { position: relative; height: 600px; z-index: 2; }
     .ab-photo {
-      position: absolute; background: #fff; padding: 9px 9px 30px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+      position: absolute;
+      background: #1a1a1a; /* dark frame — contrasts against white section */
+      padding: 9px 9px 30px;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.1);
       opacity: 0; transition: box-shadow 0.4s ease, opacity 0.6s ease; cursor: default;
     }
     .ab-photo.in { opacity: 1; }
-    .ab-photo:hover { box-shadow: 0 28px 80px rgba(0,0,0,0.95); z-index: 10 !important; }
+    .ab-photo:hover { box-shadow: 0 24px 60px rgba(0,0,0,0.28); z-index: 10 !important; }
     .ab-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
     .ab-p1 { width: 258px; height: 222px; top: 0;    left: 3%;  rotate: -7deg; z-index: 5; }
     .ab-p2 { width: 276px; height: 238px; top: 4%;  right: 0;  rotate:  5deg; z-index: 4; }

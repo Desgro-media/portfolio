@@ -1770,7 +1770,11 @@ body {
 
 .tc-red { color: var(--red); }
 
-/* ── Horizontal marquee ── */
+/* ── Horizontal marquee — CSS wrapper approach ──
+   .tc-reel (wrapper) contains two identical .tc-reel-track elements.
+   The wrapper animates to -50% of ITS OWN width, which is always
+   exactly one track's width regardless of image load timing or
+   browser rounding. Seamless by construction. */
 .tc-marquee {
   width: 100%;
   overflow: hidden;
@@ -1779,20 +1783,27 @@ body {
   mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
 }
 
-/* JS RAF loop drives the scroll — no CSS animation needed */
-.tc-marquee-inner {
+.tc-reel {
   display: flex;
-  width: max-content;
+  width: max-content; /* = 2 × track_width, so -50% = exactly one track */
   will-change: transform;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
+  animation: tcLoop 28s linear infinite;
 }
 
-.tc-marquee-track {
+.tc-marquee:hover .tc-reel { animation-play-state: paused; }
+
+@keyframes tcLoop {
+  0%   { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
+}
+
+.tc-reel-track {
   display: flex;
   gap: 14px;
   flex-shrink: 0;
-  padding-right: 14px; /* keeps gap consistent at the track junction */
+  padding-right: 14px; /* gap at track junction matches inter-card gap */
 }
 
 .tc-logo-card {
@@ -3447,7 +3458,7 @@ body {
 }
 
 /* GPU layer for marquee track */
-/* tc-marquee-inner will-change is set in the main rule above */
+/* tc-reel will-change is set in the main marquee rule */
 
 /* ══════════════════════════════════════════
    FILM STRIP SECTION
