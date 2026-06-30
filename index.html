@@ -730,35 +730,19 @@
 
     <div class="tc-marquee">
       <div class="tc-marquee-inner">
-        <!-- Track 1: original -->
         <div class="tc-marquee-track">
-          <div class="tc-logo-card"><img src="topclients/c1.jpg"  alt="Client" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c2.jpg"  alt="Client" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c3.jpg"  alt="Client" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c4.jpg"  alt="Client" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c5.jpg"  alt="Client" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c6.jpg"  alt="Client" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c7.jpg"  alt="Client" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c8.jpg"  alt="Client" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c9.jpg"  alt="Client" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c10.jpg" alt="Client" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c11.jpg" alt="Client" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c12.jpg" alt="Client" loading="lazy" decoding="async"></div>
-        </div>
-        <!-- Track 2: seamless clone (aria-hidden so screen readers skip) -->
-        <div class="tc-marquee-track" aria-hidden="true">
-          <div class="tc-logo-card"><img src="topclients/c1.jpg"  alt="" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c2.jpg"  alt="" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c3.jpg"  alt="" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c4.jpg"  alt="" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c5.jpg"  alt="" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c6.jpg"  alt="" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c7.jpg"  alt="" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c8.jpg"  alt="" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c9.jpg"  alt="" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c10.jpg" alt="" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c11.jpg" alt="" loading="lazy" decoding="async"></div>
-          <div class="tc-logo-card"><img src="topclients/c12.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="tc-logo-card"><img src="topclients/c1.jpg"  alt="Client" loading="eager" decoding="async"></div>
+          <div class="tc-logo-card"><img src="topclients/c2.jpg"  alt="Client" loading="eager" decoding="async"></div>
+          <div class="tc-logo-card"><img src="topclients/c3.jpg"  alt="Client" loading="eager" decoding="async"></div>
+          <div class="tc-logo-card"><img src="topclients/c4.jpg"  alt="Client" loading="eager" decoding="async"></div>
+          <div class="tc-logo-card"><img src="topclients/c5.jpg"  alt="Client" loading="eager" decoding="async"></div>
+          <div class="tc-logo-card"><img src="topclients/c6.jpg"  alt="Client" loading="eager" decoding="async"></div>
+          <div class="tc-logo-card"><img src="topclients/c7.jpg"  alt="Client" loading="eager" decoding="async"></div>
+          <div class="tc-logo-card"><img src="topclients/c8.jpg"  alt="Client" loading="eager" decoding="async"></div>
+          <div class="tc-logo-card"><img src="topclients/c9.jpg"  alt="Client" loading="eager" decoding="async"></div>
+          <div class="tc-logo-card"><img src="topclients/c10.jpg" alt="Client" loading="eager" decoding="async"></div>
+          <div class="tc-logo-card"><img src="topclients/c11.jpg" alt="Client" loading="eager" decoding="async"></div>
+          <div class="tc-logo-card"><img src="topclients/c12.jpg" alt="Client" loading="eager" decoding="async"></div>
         </div>
       </div>
     </div>
@@ -1057,6 +1041,45 @@
   </button>
 
   <script src="main.js"></script>
+  <script>
+  /* TC Marquee — JS RAF loop for gap-free infinite scroll */
+  (function () {
+    var inner = document.querySelector('.tc-marquee-inner');
+    if (!inner) return;
+    var track = inner.querySelector('.tc-marquee-track');
+    if (!track) return;
+
+    /* Clone the track so we always have 2x content in the DOM */
+    var clone = track.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    inner.appendChild(clone);
+
+    var pos    = 0;
+    var paused = false;
+    var SPEED  = 0.65; /* px per frame at 60 fps — tweak to match old speed */
+
+    /* Pause on hover */
+    var marqueeEl = inner.closest('.tc-marquee');
+    if (marqueeEl) {
+      marqueeEl.addEventListener('mouseenter', function () { paused = true;  });
+      marqueeEl.addEventListener('mouseleave', function () { paused = false; });
+    }
+
+    function tick() {
+      if (!paused) {
+        pos -= SPEED;
+        /* Once we've scrolled exactly one track width, snap back — invisible seam */
+        if (pos <= -track.offsetWidth) {
+          pos += track.offsetWidth;
+        }
+        inner.style.transform = 'translateX(' + pos.toFixed(2) + 'px)';
+      }
+      requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+  })();
+  </script>
   <script>
   /* Back to top */
   (function(){
