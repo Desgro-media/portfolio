@@ -1008,39 +1008,23 @@
   clone.setAttribute('aria-hidden', 'true');
   row.appendChild(clone);
 
-  /* All videos (original + clone). Clone shares same URLs → browser cache, no second download. */
-  const allVids  = [...row.querySelectorAll('video')];
-  const origVids = [...track.querySelectorAll('video')];
-
-  /* ── 1) Pre-buffer when section approaches (300px before entry) ── */
-  const preIO = new IntersectionObserver(([e]) => {
-    if (!e.isIntersecting) return;
-    preIO.disconnect();
-    /* Stagger originals so we don't open 7 connections simultaneously */
-    origVids.forEach((v, i) => setTimeout(() => {
-      v.preload = 'auto';
-      v.load();
-    }, i * 100));
-    /* Clones hit the browser cache — no stagger needed */
-    clone.querySelectorAll('video').forEach(v => { v.preload = 'auto'; v.load(); });
-  }, { threshold: 0, rootMargin: '300px 0px' });
-  preIO.observe(row);
-
-  /* ── 2) Play when visible, pause when off-screen (save CPU/battery) ── */
+  /* Videos autoplay natively (preload="auto" + autoplay in HTML) — clips are
+     small (<6MB) now, so no staggered lazy-load/play is needed. Just
+     re-assert muted (CDNs can strip the attribute) and pause off-screen. */
+  const allVids = [...row.querySelectorAll('video')];
   let playing = false;
-  const playIO = new IntersectionObserver(([e]) => {
+  const visIO = new IntersectionObserver(([e]) => {
     if (e.isIntersecting && !playing) {
       playing = true;
-      /* Re-assert muted in case a CDN (e.g. Cloudflare) stripped the HTML attribute — unmuted autoplay is rejected by browsers */
-      allVids.forEach((v, i) => setTimeout(() => { v.muted = true; v.play().catch(() => {}); }, i * 60));
+      allVids.forEach(v => { v.muted = true; v.play().catch(() => {}); });
     } else if (!e.isIntersecting && playing) {
       playing = false;
       allVids.forEach(v => v.pause());
     }
   }, { threshold: 0.05 });
-  playIO.observe(row);
+  visIO.observe(row);
 
-  /* ── 3) Scroll-in entry animation (original cards only) ── */
+  /* ── Scroll-in entry animation (original cards only) ── */
   const origCards = track.querySelectorAll('.pers-card');
   const entryIO = new IntersectionObserver(entries => {
     if (!entries[0].isIntersecting) return;
