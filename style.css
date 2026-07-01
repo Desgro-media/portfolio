@@ -2794,20 +2794,6 @@ body {
   justify-content: center;
 }
 
-.loader-ring {
-  position: absolute;
-  inset: -24px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 50%;
-  border-top-color: rgba(255, 255, 255, 0.8);
-  border-right-color: rgba(255, 255, 255, 0.4);
-  animation: l-ring-spin 2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-}
-
-@keyframes l-ring-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
 
 .loader-3d-box {
   position: relative;
