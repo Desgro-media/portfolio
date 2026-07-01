@@ -1173,6 +1173,93 @@ document.querySelectorAll('.wc-imgslider').forEach(slider => {
 })();
 
 
+/* ══════════════════════════════════════════════════════
+   REVERSE SCROLL PARALLAX
+   Multi-layer depth parallax on headings + eyebrows.
+   Negative speed = element "lags behind" (feels far).
+   Positive speed = element "rushes ahead" (feels close).
+   Fully bidirectional — reverse scroll plays it in reverse.
+
+   Bidirectional works card reveal:
+   Forward  → cards rise up from below (existing .sr system).
+   Backward → cards tilt in 3D and sink back below viewport.
+══════════════════════════════════════════════════════ */
+(function initReverseParallax() {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  /* ── Depth layers ── */
+  const layers = [
+    { sel: '.works-title',   speed: -0.08 },
+    { sel: '.pers-title',    speed: -0.07 },
+    { sel: '.tc-heading',    speed: -0.06 },
+    { sel: '.sd-why-h',      speed: -0.09 },
+    { sel: '.team-title',    speed: -0.05 },
+    { sel: '.ct-headline',   speed: -0.07 },
+    { sel: '.works-eyebrow', speed:  0.06 },
+    { sel: '.pers-eyebrow',  speed:  0.05 },
+    { sel: '.tc-eyebrow',    speed:  0.05 },
+    { sel: '.sd-eyebrow',    speed:  0.06 },
+  ];
+
+  const pItems = [];
+  layers.forEach(({ sel, speed }) => {
+    document.querySelectorAll(sel).forEach(el => {
+      el.style.willChange = 'transform';
+      pItems.push({ el, speed });
+    });
+  });
+
+  /* ── RAF parallax loop ── */
+  let rafId = null;
+
+  function tick() {
+    rafId = null;
+    const vhH   = window.innerHeight;
+    const vhMid = vhH * 0.5;
+
+    pItems.forEach(({ el, speed }) => {
+      const rect = el.getBoundingClientRect();
+      if (rect.bottom < -400 || rect.top > vhH + 400) return;
+      const fromCentre = (rect.top + rect.height * 0.5) - vhMid;
+      el.style.transform = `translateY(${(fromCentre * speed).toFixed(2)}px)`;
+    });
+  }
+
+  window.addEventListener('scroll', () => {
+    if (!rafId) rafId = requestAnimationFrame(tick);
+  }, { passive: true });
+
+  requestAnimationFrame(tick);
+
+  /* ── Bidirectional works card reveal ──
+     The global .sr observer handles the first reveal (unobserves after).
+     This observer keeps watching so reverse scroll can play a creative
+     3D sink-back animation when cards exit below the viewport again.  */
+  document.querySelectorAll('.works-card').forEach(card => {
+    let everSeen = false;
+
+    new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        everSeen = true;
+        card.style.transition = '';
+        card.style.transform  = '';
+        card.style.opacity    = '';
+        card.classList.add('sr-visible');
+      } else if (everSeen && entry.boundingClientRect.top > 0) {
+        /* Exiting BELOW viewport = user scrolled back up past the card.
+           Creative reverse: tilt forward in 3D then sink back down.   */
+        card.style.transition = 'transform 0.55s cubic-bezier(0.4,0,0.2,1), opacity 0.45s ease';
+        card.style.transform  = 'perspective(560px) rotateX(14deg) translateY(72px)';
+        card.style.opacity    = '0';
+        card.classList.remove('sr-visible');
+      }
+      /* Exiting ABOVE = scrolled down past = leave visible */
+    }, { threshold: 0.08 }).observe(card);
+  });
+
+})();
+
+
 /* ── Film strip: cursor-speed control + per-card 3D tilt ── */
 (function initFilmStrip() {
   const row   = document.querySelector('.filmstrip-row');
