@@ -1031,7 +1031,8 @@
   const playIO = new IntersectionObserver(([e]) => {
     if (e.isIntersecting && !playing) {
       playing = true;
-      allVids.forEach((v, i) => setTimeout(() => v.play().catch(() => {}), i * 60));
+      /* Re-assert muted in case a CDN (e.g. Cloudflare) stripped the HTML attribute — unmuted autoplay is rejected by browsers */
+      allVids.forEach((v, i) => setTimeout(() => { v.muted = true; v.play().catch(() => {}); }, i * 60));
     } else if (!e.isIntersecting && playing) {
       playing = false;
       allVids.forEach(v => v.pause());
