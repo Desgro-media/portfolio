@@ -1,5 +1,6 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -7,12 +8,14 @@
   <title>About &mdash; Desgro Media</title>
   <link rel="icon" type="image/jpeg" href="image assets/desgrologo.jpg">
   <link rel="apple-touch-icon" href="image assets/desgrologo.jpg">
-  <meta name="description" content="From a university town in Switzerland to 40+ creatives redefining brands across the globe.">
+  <meta name="description"
+    content="From a university town in Switzerland to 40+ creatives redefining brands across the globe.">
   <link rel="preload" href="fonts/Anton-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css">
   <style>
-
-    .about-page { overflow-x: hidden; }
+    .about-page {
+      overflow-x: hidden;
+    }
 
     /* ── STORY (first section, white background) ── */
     .ab-story {
@@ -26,103 +29,275 @@
     }
 
     .ab-story-label {
-      font-family: var(--font-body); font-size: 11px; font-weight: 500;
-      letter-spacing: 4px; color: var(--red); text-transform: uppercase;
-      margin-bottom: 36px; display: flex; align-items: center; gap: 14px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 36px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
     }
-    .ab-story-label::after { content: ''; display: block; width: 40px; height: 1px; background: var(--red); }
+
+    .ab-story-label::after {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--red);
+    }
 
     .ab-story-heading {
       font-family: var(--font-display);
       font-size: clamp(44px, 6vw, 84px);
-      line-height: 0.94; color: #000;
+      line-height: 0.94;
+      color: #000;
       margin-bottom: 52px;
     }
-    .ab-story-heading em { color: var(--red); font-style: normal; }
+
+    .ab-story-heading em {
+      color: var(--red);
+      font-style: normal;
+    }
 
     /* Milestones — dark text on white */
     .ab-milestone {
-      border-left: 1px solid rgba(0,0,0,0.1);
-      padding: 0 0 44px 28px; position: relative;
-      opacity: 0; transform: translateX(-30px);
-      transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16,1,0.3,1);
+      border-left: 1px solid rgba(0, 0, 0, 0.1);
+      padding: 0 0 44px 28px;
+      position: relative;
+      opacity: 0;
+      transform: translateX(-30px);
+      transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .ab-milestone.visible { opacity: 1; transform: translateX(0); }
-    .ab-milestone:last-child { padding-bottom: 0; }
+
+    .ab-milestone.visible {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    .ab-milestone:last-child {
+      padding-bottom: 0;
+    }
+
     .ab-milestone::before {
-      content: ''; position: absolute; left: -5px; top: 4px;
-      width: 9px; height: 9px; border-radius: 50%; background: var(--red);
+      content: '';
+      position: absolute;
+      left: -5px;
+      top: 4px;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--red);
     }
+
     .ab-milestone-year {
-      font-family: var(--font-display); font-size: 11px;
-      letter-spacing: 3px; color: var(--red);
-      margin-bottom: 8px; display: block;
+      font-family: var(--font-display);
+      font-size: 11px;
+      letter-spacing: 3px;
+      color: var(--red);
+      margin-bottom: 8px;
+      display: block;
     }
+
     .ab-milestone h3 {
-      font-family: var(--font-display); font-size: clamp(18px, 2.2vw, 26px);
-      color: #000; line-height: 1.1; margin-bottom: 10px;
+      font-family: var(--font-display);
+      font-size: clamp(18px, 2.2vw, 26px);
+      color: #000;
+      line-height: 1.1;
+      margin-bottom: 10px;
     }
+
     .ab-milestone p {
-      font-family: var(--font-body); font-size: 14px; font-weight: 300;
-      color: rgba(0,0,0,0.52); line-height: 1.78;
+      font-family: var(--font-body);
+      font-size: 14px;
+      font-weight: 300;
+      color: rgba(0, 0, 0, 0.52);
+      line-height: 1.78;
     }
 
     /* Scattered photos — dark frames on white bg */
-    .ab-hero-right { position: relative; height: 600px; z-index: 2; }
+    .ab-hero-right {
+      position: relative;
+      height: 600px;
+      z-index: 2;
+    }
+
     .ab-photo {
       position: absolute;
-      background: #1a1a1a; /* dark frame — contrasts against white section */
+      background: #1a1a1a;
+      /* dark frame — contrasts against white section */
       padding: 9px 9px 30px;
-      box-shadow: 0 12px 40px rgba(0,0,0,0.18), 0 2px 8px rgba(0,0,0,0.1);
-      opacity: 0; transition: box-shadow 0.4s ease, opacity 0.6s ease; cursor: default;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.1);
+      opacity: 0;
+      transition: box-shadow 0.4s ease, opacity 0.6s ease;
+      cursor: default;
     }
-    .ab-photo.in { opacity: 1; }
-    .ab-photo:hover { box-shadow: 0 24px 60px rgba(0,0,0,0.28); z-index: 10 !important; }
-    .ab-photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
-    .ab-p1 { width: 258px; height: 222px; top: 0;    left: 3%;  rotate: -7deg; z-index: 5; }
-    .ab-p2 { width: 276px; height: 238px; top: 4%;  right: 0;  rotate:  5deg; z-index: 4; }
-    .ab-p3 { width: 238px; height: 206px; top: 43%; left: 0;   rotate: -4deg; z-index: 6; }
-    .ab-p4 { width: 254px; height: 220px; top: 36%; left: 35%; rotate:  8deg; z-index: 3; }
-    .ab-p5 { width: 220px; height: 190px; bottom: 0; right: 0;  rotate: -6deg; z-index: 5; }
+
+    .ab-photo.in {
+      opacity: 1;
+    }
+
+    .ab-photo:hover {
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+      z-index: 10 !important;
+    }
+
+    .ab-photo img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .ab-p1 {
+      width: 258px;
+      height: 222px;
+      top: 0;
+      left: 3%;
+      rotate: -7deg;
+      z-index: 5;
+    }
+
+    .ab-p2 {
+      width: 276px;
+      height: 238px;
+      top: 4%;
+      right: 0;
+      rotate: 5deg;
+      z-index: 4;
+    }
+
+    .ab-p3 {
+      width: 238px;
+      height: 206px;
+      top: 43%;
+      left: 0;
+      rotate: -4deg;
+      z-index: 6;
+    }
+
+    .ab-p4 {
+      width: 254px;
+      height: 220px;
+      top: 36%;
+      left: 35%;
+      rotate: 8deg;
+      z-index: 3;
+    }
+
+    .ab-p5 {
+      width: 220px;
+      height: 190px;
+      bottom: 0;
+      right: 0;
+      rotate: -6deg;
+      z-index: 5;
+    }
 
     /* STATS */
     .ab-stats {
-      background: #000; display: grid;
+      background: #000;
+      display: grid;
       grid-template-columns: repeat(4, 1fr);
-      border-top: 1px solid rgba(255,255,255,0.06);
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
     }
+
     .ab-stat {
-      padding: 52px 32px; text-align: center;
-      border-right: 1px solid rgba(255,255,255,0.06);
-      opacity: 0; transform: translateY(24px);
+      padding: 52px 32px;
+      text-align: center;
+      border-right: 1px solid rgba(255, 255, 255, 0.06);
+      opacity: 0;
+      transform: translateY(24px);
       transition: opacity 0.6s ease, transform 0.6s ease;
     }
-    .ab-stat:last-child { border-right: none; }
-    .ab-stat.visible { opacity: 1; transform: translateY(0); }
-    .ab-stat-num { font-family: var(--font-display); font-size: clamp(48px, 6vw, 80px); line-height: 1; color: var(--white); display: block; }
-    .ab-stat-val { color: var(--red); }
-    .ab-stat-lbl { display: block; font-family: var(--font-body); font-size: 11px; font-weight: 400; letter-spacing: 2px; color: rgba(255,255,255,0.38); text-transform: uppercase; margin-top: 10px; }
+
+    .ab-stat:last-child {
+      border-right: none;
+    }
+
+    .ab-stat.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .ab-stat-num {
+      font-family: var(--font-display);
+      font-size: clamp(48px, 6vw, 80px);
+      line-height: 1;
+      color: var(--white);
+      display: block;
+    }
+
+    .ab-stat-val {
+      color: var(--red);
+    }
+
+    .ab-stat-lbl {
+      display: block;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 400;
+      letter-spacing: 2px;
+      color: rgba(255, 255, 255, 0.38);
+      text-transform: uppercase;
+      margin-top: 10px;
+    }
 
     /* FOUNDERS */
-    .ab-founders { background: #0a0a0a; padding: 100px 6%; }
+    .ab-founders {
+      background: #0a0a0a;
+      padding: 100px 6%;
+    }
+
     .ab-section-header {
-      display: flex; align-items: flex-start;
-      justify-content: flex-start; margin-bottom: 64px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-start;
+      margin-bottom: 64px;
     }
+
     .ab-section-label-sm {
-      font-family: var(--font-body); font-size: 11px; font-weight: 500;
-      letter-spacing: 4px; color: var(--red); text-transform: uppercase;
-      display: flex; align-items: center; gap: 14px;
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      color: var(--red);
+      text-transform: uppercase;
+      display: flex;
+      align-items: center;
+      gap: 14px;
     }
-    .ab-section-label-sm::before { content: ''; display: block; width: 36px; height: 1px; background: var(--red); }
+
+    .ab-section-label-sm::before {
+      content: '';
+      display: block;
+      width: 36px;
+      height: 1px;
+      background: var(--red);
+    }
+
     .ab-founders-heading {
-      font-family: var(--font-display); font-size: clamp(36px, 5vw, 72px);
-      color: var(--white); line-height: 0.95;
-      opacity: 0; transform: translateY(30px);
+      font-family: var(--font-display);
+      font-size: clamp(36px, 5vw, 72px);
+      color: var(--white);
+      line-height: 0.95;
+      opacity: 0;
+      transform: translateY(30px);
       transition: opacity 0.7s ease, transform 0.7s ease;
     }
-    .ab-founders-heading.visible { opacity: 1; transform: translateY(0); }
-    .ab-founders-heading em { color: var(--red); font-style: normal; display: block; }
+
+    .ab-founders-heading.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .ab-founders-heading em {
+      color: var(--red);
+      font-style: normal;
+      display: block;
+    }
 
     .ab-founders-grid {
       display: grid;
@@ -133,82 +308,319 @@
     }
 
     .ab-founder {
-      background: #111; border: 1px solid rgba(255,255,255,0.06); overflow: hidden;
-      opacity: 0; transform: translateY(40px);
-      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16,1,0.3,1), border-color 0.3s ease;
+      background: #111;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.3s ease;
     }
-    .ab-founder.visible { opacity: 1; transform: translateY(0); }
-    .ab-founder:hover { border-color: rgba(235,32,39,0.28); }
 
-    .ab-founder-img { width: 100%; aspect-ratio: 4 / 5; overflow: hidden; }
+    .ab-founder.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .ab-founder:hover {
+      border-color: rgba(235, 32, 39, 0.28);
+    }
+
+    .ab-founder-img {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+    }
+
     .ab-founder-img img {
-      width: 100%; height: 100%; object-fit: cover; object-position: center top; display: block;
-      transition: transform 0.5s cubic-bezier(0.16,1,0.3,1);
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
+      display: block;
+      transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .ab-founder:hover .ab-founder-img img { transform: scale(1.12); }
 
-    .ab-founder-info { padding: 18px 20px 24px; }
-    .ab-founder-role { font-family: var(--font-body); font-size: 10px; font-weight: 600; letter-spacing: 3px; color: var(--red); text-transform: uppercase; display: block; margin-bottom: 8px; }
-    .ab-founder-name { font-family: var(--font-display); font-size: clamp(22px, 2.5vw, 32px); color: var(--white); line-height: 1; margin-bottom: 12px; }
-    .ab-founder-bio { font-family: var(--font-body); font-size: 13px; font-weight: 300; color: rgba(255,255,255,0.4); line-height: 1.75; }
+    .ab-founder:hover .ab-founder-img img {
+      transform: scale(1.12);
+    }
+
+    .ab-founder-info {
+      padding: 18px 20px 24px;
+    }
+
+    .ab-founder-role {
+      font-family: var(--font-body);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 3px;
+      color: var(--red);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .ab-founder-name {
+      font-family: var(--font-display);
+      font-size: clamp(22px, 2.5vw, 32px);
+      color: var(--white);
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+
+    .ab-founder-bio {
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 300;
+      color: rgba(255, 255, 255, 0.4);
+      line-height: 1.75;
+    }
 
     /* CTA */
-    .ab-cta { background: #000; padding: 140px 6%; text-align: center; position: relative; overflow: hidden; }
+    .ab-cta {
+      background: #000;
+      padding: 140px 6%;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
     .ab-cta::before {
-      content: ''; position: absolute; bottom: -30%; left: 50%;
-      transform: translateX(-50%); width: 80vw; height: 80vw;
-      max-width: 900px; max-height: 900px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(235,32,39,0.14) 0%, transparent 65%);
+      content: '';
+      position: absolute;
+      bottom: -30%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80vw;
+      height: 80vw;
+      max-width: 900px;
+      max-height: 900px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(235, 32, 39, 0.14) 0%, transparent 65%);
       pointer-events: none;
     }
-    .ab-cta-lbl { font-family: var(--font-body); font-size: 11px; font-weight: 500; letter-spacing: 4px; color: var(--red); text-transform: uppercase; margin-bottom: 24px; opacity: 0; transition: opacity 0.7s ease; }
-    .ab-cta-lbl.visible { opacity: 1; }
-    .ab-cta-title { font-family: var(--font-display); font-size: clamp(56px, 11vw, 150px); line-height: 0.88; color: var(--white); position: relative; z-index: 1; margin-bottom: 48px; opacity: 0; transform: translateY(50px); transition: opacity 0.8s ease 0.15s, transform 0.8s cubic-bezier(0.16,1,0.3,1) 0.15s; }
-    .ab-cta-title.visible { opacity: 1; transform: translateY(0); }
-    .ab-cta-title em { color: var(--red); font-style: normal; display: block; }
-    .ab-cta-btn { display: inline-block; background: var(--red); color: var(--white); font-family: var(--font-body); font-size: 12px; font-weight: 700; letter-spacing: 2.5px; text-transform: uppercase; text-decoration: none; padding: 18px 52px; position: relative; z-index: 1; opacity: 0; transform: translateY(20px); transition: opacity 0.7s ease 0.35s, transform 0.7s ease 0.35s, background 0.2s; }
-    .ab-cta-btn.visible { opacity: 1; transform: translateY(0); }
-    .ab-cta-btn:hover { background: #c0181e; }
+
+    .ab-cta-lbl {
+      font-family: var(--font-body);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 4px;
+      color: var(--red);
+      text-transform: uppercase;
+      margin-bottom: 24px;
+      opacity: 0;
+      transition: opacity 0.7s ease;
+    }
+
+    .ab-cta-lbl.visible {
+      opacity: 1;
+    }
+
+    .ab-cta-title {
+      font-family: var(--font-display);
+      font-size: clamp(56px, 11vw, 150px);
+      line-height: 0.88;
+      color: var(--white);
+      position: relative;
+      z-index: 1;
+      margin-bottom: 48px;
+      opacity: 0;
+      transform: translateY(50px);
+      transition: opacity 0.8s ease 0.15s, transform 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+    }
+
+    .ab-cta-title.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .ab-cta-title em {
+      color: var(--red);
+      font-style: normal;
+      display: block;
+    }
+
+    .ab-cta-btn {
+      display: inline-block;
+      background: var(--red);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 18px 52px;
+      position: relative;
+      z-index: 1;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.7s ease 0.35s, transform 0.7s ease 0.35s, background 0.2s;
+    }
+
+    .ab-cta-btn.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .ab-cta-btn:hover {
+      background: #c0181e;
+    }
 
     /* RESPONSIVE */
     @media (max-width: 900px) {
+
       /* Story stacks: milestones on top, photos below */
-      .ab-story { grid-template-columns: 1fr; gap: 52px; padding-top: calc(var(--nav-h) + 48px); padding-bottom: 72px; }
-      .ab-hero-right { height: 340px; }
-      .ab-p1 { width: 160px; height: 138px; }
-      .ab-p2 { width: 170px; height: 150px; }
-      .ab-p3 { width: 148px; height: 128px; }
-      .ab-p4 { width: 162px; height: 140px; }
-      .ab-p5 { width: 140px; height: 122px; }
-      .ab-stats { grid-template-columns: repeat(2, 1fr); }
-      .ab-stat:nth-child(2), .ab-stat:nth-child(4) { border-right: none; }
-      .ab-founders-grid { grid-template-columns: 1fr 1fr; max-width: 100%; }
-      .ab-section-header { flex-direction: column; align-items: flex-start; gap: 20px; }
-      .ab-stat { padding: 36px 20px; }
-      .ab-founders { padding: 72px 5%; }
-    }
-    @media (max-width: 600px) {
-      .ab-hero-right { height: 230px; }
-      .ab-p1 { width: 116px; height: 100px; top: 0;    left: 4%;  }
-      .ab-p2 { width: 126px; height: 110px; top: 5%;   right: 2%; }
-      .ab-p3 { width: 108px; height: 94px;  top: 42%;  left: 0;   }
-      .ab-p4 { width: 118px; height: 102px; top: 38%;  left: 34%; }
-      .ab-p5 { width: 100px; height: 88px;  bottom: 0; right: 1%; }
-      .ab-founders-grid { grid-template-columns: 1fr; }
-      .ab-stats { grid-template-columns: 1fr 1fr; }
-      .ab-cta-title { font-size: clamp(44px, 14vw, 80px); }
-    }
-    @media (max-width: 380px) {
-      .ab-hero-right { height: 200px; }
-      .ab-p1 { width: 100px; height: 86px; }
-      .ab-p2 { width: 108px; height: 94px; }
-      .ab-p3 { width: 94px;  height: 82px; }
-      .ab-p4 { width: 102px; height: 88px; }
-      .ab-p5 { width: 88px;  height: 76px; }
+      .ab-story {
+        grid-template-columns: 1fr;
+        gap: 52px;
+        padding-top: calc(var(--nav-h) + 48px);
+        padding-bottom: 72px;
+      }
+
+      .ab-hero-right {
+        height: 340px;
+      }
+
+      .ab-p1 {
+        width: 160px;
+        height: 138px;
+      }
+
+      .ab-p2 {
+        width: 170px;
+        height: 150px;
+      }
+
+      .ab-p3 {
+        width: 148px;
+        height: 128px;
+      }
+
+      .ab-p4 {
+        width: 162px;
+        height: 140px;
+      }
+
+      .ab-p5 {
+        width: 140px;
+        height: 122px;
+      }
+
+      .ab-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .ab-stat:nth-child(2),
+      .ab-stat:nth-child(4) {
+        border-right: none;
+      }
+
+      .ab-founders-grid {
+        grid-template-columns: 1fr 1fr;
+        max-width: 100%;
+      }
+
+      .ab-section-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+      }
+
+      .ab-stat {
+        padding: 36px 20px;
+      }
+
+      .ab-founders {
+        padding: 72px 5%;
+      }
     }
 
+    @media (max-width: 600px) {
+      .ab-hero-right {
+        height: 230px;
+      }
+
+      .ab-p1 {
+        width: 116px;
+        height: 100px;
+        top: 0;
+        left: 4%;
+      }
+
+      .ab-p2 {
+        width: 126px;
+        height: 110px;
+        top: 5%;
+        right: 2%;
+      }
+
+      .ab-p3 {
+        width: 108px;
+        height: 94px;
+        top: 42%;
+        left: 0;
+      }
+
+      .ab-p4 {
+        width: 118px;
+        height: 102px;
+        top: 38%;
+        left: 34%;
+      }
+
+      .ab-p5 {
+        width: 100px;
+        height: 88px;
+        bottom: 0;
+        right: 1%;
+      }
+
+      .ab-founders-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .ab-stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .ab-cta-title {
+        font-size: clamp(44px, 14vw, 80px);
+      }
+    }
+
+    @media (max-width: 380px) {
+      .ab-hero-right {
+        height: 200px;
+      }
+
+      .ab-p1 {
+        width: 100px;
+        height: 86px;
+      }
+
+      .ab-p2 {
+        width: 108px;
+        height: 94px;
+      }
+
+      .ab-p3 {
+        width: 94px;
+        height: 82px;
+      }
+
+      .ab-p4 {
+        width: 102px;
+        height: 88px;
+      }
+
+      .ab-p5 {
+        width: 88px;
+        height: 76px;
+      }
+    }
   </style>
 </head>
+
 <body class="about-page">
 
   <!-- NAV -->
@@ -230,10 +642,12 @@
       <li><a href="/careers">CAREER</a></li>
     </ul>
     <div class="nav-right">
-      <a href="https://www.instagram.com/demand.school?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" class="nav-circle-btn" aria-label="Demand School">
+      <a href="https://www.instagram.com/demand.school?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
+        target="_blank" rel="noopener" class="nav-circle-btn" aria-label="Demand School">
         <img src="image assets/demandlogo.jpg" alt="Demand School">
       </a>
-      <a href="https://erp.desgromedia.com/apply/" class="btn-get-started" target="_blank" rel="noopener">GET STARTED &rarr;</a>
+      <a href="https://erp.desgromedia.com/apply/" class="btn-get-started" target="_blank" rel="noopener">GET STARTED
+        &rarr;</a>
       <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
@@ -251,7 +665,8 @@
       <li><a href="/#contact">CONTACT</a></li>
       <li><a href="/careers">CAREER</a></li>
     </ul>
-    <a href="https://erp.desgromedia.com/apply/" class="btn-get-started mobile-nav-cta" target="_blank" rel="noopener">GET STARTED &rarr;</a>
+    <a href="https://erp.desgromedia.com/apply/" class="btn-get-started mobile-nav-cta" target="_blank"
+      rel="noopener">GET STARTED &rarr;</a>
   </div>
 
   <!-- STORY TIMELINE (first section) -->
@@ -263,22 +678,27 @@
       <div class="ab-milestone" data-reveal>
         <span class="ab-milestone-year">2023 &mdash; FRIBOURG, SWITZERLAND</span>
         <h3>THE SEED</h3>
-        <p>Two founders completed their Masters in Marketing at a quiet Swiss university town. Late nights, big ideas, and a shared obsession with brand storytelling planted the seed for what would become DesGro.</p>
+        <p>Two founders completed their Masters in Marketing at a quiet Swiss university town. Late nights, big ideas,
+          and a shared obsession with brand storytelling planted the seed for what would become DesGro.</p>
       </div>
       <div class="ab-milestone" data-reveal data-delay="120">
         <span class="ab-milestone-year">2023 &mdash; DUBAI, UAE</span>
         <h3>THE CATALYST</h3>
-        <p>Mentored by Mahdi Shafiei of Trifid Media &mdash; the biggest marketing agency in the GCC &mdash; the founders gained frontline insight into elite-level brand strategy and what it takes to build agencies that last.</p>
+        <p>Mentored by Mahdi Shafiei of Trifid Media &mdash; the biggest marketing agency in the GCC &mdash; the
+          founders gained frontline insight into elite-level brand strategy and what it takes to build agencies that
+          last.</p>
       </div>
       <div class="ab-milestone" data-reveal data-delay="240">
         <span class="ab-milestone-year">2024 &mdash; CALICUT, INDIA</span>
         <h3>THE LAUNCH</h3>
-        <p>Armed with a world-class education and Dubai-forged instincts, DesGro was born at Hilite Business Park, Calicut &mdash; starting with a founding team of just 3.</p>
+        <p>Armed with a world-class education and Dubai-forged instincts, DesGro was born at Hilite Business Park,
+          Calicut &mdash; starting with a founding team of just 3.</p>
       </div>
       <div class="ab-milestone" data-reveal data-delay="360">
         <span class="ab-milestone-year">2025&ndash;2026 &mdash; SCALING FAST</span>
         <h3>THE MOVEMENT</h3>
-        <p>What started with 3 is now a powerhouse of 40+ creators, strategists and marketers across 7+ departments &mdash; 150+ creators built, 100M+ views generated, and still accelerating.</p>
+        <p>What started with 3 is now a powerhouse of 40+ creators, strategists and marketers across 7+ departments
+          &mdash; 150+ creators built, 100M+ views generated, and still accelerating.</p>
       </div>
     </div>
 
@@ -313,7 +733,8 @@
         <div class="ab-founder-info">
           <span class="ab-founder-role">Founder</span>
           <h3 class="ab-founder-name">Nisam VM</h3>
-          <p class="ab-founder-bio">Masters in Marketing, Fribourg. The founding vision behind DesGro &mdash; from 3 to 40+, from Calicut to global. Mentored by the GCC&rsquo;s finest.</p>
+          <p class="ab-founder-bio">Masters in Marketing, Fribourg. The founding vision behind DesGro &mdash; from 3 to
+            40+, from Calicut to global. Mentored by the GCC&rsquo;s finest.</p>
         </div>
       </div>
       <div class="ab-founder" data-reveal data-delay="150">
@@ -323,7 +744,8 @@
         <div class="ab-founder-info">
           <span class="ab-founder-role">Co-Founder</span>
           <h3 class="ab-founder-name">Thanseem CA</h3>
-          <p class="ab-founder-bio">Masters in Marketing, Fribourg. The operational architect of DesGro&rsquo;s growth systems, client partnerships, and culture.</p>
+          <p class="ab-founder-bio">Masters in Marketing, Fribourg. The operational architect of DesGro&rsquo;s growth
+            systems, client partnerships, and culture.</p>
         </div>
       </div>
       <div class="ab-founder" data-reveal data-delay="300">
@@ -333,7 +755,8 @@
         <div class="ab-founder-info">
           <span class="ab-founder-role">Brand Strategist</span>
           <h3 class="ab-founder-name">Aflah Al Zaman</h3>
-          <p class="ab-founder-bio">The strategic mind turning audience insights into brand positioning that makes businesses impossible to ignore.</p>
+          <p class="ab-founder-bio">The strategic mind turning audience insights into brand positioning that makes
+            businesses impossible to ignore.</p>
         </div>
       </div>
     </div>
@@ -343,135 +766,140 @@
   <section class="ab-cta">
     <p class="ab-cta-lbl" data-reveal>Let&rsquo;s Build Together</p>
     <h2 class="ab-cta-title" data-reveal>READY TO<br><em>GROW?</em></h2>
-    <a href="https://erp.desgromedia.com/apply/" class="ab-cta-btn" data-reveal target="_blank" rel="noopener">Get Started &rarr;</a>
+    <a href="https://erp.desgromedia.com/apply/" class="ab-cta-btn" data-reveal target="_blank" rel="noopener">Get
+      Started &rarr;</a>
   </section>
 
   <!-- BACK TO TOP -->
   <button id="backToTop" class="back-to-top" aria-label="Back to top">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+      stroke-linecap="round" stroke-linejoin="round">
+      <polyline points="18 15 12 9 6 15" />
+    </svg>
   </button>
 
   <script>
-  (function() {
+    (function () {
 
-    /* NAV hamburger */
-    const hamburger = document.getElementById('navHamburger');
-    const mobileNav = document.getElementById('mobileNav');
-    const closeBtn  = document.getElementById('mobileNavClose');
-    if (hamburger && mobileNav) {
-      hamburger.addEventListener('click', () => {
-        const open = mobileNav.classList.toggle('open');
-        hamburger.classList.toggle('active', open);
-        mobileNav.setAttribute('aria-hidden', String(!open));
-      });
-      closeBtn && closeBtn.addEventListener('click', () => {
-        mobileNav.classList.remove('open');
-        hamburger.classList.remove('active');
-        mobileNav.setAttribute('aria-hidden', 'true');
-      });
-      mobileNav.querySelectorAll('a').forEach(a =>
-        a.addEventListener('click', () => {
+      /* NAV hamburger */
+      const hamburger = document.getElementById('navHamburger');
+      const mobileNav = document.getElementById('mobileNav');
+      const closeBtn = document.getElementById('mobileNavClose');
+      if (hamburger && mobileNav) {
+        hamburger.addEventListener('click', () => {
+          const open = mobileNav.classList.toggle('open');
+          hamburger.classList.toggle('active', open);
+          mobileNav.setAttribute('aria-hidden', String(!open));
+        });
+        closeBtn && closeBtn.addEventListener('click', () => {
           mobileNav.classList.remove('open');
           hamburger.classList.remove('active');
           mobileNav.setAttribute('aria-hidden', 'true');
-        })
-      );
-    }
-
-    /* Photos entrance — stagger in on page load */
-    setTimeout(() => {
-      document.querySelectorAll('.ab-photo').forEach((p, i) =>
-        setTimeout(() => p.classList.add('in'), 200 + i * 110)
-      );
-    }, 100);
-
-    /* Photo hover tilt */
-    document.querySelectorAll('.ab-photo').forEach(photo => {
-      photo.addEventListener('mousemove', e => {
-        const r = photo.getBoundingClientRect();
-        const x = (e.clientX - r.left) / r.width  - 0.5;
-        const y = (e.clientY - r.top)  / r.height - 0.5;
-        photo.style.transform = 'perspective(600px) rotateY(' + (x*14) + 'deg) rotateX(' + (-y*10) + 'deg) scale(1.04)';
-      });
-      photo.addEventListener('mouseleave', () => { photo.style.transform = ''; });
-    });
-
-    /* Reveal observer */
-    function reveal(selector, opts) {
-      const els = document.querySelectorAll(selector);
-      if (!els.length) return;
-      const io = new IntersectionObserver(entries => {
-        entries.forEach(e => {
-          const d = parseInt(e.target.dataset.delay || '0', 10);
-          if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), d);
-          else e.target.classList.remove('visible');
         });
-      }, opts || { threshold: 0.15 });
-      els.forEach(el => io.observe(el));
-    }
-    reveal('[data-reveal]',        { threshold: 0.15 });
-    reveal('.ab-milestone',        { threshold: 0.2  });
-    reveal('.ab-founders-heading', { threshold: 0.2  });
-    reveal('.ab-founder',          { threshold: 0.1  });
-    reveal('.ab-cta-lbl',          { threshold: 0.2  });
-    reveal('.ab-cta-title',        { threshold: 0.15 });
-    reveal('.ab-cta-btn',          { threshold: 0.1  });
+        mobileNav.querySelectorAll('a').forEach(a =>
+          a.addEventListener('click', () => {
+            mobileNav.classList.remove('open');
+            hamburger.classList.remove('active');
+            mobileNav.setAttribute('aria-hidden', 'true');
+          })
+        );
+      }
 
-    /* Stat counters */
-    const stats = document.querySelectorAll('[data-stat]');
-    stats.forEach(function(s) {
-      var val = s.dataset.val, suf = s.dataset.suf || '', lbl = s.dataset.lbl || '';
-      s.innerHTML =
-        '<span class="ab-stat-num"><span class="ab-stat-val" data-target="' + val + '">0</span>' + suf + '</span>' +
-        '<span class="ab-stat-lbl">' + lbl + '</span>';
-    });
-    function counter(el) {
-      var target = parseInt(el.dataset.target, 10);
-      var dur = 1600, start = performance.now();
-      (function tick(now) {
-        var p = Math.min(1, (now - start) / dur);
-        el.textContent = Math.floor((1 - Math.pow(1 - p, 3)) * target);
-        if (p < 1) requestAnimationFrame(tick);
-        else el.textContent = target;
-      })(start);
-    }
-    var statIO = new IntersectionObserver(function(entries) {
-      entries.forEach(function(e) {
-        var d = parseInt(e.target.dataset.delay || '0', 10);
-        if (e.isIntersecting) {
-          setTimeout(function() {
-            e.target.classList.add('visible');
-            var n = e.target.querySelector('.ab-stat-val');
-            if (n) counter(n);
-          }, d);
-        } else {
-          e.target.classList.remove('visible');
-          var n = e.target.querySelector('.ab-stat-val');
-          if (n) n.textContent = '0';
-        }
+      /* Photos entrance — stagger in on page load */
+      setTimeout(() => {
+        document.querySelectorAll('.ab-photo').forEach((p, i) =>
+          setTimeout(() => p.classList.add('in'), 200 + i * 110)
+        );
+      }, 100);
+
+      /* Photo hover tilt */
+      document.querySelectorAll('.ab-photo').forEach(photo => {
+        photo.addEventListener('mousemove', e => {
+          const r = photo.getBoundingClientRect();
+          const x = (e.clientX - r.left) / r.width - 0.5;
+          const y = (e.clientY - r.top) / r.height - 0.5;
+          photo.style.transform = 'perspective(600px) rotateY(' + (x * 14) + 'deg) rotateX(' + (-y * 10) + 'deg) scale(1.04)';
+        });
+        photo.addEventListener('mouseleave', () => { photo.style.transform = ''; });
       });
-    }, { threshold: 0.25 });
-    stats.forEach(function(s) { statIO.observe(s); });
 
-    /* Nav scroll */
-    var navbar = document.getElementById('navbar');
-    if (navbar) {
-      window.addEventListener('scroll', function() {
-        navbar.style.background = window.scrollY > 20 ? 'rgba(0,0,0,0.99)' : 'rgba(0,0,0,0.97)';
-      }, { passive: true });
-    }
+      /* Reveal observer */
+      function reveal(selector, opts) {
+        const els = document.querySelectorAll(selector);
+        if (!els.length) return;
+        const io = new IntersectionObserver(entries => {
+          entries.forEach(e => {
+            const d = parseInt(e.target.dataset.delay || '0', 10);
+            if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), d);
+            else e.target.classList.remove('visible');
+          });
+        }, opts || { threshold: 0.15 });
+        els.forEach(el => io.observe(el));
+      }
+      reveal('[data-reveal]', { threshold: 0.15 });
+      reveal('.ab-milestone', { threshold: 0.2 });
+      reveal('.ab-founders-heading', { threshold: 0.2 });
+      reveal('.ab-founder', { threshold: 0.1 });
+      reveal('.ab-cta-lbl', { threshold: 0.2 });
+      reveal('.ab-cta-title', { threshold: 0.15 });
+      reveal('.ab-cta-btn', { threshold: 0.1 });
 
-    /* Back to top */
-    var btn = document.getElementById('backToTop');
-    if (btn) {
-      window.addEventListener('scroll', function() {
-        btn.classList.toggle('visible', window.scrollY > 500);
-      }, { passive: true });
-      btn.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
-    }
+      /* Stat counters */
+      const stats = document.querySelectorAll('[data-stat]');
+      stats.forEach(function (s) {
+        var val = s.dataset.val, suf = s.dataset.suf || '', lbl = s.dataset.lbl || '';
+        s.innerHTML =
+          '<span class="ab-stat-num"><span class="ab-stat-val" data-target="' + val + '">0</span>' + suf + '</span>' +
+          '<span class="ab-stat-lbl">' + lbl + '</span>';
+      });
+      function counter(el) {
+        var target = parseInt(el.dataset.target, 10);
+        var dur = 1600, start = performance.now();
+        (function tick(now) {
+          var p = Math.min(1, (now - start) / dur);
+          el.textContent = Math.floor((1 - Math.pow(1 - p, 3)) * target);
+          if (p < 1) requestAnimationFrame(tick);
+          else el.textContent = target;
+        })(start);
+      }
+      var statIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          var d = parseInt(e.target.dataset.delay || '0', 10);
+          if (e.isIntersecting) {
+            setTimeout(function () {
+              e.target.classList.add('visible');
+              var n = e.target.querySelector('.ab-stat-val');
+              if (n) counter(n);
+            }, d);
+          } else {
+            e.target.classList.remove('visible');
+            var n = e.target.querySelector('.ab-stat-val');
+            if (n) n.textContent = '0';
+          }
+        });
+      }, { threshold: 0.25 });
+      stats.forEach(function (s) { statIO.observe(s); });
 
-  })();
+      /* Nav scroll */
+      var navbar = document.getElementById('navbar');
+      if (navbar) {
+        window.addEventListener('scroll', function () {
+          navbar.style.background = window.scrollY > 20 ? 'rgba(0,0,0,0.99)' : 'rgba(0,0,0,0.97)';
+        }, { passive: true });
+      }
+
+      /* Back to top */
+      var btn = document.getElementById('backToTop');
+      if (btn) {
+        window.addEventListener('scroll', function () {
+          btn.classList.toggle('visible', window.scrollY > 500);
+        }, { passive: true });
+        btn.addEventListener('click', function () { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+      }
+
+    })();
   </script>
 
 </body>
+
 </html>

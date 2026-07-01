@@ -73,6 +73,7 @@
 
   if (loaderVideo) {
     loaderVideo.addEventListener('ended', exitLoader, { once: true });
+    loaderVideo.addEventListener('error', exitLoader, { once: true });
     setTimeout(exitLoader, 8000); /* safety fallback */
   } else {
     setTimeout(exitLoader, 2100);
