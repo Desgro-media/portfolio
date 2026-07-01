@@ -741,6 +741,7 @@ body {
   object-fit: cover;
   display: block;
   pointer-events: none;
+  background: #0a0a0a;
 }
 
 /* holographic shine */

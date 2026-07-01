@@ -1006,19 +1006,42 @@
 
   const clone = track.cloneNode(true);
   clone.setAttribute('aria-hidden', 'true');
-  /* cloned videos should also autoplay */
-  clone.querySelectorAll('video').forEach(v => { v.muted = true; v.play().catch(() => {}); });
   row.appendChild(clone);
 
-  /* Scroll-in entry animation (original cards only) */
+  /* All videos (original + clone). Clone shares same URLs → browser cache, no second download. */
+  const allVids  = [...row.querySelectorAll('video')];
+  const origVids = [...track.querySelectorAll('video')];
+
+  /* ── 1) Pre-buffer when section approaches (300px before entry) ── */
+  const preIO = new IntersectionObserver(([e]) => {
+    if (!e.isIntersecting) return;
+    preIO.disconnect();
+    /* Stagger originals so we don't open 7 connections simultaneously */
+    origVids.forEach((v, i) => setTimeout(() => {
+      v.preload = 'auto';
+      v.load();
+    }, i * 100));
+    /* Clones hit the browser cache — no stagger needed */
+    clone.querySelectorAll('video').forEach(v => { v.preload = 'auto'; v.load(); });
+  }, { threshold: 0, rootMargin: '300px 0px' });
+  preIO.observe(row);
+
+  /* ── 2) Play when visible, pause when off-screen (save CPU/battery) ── */
+  let playing = false;
+  const playIO = new IntersectionObserver(([e]) => {
+    if (e.isIntersecting && !playing) {
+      playing = true;
+      allVids.forEach((v, i) => setTimeout(() => v.play().catch(() => {}), i * 60));
+    } else if (!e.isIntersecting && playing) {
+      playing = false;
+      allVids.forEach(v => v.pause());
+    }
+  }, { threshold: 0.05 });
+  playIO.observe(row);
+
+  /* ── 3) Scroll-in entry animation (original cards only) ── */
   const origCards = track.querySelectorAll('.pers-card');
-  
-  /* Force play original videos in case CDN (like Cloudflare) strips autoplay attribute */
-  origCards.forEach(card => {
-    const v = card.querySelector('video');
-    if (v) { v.muted = true; v.play().catch(() => {}); }
-  });
-  const io = new IntersectionObserver(entries => {
+  const entryIO = new IntersectionObserver(entries => {
     if (!entries[0].isIntersecting) return;
     origCards.forEach((card, i) => {
       card.style.opacity   = '0';
@@ -1029,10 +1052,9 @@
         card.style.transform  = 'perspective(800px) rotateX(0deg) translateY(0px)';
       }, i * 110);
     });
-    io.disconnect();
+    entryIO.disconnect();
   }, { threshold: 0.15 });
-
-  io.observe(row);
+  entryIO.observe(row);
 })();
 
 
