@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -10,27 +9,39 @@
   <title>Desgro Media &mdash; Creative Content Marketing</title>
   <link rel="icon" type="image/jpeg" href="image assets/desgrologo.jpg">
   <link rel="apple-touch-icon" href="image assets/desgrologo.jpg">
-  <meta name="description"
-    content="Desgro Media brings together strategic insight, inspired design, and a passion for storytelling &mdash; helping businesses connect with their audience on a deeper level.">
+  <meta name="description" content="Desgro Media brings together strategic insight, inspired design, and a passion for storytelling &mdash; helping businesses connect with their audience on a deeper level.">
   <!-- Preload Anton so it's ready before first paint &mdash; eliminates font-swap flash -->
   <link rel="preload" href="fonts/Anton-Regular.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="stylesheet" href="style.css?v=3">
+  <link rel="stylesheet" href="style.css?v=4">
   <!-- Three.js for real 3D glass asterisk rendering -->
   <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 </head>
-
 <body>
 
-  <!-- Video loader — plays brand reel fullscreen, then exits into the site -->
+  <!-- Page loader — hardcoded so it covers the page on first paint before JS runs -->
   <div class="page-loader" aria-hidden="true">
-    <video id="loaderVideo" autoplay muted playsinline preload="auto">
-      <source src="video-assets/i_want_to_make_a_vedo_okay.mp4" type="video/mp4">
-    </video>
+    <div class="loader-logo-wrap">
+      <div class="loader-ring"></div>
+      <div class="loader-3d-box">
+        <div class="face front">
+          <div class="loader-topbar"></div>
+          <div class="loader-name">D</div>
+        </div>
+        <div class="face back">
+          <div class="loader-topbar"></div>
+          <div class="loader-name">D</div>
+        </div>
+        <div class="face left"></div>
+        <div class="face right"></div>
+        <div class="face top"></div>
+        <div class="face bottom"></div>
+      </div>
+    </div>
+    <div class="loader-track"><div class="loader-fill"></div></div>
   </div>
 
   <nav id="navbar">
-    <div class="nav-logo" id="navLogo" style="cursor:pointer;"
-      onclick="window.location.href=window.location.origin+'/'">
+    <div class="nav-logo" id="navLogo" style="cursor:pointer;" onclick="window.location.href=window.location.origin+'/'">
       <div class="logo-mark">
         <div class="logo-bar"></div>
         <span class="logo-text-desgro">DESGRO</span>
@@ -46,12 +57,10 @@
       <li><a href="careers.html">CAREER</a></li>
     </ul>
     <div class="nav-right">
-      <a href="https://www.instagram.com/demand.school?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
-        target="_blank" rel="noopener" class="nav-circle-btn" aria-label="Demand School on Instagram">
+      <a href="https://www.instagram.com/demand.school?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" class="nav-circle-btn" aria-label="Demand School on Instagram">
         <img src="image assets/demandlogo.jpg" alt="Demand School">
       </a>
-      <a href="https://erp.desgromedia.com/apply/" class="btn-get-started" id="btn-get-started" target="_blank"
-        rel="noopener">GET STARTED &rarr;</a>
+      <a href="https://erp.desgromedia.com/apply/" class="btn-get-started" id="btn-get-started" target="_blank" rel="noopener">GET STARTED &rarr;</a>
       <button class="nav-hamburger" id="navHamburger" aria-label="Open menu">
         <span></span><span></span><span></span>
       </button>
@@ -69,8 +78,7 @@
       <li><a href="#contact">CONTACT</a></li>
       <li><a href="/careers">CAREER</a></li>
     </ul>
-    <a href="https://erp.desgromedia.com/apply/" class="btn-get-started mobile-nav-cta" target="_blank"
-      rel="noopener">GET STARTED &rarr;</a>
+    <a href="https://erp.desgromedia.com/apply/" class="btn-get-started mobile-nav-cta" target="_blank" rel="noopener">GET STARTED &rarr;</a>
   </div>
 
   <!-- ======================== HERO SECTION ======================== -->
@@ -99,61 +107,35 @@
     <div class="filmstrip-section" aria-label="Event highlights">
       <div class="filmstrip-row">
         <div class="filmstrip-inner">
-          <div class="filmstrip-track">
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-01-54.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-03.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-05.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-07.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-09.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-12.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-16.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-20.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-24.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-28.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-36.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-39.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-42.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-45.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-48.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-52.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-55.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-03-03.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-03-06.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-03-09.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-03-13.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-03-16.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-03-19.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-03-22.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-03-25.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-            <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-03-28.jpg" alt="" loading="lazy"
-                decoding="async"></div>
-          </div>
-          <!-- JS clones .filmstrip-track for seamless loop -->
+        <div class="filmstrip-track">
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-01-54.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-03.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-05.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-07.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-09.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-12.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-16.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-20.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-24.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-28.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-36.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-39.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-42.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-45.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-48.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-52.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-02-55.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-03-03.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-03-06.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-03-09.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-03-13.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-03-16.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-03-19.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-03-22.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-03-25.jpg" alt="" loading="lazy" decoding="async"></div>
+          <div class="filmstrip-frame"><img src="eventsimages/photo_2026-06-30_14-03-28.jpg" alt="" loading="lazy" decoding="async"></div>
+        </div>
+        <!-- JS clones .filmstrip-track for seamless loop -->
         </div><!-- /filmstrip-inner -->
       </div>
     </div>
@@ -163,51 +145,43 @@
       <div class="sd-card">
         <span class="sd-card-num">01</span>
         <h3 class="sd-card-name">PERSONAL<br>BRANDING</h3>
-        <p class="sd-card-desc">Build a powerful personal identity that amplifies your voice, expands your reach, and
-          positions you as the authority in your niche.</p>
+        <p class="sd-card-desc">Build a powerful personal identity that amplifies your voice, expands your reach, and positions you as the authority in your niche.</p>
         <a href="#contact" class="sd-card-arrow">&rarr;</a>
       </div>
       <div class="sd-card">
         <span class="sd-card-num">02</span>
         <h3 class="sd-card-name">Social Media</h3>
-        <p class="sd-card-desc">Data-driven social strategies that grow your audience, spark engagement, and turn
-          followers into loyal customers across every platform.</p>
+        <p class="sd-card-desc">Data-driven social strategies that grow your audience, spark engagement, and turn followers into loyal customers across every platform.</p>
         <a href="#contact" class="sd-card-arrow">&rarr;</a>
       </div>
       <div class="sd-card">
         <span class="sd-card-num">03</span>
         <h3 class="sd-card-name">PERFORMANCE<br>MARKETING</h3>
-        <p class="sd-card-desc">ROI-focused campaigns across paid channels &mdash; from Meta to Google &mdash;
-          engineered to convert at every stage of the funnel.</p>
+        <p class="sd-card-desc">ROI-focused campaigns across paid channels &mdash; from Meta to Google &mdash; engineered to convert at every stage of the funnel.</p>
         <a href="#contact" class="sd-card-arrow">&rarr;</a>
       </div>
       <div class="sd-card">
         <span class="sd-card-num">04</span>
         <h3 class="sd-card-name">LOGO<br>BRANDING</h3>
-        <p class="sd-card-desc">Distinctive logos and visual identities that instantly communicate who you are and make
-          your brand impossible to forget.</p>
+        <p class="sd-card-desc">Distinctive logos and visual identities that instantly communicate who you are and make your brand impossible to forget.</p>
         <a href="#contact" class="sd-card-arrow">&rarr;</a>
       </div>
       <div class="sd-card">
         <span class="sd-card-num">05</span>
         <h3 class="sd-card-name">WEB & APP<br>DEVELOPMENT</h3>
-        <p class="sd-card-desc">Clean, fast, conversion-optimised digital products &mdash; from landing pages to
-          full-scale web and mobile applications.</p>
+        <p class="sd-card-desc">Clean, fast, conversion-optimised digital products &mdash; from landing pages to full-scale web and mobile applications.</p>
         <a href="#contact" class="sd-card-arrow">&rarr;</a>
       </div>
       <div class="sd-card">
         <span class="sd-card-num">06</span>
         <h3 class="sd-card-name">AI REELS<br>& TV ADS</h3>
-        <p class="sd-card-desc">From hyper-realistic AI-generated reels to high-impact television commercials &mdash; we
-          craft video content that performs at every scale, on every screen.</p>
+        <p class="sd-card-desc">From hyper-realistic AI-generated reels to high-impact television commercials &mdash; we craft video content that performs at every scale, on every screen.</p>
         <a href="#contact" class="sd-card-arrow">&rarr;</a>
       </div>
       <div class="sd-card">
         <span class="sd-card-num">07</span>
         <h3 class="sd-card-name">INFLUENCER<br>MARKETING</h3>
-        <p class="sd-card-desc">We connect your brand with the right voices &mdash; from hyper-targeted
-          micro-influencers with loyal niches to macro creators with massive reach. Every partnership is
-          precision-matched to your audience, turning genuine trust into views, sales, and long-term brand love.</p>
+        <p class="sd-card-desc">We connect your brand with the right voices &mdash; from hyper-targeted micro-influencers with loyal niches to macro creators with massive reach. Every partnership is precision-matched to your audience, turning genuine trust into views, sales, and long-term brand love.</p>
         <a href="https://erp.desgromedia.com/apply/" class="sd-card-arrow" target="_blank" rel="noopener">&rarr;</a>
       </div>
     </div>
@@ -230,10 +204,7 @@
     <!-- About row -->
     <div class="hero-bottom-row hero-bottom-row--full">
       <div class="about-text">
-        <p><span class="about-highlight">DesGro Media</span> brings together <em>strategic insight, inspired
-            design,</em> and a <em>passion for storytelling</em> &mdash; helping businesses and personalities connect
-          with their audience on a deeper level. Our team of creators, strategists, and marketers craft personalized
-          solutions that make your brand unforgettable.</p>
+        <p><span class="about-highlight">DesGro Media</span> brings together <em>strategic insight, inspired design,</em> and a <em>passion for storytelling</em> &mdash; helping businesses and personalities connect with their audience on a deeper level. Our team of creators, strategists, and marketers craft personalized solutions that make your brand unforgettable.</p>
       </div>
     </div>
   </section>
@@ -246,9 +217,7 @@
         <div class="sd-why-left">
           <div class="sd-eyebrow"><span></span>CONTENT CREATION</div>
           <h2 class="sd-why-h">Why<br><span class="sd-red">Content<br>Creation?</span></h2>
-          <p class="sd-why-p">In today's fast-paced digital environment, content is the currency. Whether you're an
-            entrepreneur, professional, or an aspiring influencer, we empower you with the insights and strategies to
-            make your mark.</p>
+          <p class="sd-why-p">In today's fast-paced digital environment, content is the currency. Whether you're an entrepreneur, professional, or an aspiring influencer, we empower you with the insights and strategies to make your mark.</p>
         </div>
         <div class="sd-stats-rows">
           <div class="sd-stat-row" data-val="150" data-suf="+">
@@ -301,102 +270,45 @@
     <div class="pers-reel-row">
       <div class="pers-reel-track">
 
-        <a class="pers-card" href="https://www.instagram.com/desgro.media?igsh=MWNpeHR1YjJxbzNldQ==" target="_blank"
-          rel="noopener">
-          <video autoplay muted loop playsinline>
-            <source src="video-assets/video_2026-06-25_16-42-15.mp4" type="video/mp4">
-          </video>
-          <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                <circle cx="12" cy="12" r="4" />
-                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-              </svg></span></div>
+        <a class="pers-card" href="https://www.instagram.com/desgro.media?igsh=MWNpeHR1YjJxbzNldQ==" target="_blank" rel="noopener">
+          <video autoplay muted loop playsinline><source src="video-assets/video_2026-06-25_16-42-15.mp4" type="video/mp4"></video>
+          <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span></div>
           <div class="pers-shine"></div>
         </a>
 
-        <a class="pers-card pers-card--up" href="https://www.instagram.com/desgro.media?igsh=MWNpeHR1YjJxbzNldQ=="
-          target="_blank" rel="noopener">
-          <video autoplay muted loop playsinline>
-            <source src="video-assets/video_2026-06-25_16-42-22.mp4" type="video/mp4">
-          </video>
-          <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                <circle cx="12" cy="12" r="4" />
-                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-              </svg></span></div>
+        <a class="pers-card pers-card--up" href="https://www.instagram.com/desgro.media?igsh=MWNpeHR1YjJxbzNldQ==" target="_blank" rel="noopener">
+          <video autoplay muted loop playsinline><source src="video-assets/video_2026-06-25_16-42-22.mp4" type="video/mp4"></video>
+          <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span></div>
           <div class="pers-shine"></div>
         </a>
 
-        <a class="pers-card" href="https://www.instagram.com/desgro.media?igsh=MWNpeHR1YjJxbzNldQ==" target="_blank"
-          rel="noopener">
-          <video autoplay muted loop playsinline>
-            <source src="video-assets/video_2026-06-25_16-42-26.mp4" type="video/mp4">
-          </video>
-          <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                <circle cx="12" cy="12" r="4" />
-                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-              </svg></span></div>
+        <a class="pers-card" href="https://www.instagram.com/desgro.media?igsh=MWNpeHR1YjJxbzNldQ==" target="_blank" rel="noopener">
+          <video autoplay muted loop playsinline><source src="video-assets/video_2026-06-25_16-42-26.mp4" type="video/mp4"></video>
+          <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span></div>
           <div class="pers-shine"></div>
         </a>
 
-        <a class="pers-card pers-card--up" href="https://www.instagram.com/desgro.media?igsh=MWNpeHR1YjJxbzNldQ=="
-          target="_blank" rel="noopener">
-          <video autoplay muted loop playsinline>
-            <source src="video-assets/video_2026-06-25_16-42-29.mp4" type="video/mp4">
-          </video>
-          <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                <circle cx="12" cy="12" r="4" />
-                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-              </svg></span></div>
+        <a class="pers-card pers-card--up" href="https://www.instagram.com/desgro.media?igsh=MWNpeHR1YjJxbzNldQ==" target="_blank" rel="noopener">
+          <video autoplay muted loop playsinline><source src="video-assets/video_2026-06-25_16-42-29.mp4" type="video/mp4"></video>
+          <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span></div>
           <div class="pers-shine"></div>
         </a>
 
         <a class="pers-card" href="https://www.instagram.com/reels/DTnWQQLEzWJ/" target="_blank" rel="noopener">
-          <video autoplay muted loop playsinline>
-            <source src="video-assets/ar.mp4" type="video/mp4">
-          </video>
-          <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                <circle cx="12" cy="12" r="4" />
-                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-              </svg></span></div>
+          <video autoplay muted loop playsinline><source src="video-assets/ar.mp4" type="video/mp4"></video>
+          <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span></div>
           <div class="pers-shine"></div>
         </a>
 
-        <a class="pers-card pers-card--up"
-          href="https://www.instagram.com/reel/DXHPh8xE46K/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ=="
-          target="_blank" rel="noopener">
-          <video autoplay muted loop playsinline>
-            <source src="video-assets/blueshirt.mp4" type="video/mp4">
-          </video>
-          <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                <circle cx="12" cy="12" r="4" />
-                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-              </svg></span></div>
+        <a class="pers-card pers-card--up" href="https://www.instagram.com/reel/DXHPh8xE46K/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener">
+          <video autoplay muted loop playsinline><source src="video-assets/blueshirt.mp4" type="video/mp4"></video>
+          <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span></div>
           <div class="pers-shine"></div>
         </a>
 
-        <a class="pers-card"
-          href="https://www.instagram.com/reel/DZKg3eYy7dF/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ=="
-          target="_blank" rel="noopener">
-          <video autoplay muted loop playsinline>
-            <source src="video-assets/gym.mp4" type="video/mp4">
-          </video>
-          <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-                <circle cx="12" cy="12" r="4" />
-                <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-              </svg></span></div>
+        <a class="pers-card" href="https://www.instagram.com/reel/DZKg3eYy7dF/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener">
+          <video autoplay muted loop playsinline><source src="video-assets/gym.mp4" type="video/mp4"></video>
+          <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span></div>
           <div class="pers-shine"></div>
         </a>
 
@@ -405,14 +317,8 @@
 
     <!-- View more on Instagram -->
     <div class="pers-ig-cta">
-      <a href="https://www.instagram.com/desgro.media?igsh=MWNpeHR1YjJxbzNldQ==" target="_blank" rel="noopener"
-        class="pers-ig-btn">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
-          stroke-linejoin="round">
-          <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-          <circle cx="12" cy="12" r="4" />
-          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-        </svg>
+      <a href="https://www.instagram.com/desgro.media?igsh=MWNpeHR1YjJxbzNldQ==" target="_blank" rel="noopener" class="pers-ig-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
         VIEW MORE ON INSTAGRAM
       </a>
     </div>
@@ -572,12 +478,9 @@
       <article class="works-card works-card--fumme sr" data-modal="fumme-modal" style="cursor:pointer;">
         <div class="works-card-visual wc-imgslider">
           <div class="wc-imgslider-track">
-            <img src="image assets/work1.2.png" alt="Fumme product" draggable="false"
-              onerror="this.style.display='none'" style="object-position:center 20%">
-            <img src="image assets/work1.3.jpg" alt="Fumme brand" draggable="false" onerror="this.style.display='none'"
-              style="object-position:center center">
-            <img src="image assets/work1.png" alt="Fumme results" draggable="false" onerror="this.style.display='none'"
-              style="object-position:center center">
+            <img src="image assets/work1.2.png" alt="Fumme product" draggable="false" onerror="this.style.display='none'" style="object-position:center 20%">
+            <img src="image assets/work1.3.jpg" alt="Fumme brand" draggable="false" onerror="this.style.display='none'" style="object-position:center center">
+            <img src="image assets/work1.png"   alt="Fumme results" draggable="false" onerror="this.style.display='none'" style="object-position:center center">
           </div>
           <div class="wc-imgslider-dots">
             <span class="wc-imgslider-dot wc-imgslider-dot--active"></span>
@@ -589,8 +492,7 @@
           <span class="wc-real-badge">REAL WORK</span>
           <span class="works-card-cat">E-COMMERCE &amp; BRANDING</span>
           <h3 class="works-card-name">2K &rarr; 20K+ Followers &mdash; Fumme</h3>
-          <p class="works-card-desc">Scaled from 2K to 20K+ organic followers while growing e-commerce revenue to
-            â‚¹10L+ per month.</p>
+          <p class="works-card-desc">Scaled from 2K to 20K+ organic followers while growing e-commerce revenue to â‚¹10L+ per month.</p>
           <span class="works-card-link">VIEW CASE STUDY &rarr;</span>
         </div>
       </article>
@@ -599,12 +501,9 @@
       <article class="works-card sr" data-modal="arfoods-modal" style="cursor:pointer;">
         <div class="works-card-visual wc-imgslider">
           <div class="wc-imgslider-track">
-            <img src="image assets/work2.jpg" alt="AR Foods by Abida Rasheed" draggable="false"
-              onerror="this.style.display='none'" style="object-position:center 15%">
-            <img src="image assets/work2 (1).png" alt="AR Foods" draggable="false" onerror="this.style.display='none'"
-              style="object-position:center 10%">
-            <img src="image assets/work2 (2).png" alt="AR Foods" draggable="false" onerror="this.style.display='none'"
-              style="object-position:center 10%">
+            <img src="image assets/work2.jpg"      alt="AR Foods by Abida Rasheed" draggable="false" onerror="this.style.display='none'" style="object-position:center 15%">
+            <img src="image assets/work2 (1).png"  alt="AR Foods" draggable="false" onerror="this.style.display='none'" style="object-position:center 10%">
+            <img src="image assets/work2 (2).png"  alt="AR Foods" draggable="false" onerror="this.style.display='none'" style="object-position:center 10%">
           </div>
           <div class="wc-imgslider-dots">
             <span class="wc-imgslider-dot wc-imgslider-dot--active"></span>
@@ -616,8 +515,7 @@
           <span class="wc-real-badge">REAL WORK</span>
           <span class="works-card-cat">PERFORMANCE MARKETING</span>
           <h3 class="works-card-name">100K &rarr; 300K Followers &mdash; AR Foods</h3>
-          <p class="works-card-desc">Scaled Abida Rasheed's Malabari cuisine brand to 300K followers and â‚¹10L in
-            average monthly sales via performance marketing.</p>
+          <p class="works-card-desc">Scaled Abida Rasheed's Malabari cuisine brand to 300K followers and â‚¹10L in average monthly sales via performance marketing.</p>
           <span class="works-card-link">VIEW CASE STUDY &rarr;</span>
         </div>
       </article>
@@ -626,12 +524,9 @@
       <article class="works-card sr" data-modal="matrix-modal" style="cursor:pointer;">
         <div class="works-card-visual wc-imgslider">
           <div class="wc-imgslider-track">
-            <img src="image assets/work4(2).png" alt="Matrix Finbiz billboard" draggable="false"
-              onerror="this.style.display='none'" style="object-position:center 30%">
-            <img src="image assets/work4.png" alt="Matrix Finbiz logo" draggable="false"
-              onerror="this.style.display='none'" style="object-position:center center">
-            <img src="image assets/work4(3).png" alt="Matrix Finbiz app" draggable="false"
-              onerror="this.style.display='none'" style="object-position:center 20%">
+            <img src="image assets/work4(2).png" alt="Matrix Finbiz billboard" draggable="false" onerror="this.style.display='none'" style="object-position:center 30%">
+            <img src="image assets/work4.png"    alt="Matrix Finbiz logo" draggable="false" onerror="this.style.display='none'" style="object-position:center center">
+            <img src="image assets/work4(3).png" alt="Matrix Finbiz app" draggable="false" onerror="this.style.display='none'" style="object-position:center 20%">
           </div>
           <div class="wc-imgslider-dots">
             <span class="wc-imgslider-dot wc-imgslider-dot--active"></span>
@@ -643,8 +538,7 @@
           <span class="wc-real-badge">REAL WORK</span>
           <span class="works-card-cat">BRANDING</span>
           <h3 class="works-card-name">Complete Brand Identity &mdash; Matrix Finbiz</h3>
-          <p class="works-card-desc">End-to-end branding for a financial business solutions company &mdash; built to
-            communicate trust, clarity, and ambition.</p>
+          <p class="works-card-desc">End-to-end branding for a financial business solutions company &mdash; built to communicate trust, clarity, and ambition.</p>
           <span class="works-card-link">VIEW CASE STUDY &rarr;</span>
         </div>
       </article>
@@ -653,12 +547,9 @@
       <article class="works-card sr" data-modal="keralataste-modal" style="cursor:pointer;">
         <div class="works-card-visual wc-imgslider">
           <div class="wc-imgslider-track">
-            <img src="image assets/work3.jpg" alt="Kerala Taste website" draggable="false"
-              onerror="this.style.display='none'" style="object-position:center top">
-            <img src="image assets/work3(2).jpg" alt="Kerala Taste" draggable="false"
-              onerror="this.style.display='none'" style="object-position:center top">
-            <img src="image assets/work3(3).jpg" alt="Kerala Taste" draggable="false"
-              onerror="this.style.display='none'" style="object-position:center top">
+            <img src="image assets/work3.jpg"    alt="Kerala Taste website" draggable="false" onerror="this.style.display='none'" style="object-position:center top">
+            <img src="image assets/work3(2).jpg" alt="Kerala Taste" draggable="false" onerror="this.style.display='none'" style="object-position:center top">
+            <img src="image assets/work3(3).jpg" alt="Kerala Taste" draggable="false" onerror="this.style.display='none'" style="object-position:center top">
           </div>
           <div class="wc-imgslider-dots">
             <span class="wc-imgslider-dot wc-imgslider-dot--active"></span>
@@ -670,8 +561,7 @@
           <span class="wc-real-badge">REAL WORK</span>
           <span class="works-card-cat">WEB DEVELOPMENT</span>
           <h3 class="works-card-name">Kerala Taste &mdash; E-Commerce Platform</h3>
-          <p class="works-card-desc">A responsive digital storefront built to sell authentic Kerala food products online
-            with seamless UX across all devices.</p>
+          <p class="works-card-desc">A responsive digital storefront built to sell authentic Kerala food products online with seamless UX across all devices.</p>
           <span class="works-card-link">VIEW CASE STUDY &rarr;</span>
         </div>
       </article>
@@ -680,12 +570,9 @@
       <article class="works-card sr" data-modal="hu-modal" style="cursor:pointer;">
         <div class="works-card-visual wc-imgslider">
           <div class="wc-imgslider-track">
-            <img src="image assets/work5.png" alt="HU AI UGC Content" draggable="false"
-              onerror="this.style.display='none'" style="object-position:center 15%">
-            <img src="image assets/work5(2).png" alt="HU AI Content" draggable="false"
-              onerror="this.style.display='none'" style="object-position:center 10%">
-            <img src="image assets/work5(3).png" alt="HU AI Content" draggable="false"
-              onerror="this.style.display='none'" style="object-position:center center">
+            <img src="image assets/work5.png"    alt="HU AI UGC Content" draggable="false" onerror="this.style.display='none'" style="object-position:center 15%">
+            <img src="image assets/work5(2).png" alt="HU AI Content" draggable="false" onerror="this.style.display='none'" style="object-position:center 10%">
+            <img src="image assets/work5(3).png" alt="HU AI Content" draggable="false" onerror="this.style.display='none'" style="object-position:center center">
           </div>
           <div class="wc-imgslider-dots">
             <span class="wc-imgslider-dot wc-imgslider-dot--active"></span>
@@ -697,8 +584,7 @@
           <span class="wc-real-badge">REAL WORK</span>
           <span class="works-card-cat">AI UGC CONTENT</span>
           <h3 class="works-card-name">AI-Generated UGC &mdash; HU</h3>
-          <p class="works-card-desc">Scroll-stopping AI UGC content crafted for HU's brand &mdash; authentic-looking,
-            scalable, and built to convert.</p>
+          <p class="works-card-desc">Scroll-stopping AI UGC content crafted for HU's brand &mdash; authentic-looking, scalable, and built to convert.</p>
           <span class="works-card-link">VIEW CASE STUDY &rarr;</span>
         </div>
       </article>
@@ -707,12 +593,9 @@
       <article class="works-card sr" data-modal="susi-modal" style="cursor:pointer;">
         <div class="works-card-visual wc-imgslider">
           <div class="wc-imgslider-track">
-            <img src="image assets/work6(2).png" alt="Susi Perfumes Azure campaign" draggable="false"
-              onerror="this.style.display='none'" style="object-position:center center">
-            <img src="image assets/work6(3).png" alt="Susi Perfumes lifestyle" draggable="false"
-              onerror="this.style.display='none'" style="object-position:center 55%">
-            <img src="image assets/work6.jpg" alt="Susi Perfume Lab brand" draggable="false"
-              onerror="this.style.display='none'" style="object-position:center center">
+            <img src="image assets/work6(2).png" alt="Susi Perfumes Azure campaign" draggable="false" onerror="this.style.display='none'" style="object-position:center center">
+            <img src="image assets/work6(3).png" alt="Susi Perfumes lifestyle" draggable="false" onerror="this.style.display='none'" style="object-position:center 55%">
+            <img src="image assets/work6.jpg"    alt="Susi Perfume Lab brand" draggable="false" onerror="this.style.display='none'" style="object-position:center center">
           </div>
           <div class="wc-imgslider-dots">
             <span class="wc-imgslider-dot wc-imgslider-dot--active"></span>
@@ -724,8 +607,7 @@
           <span class="wc-real-badge">REAL WORK</span>
           <span class="works-card-cat">MICRO-INFLUENCER MARKETING</span>
           <h3 class="works-card-name">Millions in Views &mdash; Susi Perfumes</h3>
-          <p class="works-card-desc">Built a precision micro-influencer engine that generated millions of organic views
-            and converted trust into a 10x surge in sales &mdash; zero paid media.</p>
+          <p class="works-card-desc">Built a precision micro-influencer engine that generated millions of organic views and converted trust into a 10x surge in sales &mdash; zero paid media.</p>
           <span class="works-card-link">VIEW CASE STUDY &rarr;</span>
         </div>
       </article>
@@ -754,12 +636,10 @@
 
             <div class="works-cv7-visual">
               <div class="works-cv7-panel works-cv7-panel--poster">
-                <img src="image assets/henna-poster.jpg" alt="TEDxFarookCollege Speakers poster" draggable="false"
-                  onerror="this.style.display='none'">
+                <img src="image assets/henna-poster.jpg" alt="TEDxFarookCollege Speakers poster" draggable="false" onerror="this.style.display='none'">
               </div>
               <div class="works-cv7-panel works-cv7-panel--stage">
-                <img src="image assets/henna-stage.jpg" alt="Henna Ayoob speaking at TEDx Farook College"
-                  draggable="false" onerror="this.style.display='none'">
+                <img src="image assets/henna-stage.jpg" alt="Henna Ayoob speaking at TEDx Farook College" draggable="false" onerror="this.style.display='none'">
               </div>
             </div>
 
@@ -767,16 +647,13 @@
               <div class="works-cv7-badge">TEDx Speaker</div>
               <span class="works-card-cat">PERSONAL BRANDING</span>
               <h3 class="works-card-name">10K &rarr; 120K+ Followers &mdash; Henna Ayoob</h3>
-              <p class="works-card-desc">Henna joined us as a psychology content creator with just 10K followers.
-                Through strategic personal branding, consistent content, and audience positioning, she now commands
-                120K+ organic followers, delivered a TEDx talk at Farook College, and leads a 10+ member team.</p>
+              <p class="works-card-desc">Henna joined us as a psychology content creator with just 10K followers. Through strategic personal branding, consistent content, and audience positioning, she now commands 120K+ organic followers, delivered a TEDx talk at Farook College, and leads a 10+ member team.</p>
               <div class="works-card-stats">
                 <div class="wcs-item"><span class="wcs-num">120K+</span><span class="wcs-lbl">Followers</span></div>
                 <div class="wcs-item"><span class="wcs-num">TEDx</span><span class="wcs-lbl">Speaker</span></div>
                 <div class="wcs-item"><span class="wcs-num">10+</span><span class="wcs-lbl">Team</span></div>
               </div>
-              <a href="https://www.instagram.com/henna.ayoob.psychologist?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
-                target="_blank" rel="noopener" class="works-card-link works-card-link--ig">VIEW PROFILE &rarr;</a>
+              <a href="https://www.instagram.com/henna.ayoob.psychologist?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" class="works-card-link works-card-link--ig">VIEW PROFILE &rarr;</a>
             </div>
 
           </article>
@@ -788,16 +665,13 @@
 
             <div class="works-cv7-visual works-cv7-visual--triple">
               <div class="works-cv7-panel works-cv7-panel--dfest-main">
-                <img src="image assets/dfest1.png" alt="D Fest event" draggable="false"
-                  onerror="this.style.display='none'">
+                <img src="image assets/dfest1.png" alt="D Fest event" draggable="false" onerror="this.style.display='none'">
               </div>
               <div class="works-cv7-panel">
-                <img src="image assets/dfest2.png" alt="D Fest award ceremony" draggable="false"
-                  onerror="this.style.display='none'">
+                <img src="image assets/dfest2.png" alt="D Fest award ceremony" draggable="false" onerror="this.style.display='none'">
               </div>
               <div class="works-cv7-panel works-cv7-panel--dfest-bottom">
-                <img src="image assets/dfest3.png" alt="D Fest cultural performances" draggable="false"
-                  onerror="this.style.display='none'">
+                <img src="image assets/dfest3.png" alt="D Fest cultural performances" draggable="false" onerror="this.style.display='none'">
               </div>
             </div>
 
@@ -805,17 +679,13 @@
               <div class="works-cv7-badge works-cv7-badge--gold">Annual Event</div>
               <span class="works-card-cat">COMMUNITY &amp; CULTURE</span>
               <h3 class="works-card-name">D Fest &mdash; DesGro &times; Demand School</h3>
-              <p class="works-card-desc">D Fest is DesGro Media's flagship yearly gathering, co-hosted with Demand
-                School, bringing together business owners and students under one roof. Best student awards celebrated
-                top achievers, while vibrant dance and cultural performances made every edition truly unforgettable.</p>
+              <p class="works-card-desc">D Fest is DesGro Media's flagship yearly gathering, co-hosted with Demand School, bringing together business owners and students under one roof. Best student awards celebrated top achievers, while vibrant dance and cultural performances made every edition truly unforgettable.</p>
               <div class="works-card-stats">
                 <div class="wcs-item"><span class="wcs-num">Annual</span><span class="wcs-lbl">Program</span></div>
                 <div class="wcs-item"><span class="wcs-num">Awards</span><span class="wcs-lbl">Presented</span></div>
-                <div class="wcs-item"><span class="wcs-num">Cultural</span><span class="wcs-lbl">Performances</span>
-                </div>
+                <div class="wcs-item"><span class="wcs-num">Cultural</span><span class="wcs-lbl">Performances</span></div>
               </div>
-              <a href="https://www.instagram.com/reel/DYyiyYDT36V/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ=="
-                target="_blank" rel="noopener" class="works-card-link works-card-link--ig">VIEW REEL &rarr;</a>
+              <a href="https://www.instagram.com/reel/DYyiyYDT36V/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener" class="works-card-link works-card-link--ig">VIEW REEL &rarr;</a>
             </div>
 
           </article>
@@ -827,8 +697,7 @@
 
             <div class="works-cv7-visual works-cv7-visual--single">
               <div class="works-cv7-panel">
-                <img src="image assets/demand.png" alt="Demand School AI interactive session" draggable="false"
-                  onerror="this.style.display='none'">
+                <img src="image assets/demand.png" alt="Demand School AI interactive session" draggable="false" onerror="this.style.display='none'">
               </div>
             </div>
 
@@ -836,17 +705,13 @@
               <div class="works-cv7-badge works-cv7-badge--blue">AI Session</div>
               <span class="works-card-cat">EDUCATION &amp; INNOVATION</span>
               <h3 class="works-card-name">What Is the Real Potential of AI? &mdash; Demand School</h3>
-              <p class="works-card-desc">Demand School, in collaboration with AIMER Business School, hosted an immersive
-                interactive session uncovering AI's true potential &mdash; from foundational basics to industry-embedded
-                training. Attendees explored how artificial intelligence is reshaping industries and what it means for
-                the future of work and learning.</p>
+              <p class="works-card-desc">Demand School, in collaboration with AIMER Business School, hosted an immersive interactive session uncovering AI's true potential &mdash; from foundational basics to industry-embedded training. Attendees explored how artificial intelligence is reshaping industries and what it means for the future of work and learning.</p>
               <div class="works-card-stats">
                 <div class="wcs-item"><span class="wcs-num">Interactive</span><span class="wcs-lbl">Session</span></div>
                 <div class="wcs-item"><span class="wcs-num">Industry</span><span class="wcs-lbl">Embedded</span></div>
                 <div class="wcs-item"><span class="wcs-num">Future</span><span class="wcs-lbl">of AI</span></div>
               </div>
-              <a href="https://www.instagram.com/demand.school/" target="_blank" rel="noopener"
-                class="works-card-link works-card-link--ig">VIEW ON INSTAGRAM &rarr;</a>
+              <a href="https://www.instagram.com/demand.school/" target="_blank" rel="noopener" class="works-card-link works-card-link--ig">VIEW ON INSTAGRAM &rarr;</a>
             </div>
 
           </article>
@@ -882,30 +747,30 @@
       <div class="tc-reel">
         <!-- Track A -->
         <div class="tc-reel-track">
-          <div class="tc-logo-card"><img src="topclients/c1.jpg" alt="Client" loading="eager"></div>
-          <div class="tc-logo-card"><img src="topclients/c2.jpg" alt="Client" loading="eager"></div>
-          <div class="tc-logo-card"><img src="topclients/c3.jpg" alt="Client" loading="eager"></div>
-          <div class="tc-logo-card"><img src="topclients/c4.jpg" alt="Client" loading="eager"></div>
-          <div class="tc-logo-card"><img src="topclients/c5.jpg" alt="Client" loading="eager"></div>
-          <div class="tc-logo-card"><img src="topclients/c6.jpg" alt="Client" loading="eager"></div>
-          <div class="tc-logo-card"><img src="topclients/c7.jpg" alt="Client" loading="eager"></div>
-          <div class="tc-logo-card"><img src="topclients/c8.jpg" alt="Client" loading="eager"></div>
-          <div class="tc-logo-card"><img src="topclients/c9.jpg" alt="Client" loading="eager"></div>
+          <div class="tc-logo-card"><img src="topclients/c1.jpg"  alt="Client" loading="eager"></div>
+          <div class="tc-logo-card"><img src="topclients/c2.jpg"  alt="Client" loading="eager"></div>
+          <div class="tc-logo-card"><img src="topclients/c3.jpg"  alt="Client" loading="eager"></div>
+          <div class="tc-logo-card"><img src="topclients/c4.jpg"  alt="Client" loading="eager"></div>
+          <div class="tc-logo-card"><img src="topclients/c5.jpg"  alt="Client" loading="eager"></div>
+          <div class="tc-logo-card"><img src="topclients/c6.jpg"  alt="Client" loading="eager"></div>
+          <div class="tc-logo-card"><img src="topclients/c7.jpg"  alt="Client" loading="eager"></div>
+          <div class="tc-logo-card"><img src="topclients/c8.jpg"  alt="Client" loading="eager"></div>
+          <div class="tc-logo-card"><img src="topclients/c9.jpg"  alt="Client" loading="eager"></div>
           <div class="tc-logo-card"><img src="topclients/c10.jpg" alt="Client" loading="eager"></div>
           <div class="tc-logo-card"><img src="topclients/c11.jpg" alt="Client" loading="eager"></div>
           <div class="tc-logo-card"><img src="topclients/c12.jpg" alt="Client" loading="eager"></div>
         </div>
         <!-- Track B: identical clone, aria-hidden -->
         <div class="tc-reel-track" aria-hidden="true">
-          <div class="tc-logo-card"><img src="topclients/c1.jpg" alt="" loading="eager"></div>
-          <div class="tc-logo-card"><img src="topclients/c2.jpg" alt="" loading="eager"></div>
-          <div class="tc-logo-card"><img src="topclients/c3.jpg" alt="" loading="eager"></div>
-          <div class="tc-logo-card"><img src="topclients/c4.jpg" alt="" loading="eager"></div>
-          <div class="tc-logo-card"><img src="topclients/c5.jpg" alt="" loading="eager"></div>
-          <div class="tc-logo-card"><img src="topclients/c6.jpg" alt="" loading="eager"></div>
-          <div class="tc-logo-card"><img src="topclients/c7.jpg" alt="" loading="eager"></div>
-          <div class="tc-logo-card"><img src="topclients/c8.jpg" alt="" loading="eager"></div>
-          <div class="tc-logo-card"><img src="topclients/c9.jpg" alt="" loading="eager"></div>
+          <div class="tc-logo-card"><img src="topclients/c1.jpg"  alt="" loading="eager"></div>
+          <div class="tc-logo-card"><img src="topclients/c2.jpg"  alt="" loading="eager"></div>
+          <div class="tc-logo-card"><img src="topclients/c3.jpg"  alt="" loading="eager"></div>
+          <div class="tc-logo-card"><img src="topclients/c4.jpg"  alt="" loading="eager"></div>
+          <div class="tc-logo-card"><img src="topclients/c5.jpg"  alt="" loading="eager"></div>
+          <div class="tc-logo-card"><img src="topclients/c6.jpg"  alt="" loading="eager"></div>
+          <div class="tc-logo-card"><img src="topclients/c7.jpg"  alt="" loading="eager"></div>
+          <div class="tc-logo-card"><img src="topclients/c8.jpg"  alt="" loading="eager"></div>
+          <div class="tc-logo-card"><img src="topclients/c9.jpg"  alt="" loading="eager"></div>
           <div class="tc-logo-card"><img src="topclients/c10.jpg" alt="" loading="eager"></div>
           <div class="tc-logo-card"><img src="topclients/c11.jpg" alt="" loading="eager"></div>
           <div class="tc-logo-card"><img src="topclients/c12.jpg" alt="" loading="eager"></div>
@@ -932,18 +797,11 @@
 
       <!-- Right: social links -->
       <div class="ct-right">
-        <a href="https://erp.desgromedia.com/apply/" class="ct-get-started-btn" target="_blank" rel="noopener">GET
-          STARTED &rarr;</a>
+        <a href="https://erp.desgromedia.com/apply/" class="ct-get-started-btn" target="_blank" rel="noopener">GET STARTED &rarr;</a>
         <div class="ct-socials">
 
-          <a href="https://www.instagram.com/desgro.media?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw%3D%3D"
-            class="ct-social-row" target="_blank" rel="noopener">
-            <svg class="ct-social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
-              stroke-linecap="round" stroke-linejoin="round">
-              <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
-              <circle cx="12" cy="12" r="4" />
-              <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none" />
-            </svg>
+          <a href="https://www.instagram.com/desgro.media?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw%3D%3D" class="ct-social-row" target="_blank" rel="noopener">
+            <svg class="ct-social-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
             <div class="ct-social-info">
               <span class="ct-social-platform">Instagram</span>
               <span class="ct-social-handle">@desgro.media</span>
@@ -952,10 +810,7 @@
           </a>
 
           <a href="https://wa.me/917356300507" class="ct-social-row" target="_blank" rel="noopener">
-            <svg class="ct-social-icon" viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z" />
-            </svg>
+            <svg class="ct-social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.890-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
             <div class="ct-social-info">
               <span class="ct-social-platform">WhatsApp</span>
               <span class="ct-social-handle">+91 7356 300 507</span>
@@ -963,13 +818,8 @@
             <span class="ct-social-arrow">&rarr;</span>
           </a>
 
-          <a href="https://www.linkedin.com/company/desgro-media/posts/?feedView=all" class="ct-social-row"
-            target="_blank" rel="noopener">
-            <svg class="ct-social-icon" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
-              <rect x="2" y="9" width="4" height="12" />
-              <circle cx="4" cy="4" r="2" />
-            </svg>
+          <a href="https://www.linkedin.com/company/desgro-media/posts/?feedView=all" class="ct-social-row" target="_blank" rel="noopener">
+            <svg class="ct-social-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
             <div class="ct-social-info">
               <span class="ct-social-platform">LinkedIn</span>
               <span class="ct-social-handle">Desgro Media</span>
@@ -1014,7 +864,7 @@
 
       <div class="wc-modal-gallery">
         <div class="wc-modal-gallery-track">
-          <img src="image assets/work5.png" alt="HU AI UGC Content" draggable="false" loading="lazy" decoding="async">
+          <img src="image assets/work5.png"    alt="HU AI UGC Content" draggable="false" loading="lazy" decoding="async">
           <img src="image assets/work5(2).png" alt="HU AI Content" draggable="false" loading="lazy" decoding="async">
           <img src="image assets/work5(3).png" alt="HU AI Content" draggable="false" loading="lazy" decoding="async">
         </div>
@@ -1029,19 +879,13 @@
         <div class="wc-modal-badge">Real Work &mdash; AI UGC Content</div>
         <span class="works-card-cat">AI UGC CONTENT</span>
         <h2 class="wc-modal-title">HU</h2>
-        <p class="wc-modal-desc">DesGro Media produced cutting-edge AI-generated UGC for HU &mdash; content that looks
-          authentically human, performs at scale, and cuts through the noise. AI UGC combines the relatability of real
-          user content with the precision and speed of AI production: no lengthy shoots, no production delays, just
-          high-converting creatives tailored to the brand. From product showcases to scroll-stopping reels, our AI
-          content pipeline delivers results faster and smarter. DM <strong style="color:#fff;">"AIContent"</strong> to
-          get AI-powered content made for your brand.</p>
+        <p class="wc-modal-desc">DesGro Media produced cutting-edge AI-generated UGC for HU &mdash; content that looks authentically human, performs at scale, and cuts through the noise. AI UGC combines the relatability of real user content with the precision and speed of AI production: no lengthy shoots, no production delays, just high-converting creatives tailored to the brand. From product showcases to scroll-stopping reels, our AI content pipeline delivers results faster and smarter. DM <strong style="color:#fff;">"AIContent"</strong> to get AI-powered content made for your brand.</p>
         <div class="works-card-stats">
           <div class="wcs-item"><span class="wcs-num">AI</span><span class="wcs-lbl">Generated</span></div>
           <div class="wcs-item"><span class="wcs-num">No Shoot</span><span class="wcs-lbl">Required</span></div>
           <div class="wcs-item"><span class="wcs-num">Scalable</span><span class="wcs-lbl">Output</span></div>
         </div>
-        <a href="https://www.instagram.com/reel/DZ7IYzEzu-M/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ=="
-          target="_blank" rel="noopener" class="works-card-link works-card-link--ig">VIEW REEL &rarr;</a>
+        <a href="https://www.instagram.com/reel/DZ7IYzEzu-M/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener" class="works-card-link works-card-link--ig">VIEW REEL &rarr;</a>
       </div>
     </div>
   </div>
@@ -1054,8 +898,7 @@
 
       <div class="wc-modal-gallery">
         <div class="wc-modal-gallery-track">
-          <img src="image assets/work4.png" alt="Matrix Finbiz branding" draggable="false" loading="lazy"
-            decoding="async">
+          <img src="image assets/work4.png"    alt="Matrix Finbiz branding" draggable="false" loading="lazy" decoding="async">
           <img src="image assets/work4(2).png" alt="Matrix Finbiz" draggable="false" loading="lazy" decoding="async">
           <img src="image assets/work4(3).png" alt="Matrix Finbiz" draggable="false" loading="lazy" decoding="async">
           <img src="image assets/work4(4).png" alt="Matrix Finbiz" draggable="false" loading="lazy" decoding="async">
@@ -1072,18 +915,13 @@
         <div class="wc-modal-badge">Real Work &mdash; Branding</div>
         <span class="works-card-cat">BRANDING</span>
         <h2 class="wc-modal-title">Matrix Finbiz</h2>
-        <p class="wc-modal-desc">Matrix Finbiz approached DesGro Media needing a brand identity that would inspire
-          confidence in the financial services space. We delivered a complete branding system &mdash; logo design,
-          colour strategy, typography, and a cohesive visual language &mdash; crafted to position Matrix Finbiz as a
-          credible, modern, and professional force in the fintech and business solutions industry. Every design decision
-          was guided by one goal: making the brand look as trustworthy and ambitious as the business behind it.</p>
+        <p class="wc-modal-desc">Matrix Finbiz approached DesGro Media needing a brand identity that would inspire confidence in the financial services space. We delivered a complete branding system &mdash; logo design, colour strategy, typography, and a cohesive visual language &mdash; crafted to position Matrix Finbiz as a credible, modern, and professional force in the fintech and business solutions industry. Every design decision was guided by one goal: making the brand look as trustworthy and ambitious as the business behind it.</p>
         <div class="works-card-stats">
           <div class="wcs-item"><span class="wcs-num">Full</span><span class="wcs-lbl">Brand Identity</span></div>
           <div class="wcs-item"><span class="wcs-num">Logo</span><span class="wcs-lbl">Design</span></div>
           <div class="wcs-item"><span class="wcs-num">Visual</span><span class="wcs-lbl">Guidelines</span></div>
         </div>
-        <a href="https://www.instagram.com/p/DZ-GCCVkwNb/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ=="
-          target="_blank" rel="noopener" class="works-card-link works-card-link--ig">VIEW ON INSTAGRAM &rarr;</a>
+        <a href="https://www.instagram.com/p/DZ-GCCVkwNb/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener" class="works-card-link works-card-link--ig">VIEW ON INSTAGRAM &rarr;</a>
       </div>
     </div>
   </div>
@@ -1096,8 +934,7 @@
 
       <div class="wc-modal-gallery">
         <div class="wc-modal-gallery-track">
-          <img src="image assets/work3.jpg" alt="Kerala Taste website" draggable="false" loading="lazy"
-            decoding="async">
+          <img src="image assets/work3.jpg"    alt="Kerala Taste website" draggable="false" loading="lazy" decoding="async">
           <img src="image assets/work3(2).jpg" alt="Kerala Taste" draggable="false" loading="lazy" decoding="async">
           <img src="image assets/work3(3).jpg" alt="Kerala Taste" draggable="false" loading="lazy" decoding="async">
         </div>
@@ -1112,19 +949,13 @@
         <div class="wc-modal-badge">Real Work &mdash; Web Development</div>
         <span class="works-card-cat">WEB DEVELOPMENT</span>
         <h2 class="wc-modal-title">Kerala Taste</h2>
-        <p class="wc-modal-desc">Kerala Taste is a modern e-commerce platform designed and developed by our team to help
-          businesses sell authentic Kerala food products online. Customers can browse products, view detailed
-          information, add items to their cart, and place orders with ease. Built with a clean, responsive, and
-          user-friendly interface, the platform showcases traditional Kerala delicacies while delivering fast
-          performance across desktop and mobile &mdash; serving as a complete digital storefront that lets businesses
-          expand their reach and manage online sales efficiently.</p>
+        <p class="wc-modal-desc">Kerala Taste is a modern e-commerce platform designed and developed by our team to help businesses sell authentic Kerala food products online. Customers can browse products, view detailed information, add items to their cart, and place orders with ease. Built with a clean, responsive, and user-friendly interface, the platform showcases traditional Kerala delicacies while delivering fast performance across desktop and mobile &mdash; serving as a complete digital storefront that lets businesses expand their reach and manage online sales efficiently.</p>
         <div class="works-card-stats">
           <div class="wcs-item"><span class="wcs-num">E-Com</span><span class="wcs-lbl">Platform</span></div>
           <div class="wcs-item"><span class="wcs-num">Responsive</span><span class="wcs-lbl">Design</span></div>
           <div class="wcs-item"><span class="wcs-num">D2C</span><span class="wcs-lbl">Storefront</span></div>
         </div>
-        <a href="https://keralataste.vercel.app/" target="_blank" rel="noopener"
-          class="works-card-link works-card-link--ig">VISIT WEBSITE &rarr;</a>
+        <a href="https://keralataste.vercel.app/" target="_blank" rel="noopener" class="works-card-link works-card-link--ig">VISIT WEBSITE &rarr;</a>
       </div>
     </div>
   </div>
@@ -1137,10 +968,9 @@
 
       <div class="wc-modal-gallery">
         <div class="wc-modal-gallery-track">
-          <img src="image assets/work2.jpg" alt="AR Foods by Abida Rasheed" draggable="false" loading="lazy"
-            decoding="async">
-          <img src="image assets/work2 (1).png" alt="AR Foods" draggable="false" loading="lazy" decoding="async">
-          <img src="image assets/work2 (2).png" alt="AR Foods" draggable="false" loading="lazy" decoding="async">
+          <img src="image assets/work2.jpg"      alt="AR Foods by Abida Rasheed" draggable="false" loading="lazy" decoding="async">
+          <img src="image assets/work2 (1).png"  alt="AR Foods" draggable="false" loading="lazy" decoding="async">
+          <img src="image assets/work2 (2).png"  alt="AR Foods" draggable="false" loading="lazy" decoding="async">
         </div>
         <div class="wc-modal-gallery-nav">
           <button class="wc-modal-dot wc-modal-dot--active" aria-label="Image 1"></button>
@@ -1153,18 +983,13 @@
         <div class="wc-modal-badge">Our Second Real Work</div>
         <span class="works-card-cat">PERFORMANCE MARKETING</span>
         <h2 class="wc-modal-title">AR Foods</h2>
-        <p class="wc-modal-desc">Abida Rasheed &mdash; Chef and Malabari Cuisine Specialist &mdash; came to us with a
-          thriving community of 100K followers and a passion for authentic Kerala masalas. Through targeted performance
-          marketing, strategic content, and audience scaling, we grew her brand to 300K+ followers and consistently
-          drive an average of â‚¹10 lakh in monthly sales, turning a personal culinary identity into a commercially
-          powerful D2C brand.</p>
+        <p class="wc-modal-desc">Abida Rasheed &mdash; Chef and Malabari Cuisine Specialist &mdash; came to us with a thriving community of 100K followers and a passion for authentic Kerala masalas. Through targeted performance marketing, strategic content, and audience scaling, we grew her brand to 300K+ followers and consistently drive an average of â‚¹10 lakh in monthly sales, turning a personal culinary identity into a commercially powerful D2C brand.</p>
         <div class="works-card-stats">
           <div class="wcs-item"><span class="wcs-num">300K+</span><span class="wcs-lbl">Followers</span></div>
           <div class="wcs-item"><span class="wcs-num">â‚¹10L</span><span class="wcs-lbl">Avg Monthly Sales</span></div>
           <div class="wcs-item"><span class="wcs-num">3&times;</span><span class="wcs-lbl">Follower Growth</span></div>
         </div>
-        <a href="https://www.instagram.com/abidarasheedclt?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
-          target="_blank" rel="noopener" class="works-card-link works-card-link--ig">VIEW ON INSTAGRAM &rarr;</a>
+        <a href="https://www.instagram.com/abidarasheedclt?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" class="works-card-link works-card-link--ig">VIEW ON INSTAGRAM &rarr;</a>
       </div>
     </div>
   </div>
@@ -1178,12 +1003,9 @@
       <!-- Gallery -->
       <div class="wc-modal-gallery">
         <div class="wc-modal-gallery-track">
-          <img src="image assets/work6(2).png" alt="Susi Perfumes Azure campaign" draggable="false" loading="lazy"
-            decoding="async">
-          <img src="image assets/work6(3).png" alt="Susi Perfumes lifestyle" draggable="false" loading="lazy"
-            decoding="async">
-          <img src="image assets/work6.jpg" alt="Susi Perfume Lab brand" draggable="false" loading="lazy"
-            decoding="async">
+          <img src="image assets/work6(2).png" alt="Susi Perfumes Azure campaign" draggable="false" loading="lazy" decoding="async">
+          <img src="image assets/work6(3).png" alt="Susi Perfumes lifestyle" draggable="false" loading="lazy" decoding="async">
+          <img src="image assets/work6.jpg"    alt="Susi Perfume Lab brand" draggable="false" loading="lazy" decoding="async">
         </div>
         <div class="wc-modal-gallery-nav">
           <button class="wc-modal-dot wc-modal-dot--active" aria-label="Image 1"></button>
@@ -1197,19 +1019,13 @@
         <div class="wc-modal-badge">Real Work</div>
         <span class="works-card-cat">MICRO-INFLUENCER MARKETING</span>
         <h2 class="wc-modal-title">Susi Perfumes</h2>
-        <p class="wc-modal-desc">Susi Perfume Lab came to us with a premium fragrance brand and an untapped audience.
-          Instead of burning budget on paid ads, we built a precision micro-influencer engine &mdash; handpicking
-          creators whose followers genuinely trusted their recommendations. Their authentic, high-quality content spread
-          organically, generating millions of views across platforms. That trust translated directly into purchase
-          intent, delivering a 10x surge in sales and establishing Susi as a standout name in the Indian fragrance
-          market.</p>
+        <p class="wc-modal-desc">Susi Perfume Lab came to us with a premium fragrance brand and an untapped audience. Instead of burning budget on paid ads, we built a precision micro-influencer engine &mdash; handpicking creators whose followers genuinely trusted their recommendations. Their authentic, high-quality content spread organically, generating millions of views across platforms. That trust translated directly into purchase intent, delivering a 10x surge in sales and establishing Susi as a standout name in the Indian fragrance market.</p>
         <div class="works-card-stats">
           <div class="wcs-item"><span class="wcs-num">M+</span><span class="wcs-lbl">Views Generated</span></div>
           <div class="wcs-item"><span class="wcs-num">10&times;</span><span class="wcs-lbl">Sales Growth</span></div>
           <div class="wcs-item"><span class="wcs-num">0</span><span class="wcs-lbl">Paid Ads</span></div>
         </div>
-        <a href="https://www.instagram.com/susiperfumelab?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
-          target="_blank" rel="noopener" class="works-card-link works-card-link--ig">VIEW ON INSTAGRAM &rarr;</a>
+        <a href="https://www.instagram.com/susiperfumelab?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" class="works-card-link works-card-link--ig">VIEW ON INSTAGRAM &rarr;</a>
       </div>
     </div>
   </div>
@@ -1223,7 +1039,7 @@
       <!-- Gallery -->
       <div class="wc-modal-gallery">
         <div class="wc-modal-gallery-track">
-          <img src="image assets/work1.png" alt="Fumme" draggable="false" loading="lazy" decoding="async">
+          <img src="image assets/work1.png"   alt="Fumme" draggable="false" loading="lazy" decoding="async">
           <img src="image assets/work1.2.png" alt="Fumme" draggable="false" loading="lazy" decoding="async">
           <img src="image assets/work1.3.jpg" alt="Fumme" draggable="false" loading="lazy" decoding="async">
         </div>
@@ -1239,43 +1055,36 @@
         <div class="wc-modal-badge">Our First Real Work</div>
         <span class="works-card-cat">E-COMMERCE &amp; BRANDING</span>
         <h2 class="wc-modal-title">Fumme</h2>
-        <p class="wc-modal-desc">Fumme started with just 2,000 followers and a vision. Through strategic branding,
-          consistent content creation, and precise audience positioning, we helped them build a genuine community of
-          20,000+ organic followers. Alongside that social growth, their e-commerce operation scaled to generate over
-          â‚¹10 lakh in revenue every single month.</p>
+        <p class="wc-modal-desc">Fumme started with just 2,000 followers and a vision. Through strategic branding, consistent content creation, and precise audience positioning, we helped them build a genuine community of 20,000+ organic followers. Alongside that social growth, their e-commerce operation scaled to generate over â‚¹10 lakh in revenue every single month.</p>
         <div class="works-card-stats">
           <div class="wcs-item"><span class="wcs-num">20K+</span><span class="wcs-lbl">Followers</span></div>
           <div class="wcs-item"><span class="wcs-num">â‚¹10L+</span><span class="wcs-lbl">Monthly Revenue</span></div>
           <div class="wcs-item"><span class="wcs-num">10&times;</span><span class="wcs-lbl">Growth</span></div>
         </div>
-        <a href="https://www.instagram.com/fumme_in?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
-          target="_blank" rel="noopener" class="works-card-link works-card-link--ig">VIEW ON INSTAGRAM &rarr;</a>
+        <a href="https://www.instagram.com/fumme_in?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener" class="works-card-link works-card-link--ig">VIEW ON INSTAGRAM &rarr;</a>
       </div>
     </div>
   </div>
 
   <!-- ── BACK TO TOP BUTTON ── -->
   <button id="backToTop" class="back-to-top" aria-label="Back to top" title="Back to top">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
-      stroke-linecap="round" stroke-linejoin="round">
-      <polyline points="18 15 12 9 6 15" />
-    </svg>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
   </button>
 
-  <script src="main.js?v=3"></script>
+  <script src="main.js?v=4"></script>
   <script>
     /* Back to top */
-    (function () {
-      const btn = document.getElementById('backToTop');
-      if (!btn) return;
-      window.addEventListener('scroll', function () {
-        btn.classList.toggle('visible', window.scrollY > 600);
-      }, { passive: true });
-      btn.addEventListener('click', function () {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      });
-    })();
+  (function(){
+    const btn = document.getElementById('backToTop');
+    if (!btn) return;
+    window.addEventListener('scroll', function(){
+      btn.classList.toggle('visible', window.scrollY > 600);
+    }, { passive: true });
+    btn.addEventListener('click', function(){
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  })();
   </script>
 </body>
-
 </html>
+

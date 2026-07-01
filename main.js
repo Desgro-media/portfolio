@@ -61,23 +61,15 @@
   ──────────────────────────────── */
   /* Reuse the loader already in the HTML — avoids a flash before JS runs */
   const loader = document.querySelector('.page-loader');
-  const loaderVideo = document.getElementById('loaderVideo');
 
-  function exitLoader() {
+  setTimeout(() => {
     revealHero();
     if (loader) {
       loader.classList.add('exit');
-      setTimeout(() => { try { loader.remove(); } catch(e) {} }, 900);
+      /* Hard-remove after transition + buffer; transitionend is unreliable on mobile */
+      setTimeout(() => { try { loader.remove(); } catch(e) {} }, 1000);
     }
-  }
-
-  if (loaderVideo) {
-    loaderVideo.addEventListener('ended', exitLoader, { once: true });
-    loaderVideo.addEventListener('error', exitLoader, { once: true });
-    setTimeout(exitLoader, 8000); /* safety fallback */
-  } else {
-    setTimeout(exitLoader, 2100);
-  }
+  }, 2100);
 
   /* ────────────────────────────────
      HERO CHAR SPLIT
