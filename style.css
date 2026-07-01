@@ -2772,71 +2772,142 @@ body {
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: #000;
+  background: #1a1a1a;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
   will-change: transform;
+  perspective: 1200px;
 }
 
 .page-loader.exit { transform: translateY(-100%); }
 
-.loader-brand {
+.loader-logo-wrap {
+  position: relative;
+  width: 180px;
+  height: 180px;
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
 }
 
-.loader-redbar {
-  height: 3px;
-  width: 0;
+.loader-ring {
+  position: absolute;
+  inset: -24px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 50%;
+  border-top-color: rgba(255, 255, 255, 0.8);
+  border-right-color: rgba(255, 255, 255, 0.4);
+  animation: l-ring-spin 2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+@keyframes l-ring-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.loader-3d-box {
+  position: relative;
+  width: 140px;
+  height: 140px;
+  transform-style: preserve-3d;
+  animation: l-box-flip 2.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+@keyframes l-box-flip {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(360deg); }
+}
+
+.loader-3d-box .face {
+  position: absolute;
+  top: 50%;
+  left: 50%;
   background: var(--red);
-  margin-bottom: 8px;
-  animation: l-bar 0.55s cubic-bezier(0.16,1,0.3,1) forwards 0.3s;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
 }
-@keyframes l-bar { to { width: 44px; } }
 
-.loader-name-wrap { overflow: hidden; line-height: 1; }
+.loader-3d-box .face {
+  backface-visibility: visible;
+}
+
+.loader-3d-box .face.front {
+  width: 140px; height: 140px; 
+  margin: -70px 0 0 -70px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  transform: translateZ(10px);
+}
+
+.loader-3d-box .face.back {
+  width: 140px; height: 140px; 
+  margin: -70px 0 0 -70px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  transform: rotateY(180deg) translateZ(10px);
+}
+
+.loader-3d-box .face.left {
+  width: 20px; height: 140px; 
+  margin: -70px 0 0 -10px; 
+  transform: rotateY(-90deg) translateZ(70px); 
+  background: #cc1b21;
+}
+
+.loader-3d-box .face.right {
+  width: 20px; height: 140px; 
+  margin: -70px 0 0 -10px; 
+  transform: rotateY(90deg) translateZ(70px); 
+  background: #cc1b21;
+}
+
+.loader-3d-box .face.top {
+  width: 140px; height: 20px; 
+  margin: -10px 0 0 -70px; 
+  transform: rotateX(90deg) translateZ(70px); 
+  background: #d91c23;
+}
+
+.loader-3d-box .face.bottom {
+  width: 140px; height: 20px; 
+  margin: -10px 0 0 -70px; 
+  transform: rotateX(-90deg) translateZ(70px); 
+  background: #a31419;
+  box-shadow: 0 40px 60px rgba(0,0,0,0.7);
+}
+
+.loader-topbar {
+  height: 12px;
+  width: 66px;
+  background: var(--white);
+  margin-bottom: 8px;
+  transform: translateZ(1px);
+}
 
 .loader-name {
   display: block;
   font-family: var(--font-display);
-  font-size: clamp(52px, 10vw, 90px);
+  font-size: 104px;
   color: #fff;
-  letter-spacing: -1px;
-  transform: translateY(110%);
-  animation: l-up 0.8s cubic-bezier(0.16,1,0.3,1) forwards 0.42s;
+  letter-spacing: 0;
+  line-height: 0.85;
+  transform: translateZ(1px);
 }
-@keyframes l-up { to { transform: translateY(0); } }
-
-.loader-sub {
-  display: block;
-  font-family: var(--font-body);
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 5px;
-  color: #888;
-  opacity: 0;
-  margin-top: 5px;
-  animation: l-fade 0.5s ease forwards 0.95s;
-}
-@keyframes l-fade { to { opacity: 1; } }
 
 .loader-track {
   position: absolute;
   bottom: 48px;
   width: min(260px, 55vw);
   height: 1px;
-  background: rgba(255,255,255,0.07);
+  background: rgba(255,255,255,0.2);
   overflow: hidden;
 }
 
 .loader-fill {
   height: 100%;
   width: 0;
-  background: var(--red);
+  background: var(--white);
   animation: l-progress 1.9s cubic-bezier(0.4,0,0.2,1) forwards 0.1s;
 }
 @keyframes l-progress {
