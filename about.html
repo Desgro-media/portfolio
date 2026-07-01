@@ -13,6 +13,8 @@
   <link rel="preload" href="fonts/Anton-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css">
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;600&display=swap');
+
     .about-page {
       overflow-x: hidden;
     }
@@ -54,7 +56,7 @@
       font-size: clamp(44px, 6vw, 84px);
       line-height: 0.94;
       color: #000;
-      margin-bottom: 52px;
+      margin-bottom: 24px;
     }
 
     .ab-story-heading em {
@@ -62,13 +64,37 @@
       font-style: normal;
     }
 
-    /* Milestones — dark text on white */
+    /* Story intro paragraph */
+    .ab-story-intro {
+      font-family: var(--font-body);
+      font-size: 15px;
+      line-height: 1.85;
+      color: #444;
+      max-width: 460px;
+      margin-bottom: 44px;
+    }
+    .ab-story-intro strong { color: #000; font-weight: 700; }
+
+    /* Milestones — icon timeline */
+    .ab-milestones { position: relative; }
+    .ab-milestones::before {
+      content: '';
+      position: absolute;
+      left: 21px;
+      top: 48px;
+      bottom: 24px;
+      border-left: 2px dashed rgba(235, 32, 39, 0.28);
+      pointer-events: none;
+    }
+
     .ab-milestone {
-      border-left: 1px solid rgba(0, 0, 0, 0.1);
-      padding: 0 0 44px 28px;
-      position: relative;
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 20px;
+      padding-bottom: 40px;
+      align-items: flex-start;
       opacity: 0;
-      transform: translateX(-30px);
+      transform: translateX(-20px);
       transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
@@ -81,16 +107,31 @@
       padding-bottom: 0;
     }
 
-    .ab-milestone::before {
-      content: '';
-      position: absolute;
-      left: -5px;
-      top: 4px;
-      width: 9px;
-      height: 9px;
+    .ab-ms-icon {
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
-      background: var(--red);
+      border: 1.5px solid rgba(235, 32, 39, 0.45);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      position: relative;
+      z-index: 1;
     }
+
+    .ab-ms-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: var(--red);
+      fill: none;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .ab-ms-body { padding-top: 8px; }
 
     .ab-milestone-year {
       font-family: var(--font-display);
@@ -126,10 +167,10 @@
 
     .ab-photo {
       position: absolute;
-      background: #1a1a1a;
-      /* dark frame — contrasts against white section */
-      padding: 9px 9px 30px;
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.18), 0 2px 8px rgba(0, 0, 0, 0.1);
+      background: #fff;
+      /* polaroid white frame */
+      padding: 9px 9px 42px;
+      box-shadow: 0 8px 28px rgba(0, 0, 0, 0.13), 0 2px 6px rgba(0, 0, 0, 0.07);
       opacity: 0;
       transition: box-shadow 0.4s ease, opacity 0.6s ease;
       cursor: default;
@@ -140,7 +181,7 @@
     }
 
     .ab-photo:hover {
-      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.28);
+      box-shadow: 0 18px 44px rgba(0, 0, 0, 0.2), 0 4px 10px rgba(0, 0, 0, 0.08);
       z-index: 10 !important;
     }
 
@@ -149,6 +190,53 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+    }
+
+    .ab-photo-caption {
+      position: absolute;
+      bottom: 8px;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-family: 'Caveat', cursive;
+      font-size: 14px;
+      color: #333;
+      line-height: 1.2;
+    }
+
+    /* Floating handwritten callouts */
+    .ab-callout {
+      position: absolute;
+      font-family: 'Caveat', cursive;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #1a1a1a;
+      z-index: 9;
+      pointer-events: none;
+    }
+    .ab-c1 { top: 41%; right: 1%; text-align: right; max-width: 148px; }
+    .ab-c2 { bottom: 35%; right: 1%; text-align: right; max-width: 148px; }
+    .ab-cr { color: var(--red); font-weight: 600; text-decoration: underline; font-style: italic; }
+
+    /* Paper plane */
+    .ab-deco-plane {
+      position: absolute;
+      top: -38px;
+      right: 10px;
+      z-index: 8;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    /* Dashed decorative SVG */
+    .ab-deco-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: visible;
+      z-index: 2;
     }
 
     .ab-p1 {
@@ -536,6 +624,11 @@
     }
 
     @media (max-width: 600px) {
+      .ab-callout,
+      .ab-deco-plane { display: none; }
+
+      .ab-photo-caption { font-size: 11px; }
+
       .ab-hero-right {
         height: 230px;
       }
@@ -589,6 +682,8 @@
     }
 
     @media (max-width: 380px) {
+      .ab-photo-caption { font-size: 10px; }
+
       .ab-hero-right {
         height: 200px;
       }
@@ -671,44 +766,84 @@
 
   <!-- STORY TIMELINE (first section) -->
   <section class="ab-story">
-    <!-- LEFT: timeline milestones -->
+    <!-- LEFT: icon milestones + intro -->
     <div class="ab-story-left">
       <div class="ab-story-label">Our Story</div>
       <h2 class="ab-story-heading">HOW IT<br><em>BEGAN</em></h2>
-      <div class="ab-milestone" data-reveal>
-        <span class="ab-milestone-year">2023 &mdash; FRIBOURG, SWITZERLAND</span>
-        <h3>THE SEED</h3>
-        <p>Two founders completed their Masters in Marketing at a quiet Swiss university town. Late nights, big ideas,
-          and a shared obsession with brand storytelling planted the seed for what would become DesGro.</p>
-      </div>
-      <div class="ab-milestone" data-reveal data-delay="120">
-        <span class="ab-milestone-year">2023 &mdash; DUBAI, UAE</span>
-        <h3>THE CATALYST</h3>
-        <p>Mentored by Mahdi Shafiei of Trifid Media &mdash; the biggest marketing agency in the GCC &mdash; the
-          founders gained frontline insight into elite-level brand strategy and what it takes to build agencies that
-          last.</p>
-      </div>
-      <div class="ab-milestone" data-reveal data-delay="240">
-        <span class="ab-milestone-year">2024 &mdash; CALICUT, INDIA</span>
-        <h3>THE LAUNCH</h3>
-        <p>Armed with a world-class education and Dubai-forged instincts, DesGro was born at Hilite Business Park,
-          Calicut &mdash; starting with a founding team of just 3.</p>
-      </div>
-      <div class="ab-milestone" data-reveal data-delay="360">
-        <span class="ab-milestone-year">2025&ndash;2026 &mdash; SCALING FAST</span>
-        <h3>THE MOVEMENT</h3>
-        <p>What started with 3 is now a powerhouse of 40+ creators, strategists and marketers across 7+ departments
-          &mdash; 150+ creators built, 100M+ views generated, and still accelerating.</p>
+      <p class="ab-story-intro">What started as late-night conversations and a shared passion for branding, grew into a purpose-driven agency built on <strong>trust</strong>, <strong>creativity</strong>, and <strong>impact</strong>.</p>
+      <div class="ab-milestones">
+        <div class="ab-milestone" data-reveal>
+          <div class="ab-ms-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 22V12"/><path d="M12 12C9 9 4 9 3 11c2 4 6 4 9 1z"/><path d="M12 12c3-3 8-3 9-1-2 4-6 4-9 1z"/></svg>
+          </div>
+          <div class="ab-ms-body">
+            <span class="ab-milestone-year">2023 &mdash; FRIBOURG, SWITZERLAND</span>
+            <h3>THE SEED</h3>
+            <p>Two founders completed their Masters in Marketing at a quiet Swiss university town. Late nights, big ideas, and a shared obsession with brand storytelling planted the seed for what would become DesGro.</p>
+          </div>
+        </div>
+        <div class="ab-milestone" data-reveal data-delay="140">
+          <div class="ab-ms-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2l-3 9h6l-3-9z"/><rect x="8" y="11" width="8" height="6" rx="1.5"/><path d="M8 17l-2 4M16 17l2 4"/><circle cx="12" cy="14" r="1.5"/></svg>
+          </div>
+          <div class="ab-ms-body">
+            <span class="ab-milestone-year">2023 &mdash; DUBAI, UAE</span>
+            <h3>THE CATALYST</h3>
+            <p>Mentored by Mahdi Shafiei of Trifid Media &mdash; the biggest marketing agency in the GCC &mdash; the founders gained frontline insight into elite-level brand strategy and what it takes to build agencies that last.</p>
+          </div>
+        </div>
+        <div class="ab-milestone" data-reveal data-delay="280">
+          <div class="ab-ms-icon">
+            <svg viewBox="0 0 24 24"><path d="M3 20l5-9 4 5.5 3-4.5 6 8H3z"/><path d="M15 3v6M15 3l4 2.5M15 3l-4 2.5"/></svg>
+          </div>
+          <div class="ab-ms-body">
+            <span class="ab-milestone-year">2024 &mdash; CALICUT, INDIA</span>
+            <h3>THE LAUNCHPAD</h3>
+            <p>Armed with a world-class education and Dubai-forged instincts, DesGro was born at Hilite Business Park, Calicut &mdash; starting with a founding team of just 3, now 40+ strong and still accelerating.</p>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- RIGHT: scattered polaroid photos -->
+    <!-- RIGHT: polaroid photos + decorative elements -->
     <div class="ab-hero-right">
-      <div class="ab-photo ab-p1"><img src="image assets/about1.jpg" alt="" loading="eager"></div>
-      <div class="ab-photo ab-p2"><img src="image assets/about2.jpg" alt="" loading="eager"></div>
-      <div class="ab-photo ab-p3"><img src="image assets/about3.jpg" alt="" loading="eager"></div>
-      <div class="ab-photo ab-p4"><img src="image assets/about4.jpg" alt="" loading="eager"></div>
-      <div class="ab-photo ab-p5"><img src="image assets/about5.jpg" alt="" loading="eager"></div>
+      <!-- Paper plane decoration -->
+      <svg class="ab-deco-plane" width="52" height="48" viewBox="0 0 52 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M4 4l44 20L4 44l11-20L4 4z" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+        <line x1="15" y1="24" x2="44" y2="24" stroke="#1a1a1a" stroke-width="1.4" stroke-linecap="round"/>
+      </svg>
+
+      <!-- Floating handwritten callouts -->
+      <div class="ab-callout ab-c1">Different places.<br><span class="ab-cr">Same</span> mission.</div>
+      <div class="ab-callout ab-c2">Many moments.<br><span class="ab-cr">One</span> vision.</div>
+
+      <!-- Decorative dashed paths -->
+      <svg class="ab-deco-svg" viewBox="0 0 600 600" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M60 180 Q180 110 330 230 Q430 310 510 190" stroke="rgba(0,0,0,0.11)" stroke-dasharray="5 9" fill="none" stroke-width="1.4"/>
+        <path d="M40 430 Q200 370 390 460 Q480 500 545 415" stroke="rgba(0,0,0,0.09)" stroke-dasharray="5 9" fill="none" stroke-width="1.4"/>
+      </svg>
+
+      <!-- White polaroid photos with handwritten captions -->
+      <div class="ab-photo ab-p1">
+        <img src="image assets/about1.jpg" alt="" loading="eager">
+        <span class="ab-photo-caption">The beginning ♥</span>
+      </div>
+      <div class="ab-photo ab-p2">
+        <img src="image assets/about2.jpg" alt="" loading="eager">
+        <span class="ab-photo-caption">Ideas. People. Purpose.</span>
+      </div>
+      <div class="ab-photo ab-p3">
+        <img src="image assets/about3.jpg" alt="" loading="eager">
+        <span class="ab-photo-caption">Learning. Growing. Building.</span>
+      </div>
+      <div class="ab-photo ab-p4">
+        <img src="image assets/about4.jpg" alt="" loading="eager">
+        <span class="ab-photo-caption">The grind behind the dream.</span>
+      </div>
+      <div class="ab-photo ab-p5">
+        <img src="image assets/about5.jpg" alt="" loading="eager">
+        <span class="ab-photo-caption">Still building...</span>
+      </div>
     </div>
   </section>
 
