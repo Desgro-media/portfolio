@@ -1012,6 +1012,12 @@
 
   /* Scroll-in entry animation (original cards only) */
   const origCards = track.querySelectorAll('.pers-card');
+  
+  /* Force play original videos in case CDN (like Cloudflare) strips autoplay attribute */
+  origCards.forEach(card => {
+    const v = card.querySelector('video');
+    if (v) { v.muted = true; v.play().catch(() => {}); }
+  });
   const io = new IntersectionObserver(entries => {
     if (!entries[0].isIntersecting) return;
     origCards.forEach((card, i) => {
