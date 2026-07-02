@@ -115,19 +115,6 @@
     setTimeout(() => { if (labels)  labels.classList.add('anim-in'); },  60);
     setTimeout(() => { if (tagline) tagline.classList.add('anim-in'); }, 400);
 
-    /* Side card walls — slide up into place alongside the title */
-    document.querySelectorAll('.hero-wall-card').forEach(c => {
-      setTimeout(() => c.classList.add('anim-in'), 120);
-    });
-
-    /* CTA (tagline + button) and nav arrows — settle in once MEDIA lands */
-    const cta       = document.querySelector('.hero-cta-block');
-    const navArrows = document.querySelectorAll('.hero-nav-arrow');
-    setTimeout(() => {
-      if (cta) cta.classList.add('anim-in');
-      navArrows.forEach(a => a.classList.add('anim-in'));
-    }, mediaDelay + 200);
-
   }
 
   /* ────────────────────────────────
@@ -406,10 +393,10 @@
       return { renderer, scene, camera, mesh };
     }
 
-    /* Back: huge, upper-left quadrant — pushed mostly behind "DE" */
-    const back  = buildScene(cBack,  { rOut: 4.5, rIn: 1.0, depth: 0.90, bevel: 0.16, emissive: 0.35 });
-    /* Front: smaller, lower-right — nestled below DESGRO and right of MEDIA */
-    const front = buildScene(cFront, { rOut: 2.2, rIn: 0.60, depth: 0.60, bevel: 0.12, emissive: 0.25 });
+    /* Back: bigger, upper-left quadrant — rIn narrow for clear arm separation */
+    const back  = buildScene(cBack,  { rOut: 2.10, rIn: 0.52, depth: 0.70, bevel: 0.16, emissive: 0.30 });
+    /* Front: slightly smaller, lower-right */
+    const front = buildScene(cFront, { rOut: 1.65, rIn: 0.40, depth: 0.58, bevel: 0.12, emissive: 0.18 });
 
     /* ── Spring / cursor tracking ── */
     let mx = 0, my = 0;
@@ -443,22 +430,22 @@
       vmy = vmy * 0.72 + (ty - smy) * 0.12;
       smx += vmx; smy += vmy;
 
-      /* Back: upper-left — extremely large and positioned very far left/up */
-      back.mesh.position.x  = (mob ? -2.0 : -3.2) + smx * (mob ? 1.4 : 3.0);
-      back.mesh.position.y  = (mob ?  0.9 :  1.6) - smy * (mob ? 1.0 : 2.0);
-      back.mesh.position.z  = mob ? 0.8 : -2.5;
+      /* Back: upper-left — tighter positions on mobile so it stays on-screen */
+      back.mesh.position.x  = (mob ? -2.0 : -3.8) + smx * (mob ? 1.4 : 3.0);
+      back.mesh.position.y  = (mob ?  0.9 :  1.4) - smy * (mob ? 1.0 : 2.0);
+      back.mesh.position.z  = mob ? 0.8 : 0;
       back.mesh.rotation.z -= 0.0024;
-      back.mesh.rotation.x  = 0.2 + smy * 1.0;
+      back.mesh.rotation.x  = smy * 1.0;
       back.mesh.rotation.y  = smx * 0.85;
       back.renderer.render(back.scene, back.camera);
 
-      /* Front: lower-right — positioned precisely in the negative space */
-      front.mesh.position.x  = (mob ?  1.8 :  3.4) - smx * (mob ? 1.0 : 2.0);
-      front.mesh.position.y  = (mob ? -1.1 : -2.1) + smy * (mob ? 0.7 : 1.4);
-      front.mesh.position.z  = mob ? 0.8 : -1.0;
+      /* Front: lower-right — same treatment */
+      front.mesh.position.x  = (mob ?  1.8 :  3.2) - smx * (mob ? 1.0 : 2.0);
+      front.mesh.position.y  = (mob ? -1.1 : -1.8) + smy * (mob ? 0.7 : 1.4);
+      front.mesh.position.z  = mob ? 0.8 : 0;
       front.mesh.rotation.z += 0.0017;
-      front.mesh.rotation.x  = -0.4 - smy * 0.70;
-      front.mesh.rotation.y  = -0.3 - smx * 0.55;
+      front.mesh.rotation.x  = -smy * 0.70;
+      front.mesh.rotation.y  = -smx * 0.55;
       front.renderer.render(front.scene, front.camera);
     }
     /* Force an immediate render so the canvas has pixels before the RAF loop fires.
