@@ -1009,18 +1009,20 @@
   row.appendChild(clone);
 
   /* ── Per-card viewport tracking ──
-     The track (original + clone) holds 42 <video> elements for a seamless
-     loop, but the row only ever shows ~5 of them at once (overflow: hidden).
-     Preloading/playing all 42 the moment the row is on screen overloads the
-     decoder and causes the stutter/lag reports — so only buffer and play
-     the cards actually inside (or about to enter) the clipped viewport. */
+     Clips are small now (<6MB, faststart-remuxed) so they autoplay/preload
+     natively via their HTML attributes. But the track (original + clone)
+     still holds 42 <video> elements for the seamless loop, and the row only
+     ever shows ~5 of them at once (overflow: hidden) — decoding all 42
+     simultaneously is what caused the stutter/lag reports. Play/pause per
+     card based on visibility, and re-assert muted since some CDNs strip
+     the attribute on delivery. */
   const allCards = [...row.querySelectorAll('.pers-card')];
   const cardIO = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       const video = entry.target.querySelector('video');
       if (!video) return;
       if (entry.isIntersecting) {
-        if (video.preload !== 'auto') { video.preload = 'auto'; video.load(); }
+        video.muted = true;
         video.play().catch(() => {});
       } else {
         video.pause();
