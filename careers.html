@@ -15,9 +15,41 @@
   <style>
     /* ── CAREERS PAGE SPECIFIC ── */
     .cp-hero {
-      padding: 160px 48px 80px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      padding: 160px 48px 120px;
       max-width: 1100px;
       margin: 0 auto;
+    }
+
+    .cp-hero-text {
+      max-width: 700px;
+    }
+
+    .cp-apply-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+      margin-top: 8px;
+      background: var(--red);
+      color: var(--white);
+      text-decoration: none;
+      font-family: var(--font-body);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 2.5px;
+      text-transform: uppercase;
+      padding: 20px 36px;
+      border-radius: 100px;
+      transition: background 0.2s ease, transform 0.2s ease;
+    }
+
+    .cp-apply-btn:hover {
+      background: #c0181e;
+      transform: translateY(-2px);
     }
 
     .cp-eyebrow {
@@ -62,184 +94,12 @@
       max-width: 560px;
     }
 
-    /* ── JOBS GRID ── */
-    .cp-jobs {
-      padding: 0 48px 120px;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .cp-jobs-label {
-      font-family: var(--font-body);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 3px;
-      color: rgba(255, 255, 255, 0.3);
-      text-transform: uppercase;
-      border-top: 1px solid rgba(255, 255, 255, 0.07);
-      padding-top: 40px;
-      margin-bottom: 32px;
-    }
-
-    .cp-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: rgba(255, 255, 255, 0.07);
-    }
-
-    .cp-card {
-      background: #0a0a0a;
-      padding: 32px 28px 36px;
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      transition: background 0.25s;
-    }
-
-    .cp-card:hover {
-      background: #111;
-    }
-
-    .cp-card-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .cp-card-type {
-      font-family: var(--font-body);
-      font-size: 8px;
-      font-weight: 700;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      padding: 4px 10px;
-      border: 1px solid;
-      white-space: nowrap;
-    }
-
-    .cp-type--fulltime {
-      color: #4ade80;
-      border-color: #4ade80;
-    }
-
-    .cp-type--parttime {
-      color: #facc15;
-      border-color: #facc15;
-    }
-
-    .cp-type--freelance {
-      color: #60a5fa;
-      border-color: #60a5fa;
-    }
-
-    .cp-type--intern {
-      color: #f97316;
-      border-color: #f97316;
-    }
-
-    .cp-card-dept {
-      font-family: var(--font-body);
-      font-size: 9px;
-      font-weight: 600;
-      letter-spacing: 2.5px;
-      color: var(--red);
-      text-transform: uppercase;
-    }
-
-    .cp-card-title {
-      font-family: var(--font-display);
-      font-size: 22px;
-      letter-spacing: -0.5px;
-      color: var(--white);
-      text-transform: uppercase;
-      line-height: 1.1;
-      margin-top: 20px !important;
-      margin-bottom: 16px !important;
-      padding-top: 10px;
-    }
-
-    .cp-card-desc {
-      font-family: var(--font-body);
-      font-size: 12.5px;
-      line-height: 1.8;
-      color: rgba(255, 255, 255, 0.48);
-      flex: 1;
-    }
-
-    .cp-apply-btn {
-      display: inline-block;
-      align-self: flex-start;
-      margin-top: 8px;
-      font-family: var(--font-body);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      text-decoration: none;
-      color: var(--white);
-      border: 1px solid rgba(255, 255, 255, 0.22);
-      padding: 10px 22px;
-      transition: background 0.2s, border-color 0.2s, color 0.2s;
-    }
-
-    .cp-apply-btn:hover {
-      background: var(--red);
-      border-color: var(--red);
-      color: var(--white);
-    }
-
-    /* ── BOTTOM CTA ── */
-    .cp-bottom {
-      border-top: 1px solid rgba(255, 255, 255, 0.07);
-      padding: 60px 48px 80px;
-      text-align: center;
-      max-width: 1100px;
-      margin: 0 auto;
-    }
-
-    .cp-bottom-text {
-      font-family: var(--font-body);
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.4);
-      margin-bottom: 24px;
-    }
-
-    .cp-bottom-btn {
-      display: inline-block;
-      background: var(--white);
-      color: var(--black);
-      text-decoration: none;
-      font-family: var(--font-body);
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 2.5px;
-      text-transform: uppercase;
-      padding: 16px 40px;
-      transition: background 0.2s, color 0.2s;
-    }
-
-    .cp-bottom-btn:hover {
-      background: var(--red);
-      color: var(--white);
-    }
-
     @media (max-width: 900px) {
       .cp-hero {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 32px;
         padding: 140px 32px 60px;
-      }
-
-      .cp-jobs {
-        padding: 0 32px 80px;
-      }
-
-      .cp-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .cp-bottom {
-        padding: 48px 32px 60px;
       }
     }
 
@@ -248,20 +108,14 @@
         padding: 120px 20px 48px;
       }
 
-      .cp-jobs {
-        padding: 0 20px 60px;
-      }
-
-      .cp-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .cp-bottom {
-        padding: 40px 20px 48px;
-      }
-
       .cp-headline {
         letter-spacing: -2px;
+      }
+
+      .cp-apply-btn {
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box;
       }
     }
   </style>
@@ -317,160 +171,16 @@
 
   <!-- ── HERO ── -->
   <div class="cp-hero">
-    <div class="cp-eyebrow">
-      <span class="cp-eyebrow-line"></span>
-      <span>We're Hiring</span>
+    <div class="cp-hero-text">
+      <div class="cp-eyebrow">
+        <span class="cp-eyebrow-line"></span>
+        <span>We're Hiring</span>
+      </div>
+      <h1 class="cp-headline">Work That<br><span>Moves.</span></h1>
+      <p class="cp-sub">We're a fast-moving creative agency where every role matters and every idea gets a shot. If
+        you're sharp, driven, and ready to do real work on real brands — you belong here.</p>
     </div>
-    <h1 class="cp-headline">Work That<br><span>Moves.</span></h1>
-    <p class="cp-sub">We're a fast-moving creative agency where every role matters and every idea gets a shot. If you're
-      sharp, driven, and ready to do real work on real brands — you belong here.</p>
-  </div>
-
-  <!-- ── JOB LISTINGS ── -->
-  <div class="cp-jobs">
-    <p class="cp-jobs-label">Open Positions — 2026</p>
-    <div class="cp-grid">
-
-      <div class="cp-card">
-        <div class="cp-card-top">
-          <span class="cp-card-dept">Content</span>
-          <span class="cp-card-type cp-type--fulltime">Full-Time</span>
-        </div>
-        <h3 class="cp-card-title">Video Editor</h3>
-        <p class="cp-card-desc">Cut reels, ads, and brand films that stop the scroll. You know pacing, colour, and
-          storytelling instinctively — and you're fast.</p>
-        <a href="https://erp.desgromedia.com/apply/" class="cp-apply-btn" target="_blank" rel="noopener">APPLY NOW →</a>
-      </div>
-
-      <div class="cp-card">
-        <div class="cp-card-top">
-          <span class="cp-card-dept">Growth</span>
-          <span class="cp-card-type cp-type--fulltime">Full-Time</span>
-        </div>
-        <h3 class="cp-card-title">Sales Specialist</h3>
-        <p class="cp-card-desc">Own the pipeline — prospect, pitch, close. You'll be the face that brings brands into
-          the DesGro ecosystem and keeps them here.</p>
-        <a href="https://erp.desgromedia.com/apply/" class="cp-apply-btn" target="_blank" rel="noopener">APPLY NOW →</a>
-      </div>
-
-      <div class="cp-card">
-        <div class="cp-card-top">
-          <span class="cp-card-dept">Marketing</span>
-          <span class="cp-card-type cp-type--fulltime">Full-Time</span>
-        </div>
-        <h3 class="cp-card-title">Digital Marketer</h3>
-        <p class="cp-card-desc">Plan and execute digital campaigns across Instagram, YouTube, and beyond. You think in
-          funnels and measure everything.</p>
-        <a href="https://erp.desgromedia.com/apply/" class="cp-apply-btn" target="_blank" rel="noopener">APPLY NOW →</a>
-      </div>
-
-      <div class="cp-card">
-        <div class="cp-card-top">
-          <span class="cp-card-dept">Design</span>
-          <span class="cp-card-type cp-type--fulltime">Full-Time</span>
-        </div>
-        <h3 class="cp-card-title">Graphic Designer</h3>
-        <p class="cp-card-desc">Create visuals that make brands unforgettable — from social creatives and decks to full
-          identity systems. Detail-obsessed applicants preferred.</p>
-        <a href="https://erp.desgromedia.com/apply/" class="cp-apply-btn" target="_blank" rel="noopener">APPLY NOW →</a>
-      </div>
-
-      <div class="cp-card">
-        <div class="cp-card-top">
-          <span class="cp-card-dept">Content</span>
-          <span class="cp-card-type cp-type--fulltime">Full-Time</span>
-        </div>
-        <h3 class="cp-card-title">Content Creator</h3>
-        <p class="cp-card-desc">Ideate, shoot, and post content that actually performs. You're comfortable on and behind
-          the camera, and you understand trends before they peak.</p>
-        <a href="https://erp.desgromedia.com/apply/" class="cp-apply-btn" target="_blank" rel="noopener">APPLY NOW →</a>
-      </div>
-
-      <div class="cp-card">
-        <div class="cp-card-top">
-          <span class="cp-card-dept">Marketing</span>
-          <span class="cp-card-type cp-type--fulltime">Full-Time</span>
-        </div>
-        <h3 class="cp-card-title">Social Media Manager</h3>
-        <p class="cp-card-desc">Manage multi-brand social accounts, build content calendars, and grow engaged
-          communities. You eat analytics for breakfast.</p>
-        <a href="https://erp.desgromedia.com/apply/" class="cp-apply-btn" target="_blank" rel="noopener">APPLY NOW →</a>
-      </div>
-
-      <div class="cp-card">
-        <div class="cp-card-top">
-          <span class="cp-card-dept">Innovation</span>
-          <span class="cp-card-type cp-type--fulltime">Full-Time</span>
-        </div>
-        <h3 class="cp-card-title">AI Content Specialist</h3>
-        <p class="cp-card-desc">Build AI-generated UGC, reels, and automated content pipelines. You're ahead of the
-          curve on tools like Runway, ElevenLabs, and Kling.</p>
-        <a href="https://erp.desgromedia.com/apply/" class="cp-apply-btn" target="_blank" rel="noopener">APPLY NOW →</a>
-      </div>
-
-      <div class="cp-card">
-        <div class="cp-card-top">
-          <span class="cp-card-dept">Marketing</span>
-          <span class="cp-card-type cp-type--fulltime">Full-Time</span>
-        </div>
-        <h3 class="cp-card-title">Performance Marketer</h3>
-        <p class="cp-card-desc">Run paid campaigns on Meta and Google with precision. You know how to read a dashboard,
-          kill what doesn't work, and scale what does.</p>
-        <a href="https://erp.desgromedia.com/apply/" class="cp-apply-btn" target="_blank" rel="noopener">APPLY NOW →</a>
-      </div>
-
-      <div class="cp-card">
-        <div class="cp-card-top">
-          <span class="cp-card-dept">Tech</span>
-          <span class="cp-card-type cp-type--freelance">Freelance</span>
-        </div>
-        <h3 class="cp-card-title">Web Developer</h3>
-        <p class="cp-card-desc">Build fast, responsive, conversion-focused websites and apps. Clean code, sharp eye for
-          design, and comfortable shipping without handholding.</p>
-        <a href="https://erp.desgromedia.com/apply/" class="cp-apply-btn" target="_blank" rel="noopener">APPLY NOW →</a>
-      </div>
-
-      <div class="cp-card">
-        <div class="cp-card-top">
-          <span class="cp-card-dept">Strategy</span>
-          <span class="cp-card-type cp-type--fulltime">Full-Time</span>
-        </div>
-        <h3 class="cp-card-title">Brand Strategist</h3>
-        <p class="cp-card-desc">Define the voice, positioning, and story behind the brands we build. You connect data,
-          culture, and creativity into a strategy that sticks.</p>
-        <a href="https://erp.desgromedia.com/apply/" class="cp-apply-btn" target="_blank" rel="noopener">APPLY NOW →</a>
-      </div>
-
-      <div class="cp-card">
-        <div class="cp-card-top">
-          <span class="cp-card-dept">Content</span>
-          <span class="cp-card-type cp-type--freelance">Freelance</span>
-        </div>
-        <h3 class="cp-card-title">Copywriter</h3>
-        <p class="cp-card-desc">Write captions, scripts, ad copy, and brand messaging that converts. Your words make
-          people feel something — then click.</p>
-        <a href="https://erp.desgromedia.com/apply/" class="cp-apply-btn" target="_blank" rel="noopener">APPLY NOW →</a>
-      </div>
-
-      <div class="cp-card">
-        <div class="cp-card-top">
-          <span class="cp-card-dept">Production</span>
-          <span class="cp-card-type cp-type--freelance">Freelance</span>
-        </div>
-        <h3 class="cp-card-title">Cinematographer</h3>
-        <p class="cp-card-desc">Shoot brand films, ads, and event coverage that look cinematic on any screen. You own
-          your gear and know how to make a brand look expensive.</p>
-        <a href="https://erp.desgromedia.com/apply/" class="cp-apply-btn" target="_blank" rel="noopener">APPLY NOW →</a>
-      </div>
-
-    </div>
-
-    <!-- Open application -->
-    <div class="cp-bottom">
-      <p class="cp-bottom-text">Don't see your role above? We're always open to exceptional people.</p>
-      <a href="mailto:desgromedia@gmail.com?subject=Open%20Application%20—%20DesGro%20Media" class="cp-bottom-btn">SEND
-        OPEN APPLICATION →</a>
-    </div>
+    <a href="https://erp.desgromedia.com/apply/" class="cp-apply-btn" target="_blank" rel="noopener">APPLY NOW →</a>
   </div>
 
   <script>

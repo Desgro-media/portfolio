@@ -1008,38 +1008,28 @@
   clone.setAttribute('aria-hidden', 'true');
   row.appendChild(clone);
 
-  /* All videos (original + clone). Clone shares same URLs → browser cache, no second download. */
-  const allVids  = [...row.querySelectorAll('video')];
-  const origVids = [...track.querySelectorAll('video')];
+  /* ── Per-card viewport tracking ──
+     The track (original + clone) holds 42 <video> elements for a seamless
+     loop, but the row only ever shows ~5 of them at once (overflow: hidden).
+     Preloading/playing all 42 the moment the row is on screen overloads the
+     decoder and causes the stutter/lag reports — so only buffer and play
+     the cards actually inside (or about to enter) the clipped viewport. */
+  const allCards = [...row.querySelectorAll('.pers-card')];
+  const cardIO = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      const video = entry.target.querySelector('video');
+      if (!video) return;
+      if (entry.isIntersecting) {
+        if (video.preload !== 'auto') { video.preload = 'auto'; video.load(); }
+        video.play().catch(() => {});
+      } else {
+        video.pause();
+      }
+    });
+  }, { root: row, rootMargin: '200px', threshold: 0 });
+  allCards.forEach(card => cardIO.observe(card));
 
-  /* ── 1) Pre-buffer when section approaches (300px before entry) ── */
-  const preIO = new IntersectionObserver(([e]) => {
-    if (!e.isIntersecting) return;
-    preIO.disconnect();
-    /* Stagger originals so we don't open 7 connections simultaneously */
-    origVids.forEach((v, i) => setTimeout(() => {
-      v.preload = 'auto';
-      v.load();
-    }, i * 100));
-    /* Clones hit the browser cache — no stagger needed */
-    clone.querySelectorAll('video').forEach(v => { v.preload = 'auto'; v.load(); });
-  }, { threshold: 0, rootMargin: '300px 0px' });
-  preIO.observe(row);
-
-  /* ── 2) Play when visible, pause when off-screen (save CPU/battery) ── */
-  let playing = false;
-  const playIO = new IntersectionObserver(([e]) => {
-    if (e.isIntersecting && !playing) {
-      playing = true;
-      allVids.forEach((v, i) => setTimeout(() => v.play().catch(() => {}), i * 60));
-    } else if (!e.isIntersecting && playing) {
-      playing = false;
-      allVids.forEach(v => v.pause());
-    }
-  }, { threshold: 0.05 });
-  playIO.observe(row);
-
-  /* ── 3) Scroll-in entry animation (original cards only) ── */
+  /* ── Scroll-in entry animation (original cards only) ── */
   const origCards = track.querySelectorAll('.pers-card');
   const entryIO = new IntersectionObserver(entries => {
     if (!entries[0].isIntersecting) return;
