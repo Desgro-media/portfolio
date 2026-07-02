@@ -42,8 +42,21 @@
 ────────────────────────────────────────── */
 (function initNavbar() {
   const nav = document.getElementById('navbar');
+  let scrolled = false;
+  let pending  = false;
+
+  function updateNavbar() {
+    pending = false;
+    const isScrolled = window.scrollY > 20;
+    if (isScrolled === scrolled) return;
+    scrolled = isScrolled;
+    nav.style.background = scrolled ? 'rgba(0,0,0,0.99)' : 'rgba(0,0,0,0.97)';
+  }
+
   window.addEventListener('scroll', () => {
-    nav.style.background = window.scrollY > 20 ? 'rgba(0,0,0,0.99)' : 'rgba(0,0,0,0.97)';
+    if (pending) return;
+    pending = true;
+    requestAnimationFrame(updateNavbar);
   }, { passive: true });
 })();
 
@@ -276,7 +289,11 @@
      Material: MeshPhysicalMaterial — dark, glossy, glass-like clearcoat.
      Spring physics + continuous rotation respond to cursor.
   ──────────────────────────────── */
-  (function initAsterisk3D() {
+  /* Deferred via requestIdleCallback — building two full WebGL renderers +
+     compiling the clearcoat MeshPhysicalMaterial shader costs ~900ms of
+     synchronous main-thread work (profiled). Running it after first paint
+     keeps the loader/title reveal from being blocked by it. */
+  function initAsterisk3D() {
     if (typeof THREE === 'undefined') return;
 
     const hero   = document.getElementById('heroIntroWrap');
@@ -395,8 +412,22 @@
 
     /* Back: bigger, upper-left quadrant — rIn narrow for clear arm separation */
     const back  = buildScene(cBack,  { rOut: 2.10, rIn: 0.52, depth: 0.70, bevel: 0.16, emissive: 0.30 });
-    /* Front: slightly smaller, lower-right */
-    const front = buildScene(cFront, { rOut: 1.65, rIn: 0.40, depth: 0.58, bevel: 0.12, emissive: 0.18 });
+    back.renderer.render(back.scene, back.camera);
+
+    /* Front scene is built one frame later — each buildScene() call compiles
+       its own WebGL shader program (~500-600ms, profiled), so splitting them
+       across two frames avoids a single ~1.1s uninterrupted main-thread block. */
+    requestAnimationFrame(() => {
+      const front = buildScene(cFront, { rOut: 1.65, rIn: 0.40, depth: 0.58, bevel: 0.12, emissive: 0.18 });
+      front.renderer.render(front.scene, front.camera);
+      startAsteriskLoop(back, front);
+    });
+  }
+
+  function startAsteriskLoop(back, front) {
+    const hero   = document.getElementById('heroIntroWrap');
+    const cBack  = document.getElementById('astCanvasBack');
+    const cFront = document.getElementById('astCanvasFront');
 
     /* ── Spring / cursor tracking ── */
     let mx = 0, my = 0;
@@ -448,11 +479,9 @@
       front.mesh.rotation.y  = -smx * 0.55;
       front.renderer.render(front.scene, front.camera);
     }
-    /* Force an immediate render so the canvas has pixels before the RAF loop fires.
-       On mobile (Android Chrome) requestAnimationFrame is throttled until the first
-       user interaction — without this the canvas stays blank even when opacity-in. */
-    back.renderer.render(back.scene, back.camera);
-    front.renderer.render(front.scene, front.camera);
+    /* Both scenes were already rendered once immediately after being built
+       (see buildScene call sites) so the canvas has pixels before the RAF
+       loop fires — mobile Android Chrome throttles rAF until first interaction. */
     animate();
 
     /* Fade in as the loader exits — force a fresh render before revealing */
@@ -473,7 +502,13 @@
       cBack.classList.add('ast-visible');
       cFront.classList.add('ast-visible');
     }, { once: true, passive: true });
-  })();
+  }
+
+  if ('requestIdleCallback' in window) {
+    requestIdleCallback(initAsterisk3D, { timeout: 500 });
+  } else {
+    setTimeout(initAsterisk3D, 0);
+  }
 
 })(); /* end initAnimations */
 
@@ -1287,6 +1322,31 @@ document.querySelectorAll('.wc-imgslider').forEach(slider => {
   const track = document.querySelector('.filmstrip-track');
   if (!row || !inner || !track) return;
 
+  /* Event name per image, keyed by filename — caption tile shown at the
+     bottom of each frame. Add an entry here when a new event photo is added. */
+  const EVENT_NAMES = {
+    'photo_2026-06-30_14-02-20.jpg': 'Team Moments',
+    'photo_2026-06-30_14-02-48.jpg': 'Desgro x Demand — FEST',
+    'photo_2026-06-30_14-02-52.jpg': 'Landmark World Awards',
+    'photo_2026-06-30_14-02-55.jpg': 'Grow with Desgro',
+    'photo_2026-06-30_14-03-03.jpg': 'Desgro x Demand — FEST',
+    'photo_2026-06-30_14-03-06.jpg': 'World Cup Watch Party',
+    'photo_2026-06-30_14-03-13.jpg': 'Behind the Scenes',
+    'photo_2026-06-30_14-03-16.jpg': 'Behind the Scenes',
+    'photo_2026-06-30_14-03-19.jpg': 'Podcast Shoot',
+    'photo_2026-06-30_14-03-22.jpg': 'Podcast Shoot',
+  };
+  track.querySelectorAll('.filmstrip-frame').forEach(frame => {
+    const img = frame.querySelector('img');
+    const filename = img && img.getAttribute('src').split('/').pop();
+    const eventName = filename && EVENT_NAMES[filename];
+    if (!eventName || frame.querySelector('.filmstrip-caption')) return;
+    const caption = document.createElement('span');
+    caption.className = 'filmstrip-caption';
+    caption.textContent = eventName;
+    frame.appendChild(caption);
+  });
+
   /* Clone for seamless loop */
   const clone = track.cloneNode(true);
   clone.setAttribute('aria-hidden', 'true');
@@ -1327,10 +1387,17 @@ document.querySelectorAll('.wc-imgslider').forEach(slider => {
   row.addEventListener('mousemove', e => {
     if (!rowRect) rowRect = row.getBoundingClientRect();
     const rx = (e.clientX - rowRect.left) / rowRect.width;
-    target = BASE * (0.1 + rx * 2.1);
+    /* Floor raised from 0.1 to 0.45 so resting the cursor over the left
+       edge slows the strip without it reading as fully stopped. */
+    target = BASE * (0.45 + rx * 1.75);
   }, { passive: true });
 
   row.addEventListener('mouseleave', () => { target = BASE; rowRect = null; });
+
+  /* Pause the RAF loop while the strip is scrolled off-screen — it was
+     running (and recalculating transform) forever regardless of visibility. */
+  let stripActive = true;
+  new IntersectionObserver(([e]) => { stripActive = e.isIntersecting; }, { threshold: 0 }).observe(row);
 
   /* ── Wait for images to load so natural widths are settled ── */
   const imgs = [...track.querySelectorAll('img')];
@@ -1344,12 +1411,13 @@ document.querySelectorAll('.wc-imgslider').forEach(slider => {
     let offset   = 0;
 
     (function loop() {
+      requestAnimationFrame(loop);
+      if (!stripActive) return;
       speed  += (target - speed) * 0.06;
       offset += speed;
       if (offset >= trackW) offset -= trackW;
       if (offset < 0)       offset += trackW;
       inner.style.transform = `translateX(${-offset}px)`;
-      requestAnimationFrame(loop);
     })();
   });
 })();

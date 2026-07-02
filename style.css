@@ -3543,6 +3543,31 @@ body {
   transition: box-shadow 0.35s ease, filter 0.35s ease;
   will-change: transform;
   backface-visibility: hidden;
+  position: relative;
+}
+
+.filmstrip-caption {
+  position: absolute;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  z-index: 2;
+  padding: 6px 10px;
+  background: rgba(0,0,0,0.62);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
 }
 
 .filmstrip-frame img {
@@ -3568,9 +3593,11 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
   .filmstrip-frame { height: 190px; }
+  .filmstrip-caption { font-size: 10px; padding: 5px 8px; }
 }
 @media (max-width: 480px) {
   .filmstrip-frame { height: 140px; }
+  .filmstrip-caption { font-size: 9px; padding: 4px 6px; left: 5px; right: 5px; bottom: 5px; }
 }
 
 /* Respect user's motion preference — disable all non-essential animation */
