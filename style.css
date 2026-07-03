@@ -1225,6 +1225,12 @@ body {
   gap: 28px;
 }
 
+/* The mobile carousel wraps cards in .works-track and appends clones —
+   on desktop that must stay invisible to layout so CSS Grid still sees
+   the 6 real cards as direct items, not one wrapper occupying column 1. */
+.works-track { display: contents; }
+.works-card[aria-hidden="true"] { display: none; }
+
 .works-card {
   background: #0a0a0a;
   display: flex;
@@ -1551,6 +1557,8 @@ body {
     gap: 14px;
     width: max-content;
   }
+
+  .works-card[aria-hidden="true"] { display: flex; }
 
   .works-grid .works-card {
     flex: 0 0 68vw;

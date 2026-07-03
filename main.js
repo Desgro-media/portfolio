@@ -1163,15 +1163,19 @@ document.querySelectorAll('.wc-imgslider').forEach(slider => {
   }, { threshold: 0.1 }).observe(slider);
 });
 
-/* ── WORKS CAROUSEL: continuous auto-drift + centered focus (mobile) ──
+/* ── WORKS CAROUSEL: continuous auto-drift + centered focus (mobile only) ──
    Same seamless-marquee technique as the film strip: the card set is
    cloned once, the whole track drifts left forever via RAF, and the
    offset wraps at the halfway point (one real set's width) so the loop
    never seams. Whichever card is nearest the viewport's centre gets
-   full focus; everything else stays dimmed. */
-(function () {
-  if (!window.matchMedia('(max-width: 600px)').matches) return;
+   full focus; everything else stays dimmed.
 
+   The DOM restructure (wrapper + clones) happens unconditionally, but
+   .works-track is `display: contents` outside the ≤600px breakpoint
+   (see CSS) so desktop's 3-column grid still sees the 6 real cards as
+   direct items — and mql.matches is re-checked every frame, so the
+   animation itself only ever runs at mobile widths, live, on resize. */
+(function () {
   const grid = document.querySelector('.works-grid');
   if (!grid) return;
   const realCards = Array.from(grid.querySelectorAll('.works-card'));
@@ -1192,6 +1196,7 @@ document.querySelectorAll('.wc-imgslider').forEach(slider => {
   grid.appendChild(track);
 
   const allCards = realCards.concat(clones);
+  const mql = window.matchMedia('(max-width: 600px)');
 
   const SPEED = 0.5; /* px per frame — slow drift */
   let offset    = 0;
@@ -1205,7 +1210,7 @@ document.querySelectorAll('.wc-imgslider').forEach(slider => {
 
   (function loop() {
     requestAnimationFrame(loop);
-    if (!inView || paused) return;
+    if (!mql.matches || !inView || paused) return;
 
     const setWidth = track.scrollWidth / 2;
     offset += SPEED;
@@ -1355,11 +1360,14 @@ document.querySelectorAll('.wc-imgslider').forEach(slider => {
      The global .sr observer handles the first reveal (unobserves after).
      This observer keeps watching so reverse scroll can play a creative
      3D sink-back animation when cards exit below the viewport again.  */
+  const worksCarouselMql = window.matchMedia('(max-width: 600px)');
   document.querySelectorAll('.works-card').forEach(card => {
-    /* Cards inside the mobile auto-drift track move horizontally on
-       their own RAF loop — that motion can carry them outside the
-       viewport rect and falsely read as a vertical scroll-away here. */
-    if (card.closest('.works-track')) return;
+    /* At mobile widths cards drift horizontally on their own RAF loop —
+       that motion can carry them outside the viewport rect and falsely
+       read as a vertical scroll-away here. Desktop is unaffected (the
+       drift animation itself is gated behind the same width check), so
+       only skip this observer while actually at mobile width. */
+    if (worksCarouselMql.matches) return;
     let everSeen = false;
 
     new IntersectionObserver(([entry]) => {
