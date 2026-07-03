@@ -1210,7 +1210,8 @@ body {
 .works-title {
   font-family: var(--font-display);
   font-size: clamp(52px, 9vw, 130px);
-  line-height: 0.95;
+  line-height: 1.05;
+  padding-top: 0.1em;
   color: var(--white);
   text-transform: uppercase;
   letter-spacing: -2px;
@@ -2854,7 +2855,7 @@ body {
   .works-section { padding: 48px 16px 60px; }
   .news-section  { padding: 40px 16px 52px; }
   .works-title { font-size: clamp(38px, 14vw, 60px); letter-spacing: -1px; }
-  .works-eyebrow { letter-spacing: 2.5px; margin-bottom: 14px; }
+  .works-eyebrow { letter-spacing: 2.5px; margin-bottom: 18px; }
   .works-header { margin-bottom: 32px; }
   .works-card-body { padding: 16px 14px 20px; }
   .works-card-name { font-size: clamp(15px, 5vw, 19px); }
