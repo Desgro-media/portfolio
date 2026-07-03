@@ -1003,14 +1003,25 @@ body {
   will-change: transform;
 }
 
+/* Distinct accent colour per card — cycles through a vibrant palette */
+.team-card:nth-child(8n+1) { --card-color: #eb2027; --card-glow: rgba(235,32,39,0.45); }
+.team-card:nth-child(8n+2) { --card-color: #2f6fed; --card-glow: rgba(47,111,237,0.45); }
+.team-card:nth-child(8n+3) { --card-color: #f5b700; --card-glow: rgba(245,183,0,0.45); }
+.team-card:nth-child(8n+4) { --card-color: #8b3ffb; --card-glow: rgba(139,63,251,0.45); }
+.team-card:nth-child(8n+5) { --card-color: #22b573; --card-glow: rgba(34,181,115,0.45); }
+.team-card:nth-child(8n+6) { --card-color: #ff7a29; --card-glow: rgba(255,122,41,0.45); }
+.team-card:nth-child(8n+7) { --card-color: #17b8c4; --card-glow: rgba(23,184,196,0.45); }
+.team-card:nth-child(8n+8) { --card-color: #ef4d9d; --card-glow: rgba(239,77,157,0.45); }
+
 .card-inner {
   width: 100%;
   height: 100%;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 16px 50px rgba(0,0,0,0.75);
+  border: 3px solid var(--card-color, var(--red));
+  box-shadow: 0 16px 50px rgba(0,0,0,0.75), 0 0 22px var(--card-glow, transparent);
   /* transition is set by JS per-hover for precise spring control */
-  transition: box-shadow 0.5s ease, filter 0.5s ease;
+  transition: box-shadow 0.5s ease, filter 0.5s ease, border-color 0.5s ease;
   will-change: transform, filter;
   transform-origin: center center;
   position: relative;   /* for card-story positioning */
@@ -1020,8 +1031,8 @@ body {
 .card-hovered .card-inner {
   box-shadow:
     0 45px 120px rgba(0,0,0,0.92),
-    0 0 0 2.5px rgba(255,255,255,0.88),
-    0 0 45px rgba(255,255,255,0.12);
+    0 0 0 3px var(--card-color, #fff),
+    0 0 65px var(--card-glow, rgba(255,255,255,0.12));
   filter: brightness(1.1) contrast(1.04) saturate(1.1);
 }
 
@@ -1183,12 +1194,11 @@ body {
 
 .works-title-red { color: var(--red); }
 
-/* 3-column grid; 1px gaps create ruled lines between cards */
+/* 3-column grid; cards are individually rounded and elevated */
 .works-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: rgba(255,255,255,0.07);
+  gap: 28px;
 }
 
 .works-card {
@@ -1214,6 +1224,26 @@ body {
 @media (hover: hover) {
   .works-card:hover { background: #111; }
   .works-card:hover::before { background: var(--red); }
+}
+
+/* Grid cards (Fumme/AR Foods/Matrix/Kerala Taste/HU/Susi) get the rounded, elevated card treatment */
+.works-grid .works-card {
+  background: #101010;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 20px;
+  box-shadow: 0 24px 48px -28px rgba(0,0,0,0.7);
+  transition: transform 0.35s cubic-bezier(0.16,1,0.3,1), border-color 0.3s ease, box-shadow 0.35s ease, background 0.3s ease;
+}
+
+.works-grid .works-card::before { content: none; }
+
+@media (hover: hover) {
+  .works-grid .works-card:hover {
+    background: #141414;
+    border-color: rgba(235,32,39,0.45);
+    transform: translateY(-6px);
+    box-shadow: 0 32px 60px -24px rgba(0,0,0,0.8);
+  }
 }
 
 /* Coloured visual band — unique gradient per card */
@@ -1286,6 +1316,88 @@ body {
 }
 
 .works-card:hover .works-card-link { color: var(--white); }
+
+/* ── Grid card layout: avatar/name header, pill tags, footer CTA ── */
+.wc-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.wc-avatar {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--red);
+  color: var(--white);
+  font-family: var(--font-display);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.wc-client-name {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: rgba(255,255,255,0.85);
+}
+
+.wc-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 14px 0 18px;
+}
+
+.wc-tag {
+  font-family: var(--font-body);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: rgba(255,255,255,0.65);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.09);
+  padding: 5px 12px;
+  border-radius: 20px;
+}
+
+.wc-card-footer {
+  margin-top: auto;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.works-grid .wc-card-footer .works-card-desc {
+  font-size: 11.5px;
+  line-height: 1.7;
+  flex: 1;
+}
+
+.works-grid .wc-card-footer .works-card-link {
+  flex-shrink: 0;
+  margin-top: 0;
+  background: var(--red);
+  color: var(--white);
+  padding: 9px 16px;
+  border-radius: 20px;
+  font-size: 9px;
+  letter-spacing: 1.5px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.works-grid .works-card:hover .wc-card-footer .works-card-link {
+  background: #ff3038;
+  transform: translateX(2px);
+}
 
 /* Henna Instagram link style */
 .works-card-link--ig {
@@ -1399,17 +1511,21 @@ body {
 /* ── Responsive ── */
 /* Works + Henna card responsive rules consolidated in main breakpoints below */
 @media (max-width: 900px) {
-  .works-grid { grid-template-columns: repeat(2, 1fr); }
+  .works-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
 }
 
 @media (max-width: 600px) {
-  .works-grid { grid-template-columns: repeat(3, 1fr); }
+  .works-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  .works-grid .works-card { border-radius: 12px; }
   .works-card-body { padding: 8px 6px 10px; }
   .works-card-name { font-size: 10px; line-height: 1.2; margin-bottom: 0; }
   .works-card-cat { display: none; }
   .works-card-desc { display: none; }
   .works-card-link { display: none; }
   .works-card-stats { display: none; }
+  .wc-card-header { display: none; }
+  .wc-tags { display: none; }
+  .wc-card-footer { display: none; }
 }
 
 /* ── NEWS SLIDER ── */
@@ -1542,19 +1658,22 @@ body {
   border-radius: 3px;
 }
 
-/* Real-work label on card */
+/* Real-work label on card — sits top-right of the avatar/name header row */
 .wc-real-badge {
   display: inline-block;
-  align-self: flex-start;
-  background: var(--red);
-  color: var(--white);
+  margin-left: auto;
+  flex-shrink: 0;
+  background: rgba(235,32,39,0.12);
+  color: var(--red);
+  border: 1px solid rgba(235,32,39,0.4);
   font-family: var(--font-body);
   font-size: 8px;
   font-weight: 700;
-  letter-spacing: 2px;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
-  padding: 3px 8px;
-  margin-bottom: 10px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
 }
 
 /* ── FUMME MODAL ── */
@@ -2694,9 +2813,9 @@ body {
 
   /* ── SD section ── */
   .sd-why-panel { padding: 40px 16px 48px; }
-  .sd-stat-row { grid-template-columns: 28px 1fr; gap: 0 12px; }
-  .sd-stat-label { display: none; }
-  .sd-stat-num, .sd-stat-suf { font-size: clamp(36px, 12vw, 60px); }
+  .sd-stat-row { grid-template-columns: 28px 1fr auto; gap: 0 12px; }
+  .sd-stat-label { max-width: 76px; font-size: 8px; }
+  .sd-stat-num, .sd-stat-suf { font-size: clamp(30px, 10vw, 48px); }
   .sd-svc-name { font-size: clamp(18px, 5.5vw, 28px); }
 
   /* ── Contact ── */
@@ -3433,8 +3552,8 @@ body {
   .sd-why-p { font-size: 10.5px; line-height: 1.75; }
   .sd-stats-rows { margin-top: 0; align-self: flex-start; padding-top: 4px; }
   .sd-stat-num, .sd-stat-suf { font-size: clamp(18px, 5vw, 28px); }
-  .sd-stat-row { grid-template-columns: 20px 1fr; gap: 0 6px; }
-  .sd-stat-label { display: none; }
+  .sd-stat-row { grid-template-columns: 20px 1fr auto; gap: 0 6px; }
+  .sd-stat-label { max-width: 88px; font-size: 8.5px; }
 
   /* Service cards: single-column list — label left, arrow-icon right, thin row dividers */
   .sd-cards { display: flex; flex-direction: column; background: none; gap: 0; }
