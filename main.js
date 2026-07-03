@@ -1163,6 +1163,71 @@ document.querySelectorAll('.wc-imgslider').forEach(slider => {
   }, { threshold: 0.1 }).observe(slider);
 });
 
+/* ── WORKS CAROUSEL: continuous auto-drift + centered focus (mobile) ──
+   Same seamless-marquee technique as the film strip: the card set is
+   cloned once, the whole track drifts left forever via RAF, and the
+   offset wraps at the halfway point (one real set's width) so the loop
+   never seams. Whichever card is nearest the viewport's centre gets
+   full focus; everything else stays dimmed. */
+(function () {
+  if (!window.matchMedia('(max-width: 600px)').matches) return;
+
+  const grid = document.querySelector('.works-grid');
+  if (!grid) return;
+  const realCards = Array.from(grid.querySelectorAll('.works-card'));
+  if (realCards.length < 2) return;
+
+  const track = document.createElement('div');
+  track.className = 'works-track';
+  realCards.forEach(card => track.appendChild(card));
+
+  const clones = realCards.map(card => {
+    const clone = card.cloneNode(true);
+    clone.classList.remove('sr', 'sr-visible');
+    clone.setAttribute('aria-hidden', 'true');
+    clone.setAttribute('tabindex', '-1');
+    return clone;
+  });
+  clones.forEach(clone => track.appendChild(clone));
+  grid.appendChild(track);
+
+  const allCards = realCards.concat(clones);
+
+  const SPEED = 0.5; /* px per frame — slow drift */
+  let offset    = 0;
+  let inView    = true;
+  let paused    = false;
+  let frame     = 0;
+
+  new IntersectionObserver(([e]) => { inView = e.isIntersecting; }, { threshold: 0 }).observe(grid);
+  grid.addEventListener('touchstart', () => { paused = true; }, { passive: true });
+  grid.addEventListener('touchend', () => { setTimeout(() => { paused = false; }, 1200); }, { passive: true });
+
+  (function loop() {
+    requestAnimationFrame(loop);
+    if (!inView || paused) return;
+
+    const setWidth = track.scrollWidth / 2;
+    offset += SPEED;
+    if (offset >= setWidth) offset -= setWidth;
+    track.style.transform = `translateX(${-offset}px)`;
+
+    /* Recomputing the focused card every frame is unnecessary for a
+       slow drift — every 4th frame is plenty and cheaper. */
+    if (++frame % 4 === 0) {
+      const gridRect   = grid.getBoundingClientRect();
+      const gridCenter = gridRect.left + gridRect.width / 2;
+      let closest = null, closestDist = Infinity;
+      allCards.forEach(card => {
+        const r = card.getBoundingClientRect();
+        const dist = Math.abs((r.left + r.width / 2) - gridCenter);
+        if (dist < closestDist) { closestDist = dist; closest = card; }
+      });
+      allCards.forEach(card => card.classList.toggle('is-active', card === closest));
+    }
+  })();
+})();
+
 /* ── WORKS CARD MODAL ── */
 (function () {
   function openModal(modal) {
@@ -1291,6 +1356,10 @@ document.querySelectorAll('.wc-imgslider').forEach(slider => {
      This observer keeps watching so reverse scroll can play a creative
      3D sink-back animation when cards exit below the viewport again.  */
   document.querySelectorAll('.works-card').forEach(card => {
+    /* Cards inside the mobile auto-drift track move horizontally on
+       their own RAF loop — that motion can carry them outside the
+       viewport rect and falsely read as a vertical scroll-away here. */
+    if (card.closest('.works-track')) return;
     let everSeen = false;
 
     new IntersectionObserver(([entry]) => {

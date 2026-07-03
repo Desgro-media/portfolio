@@ -1003,36 +1003,26 @@ body {
   will-change: transform;
 }
 
-/* Distinct accent colour per card — cycles through a vibrant palette */
-.team-card:nth-child(8n+1) { --card-color: #eb2027; --card-glow: rgba(235,32,39,0.45); }
-.team-card:nth-child(8n+2) { --card-color: #2f6fed; --card-glow: rgba(47,111,237,0.45); }
-.team-card:nth-child(8n+3) { --card-color: #f5b700; --card-glow: rgba(245,183,0,0.45); }
-.team-card:nth-child(8n+4) { --card-color: #8b3ffb; --card-glow: rgba(139,63,251,0.45); }
-.team-card:nth-child(8n+5) { --card-color: #22b573; --card-glow: rgba(34,181,115,0.45); }
-.team-card:nth-child(8n+6) { --card-color: #ff7a29; --card-glow: rgba(255,122,41,0.45); }
-.team-card:nth-child(8n+7) { --card-color: #17b8c4; --card-glow: rgba(23,184,196,0.45); }
-.team-card:nth-child(8n+8) { --card-color: #ef4d9d; --card-glow: rgba(239,77,157,0.45); }
-
 .card-inner {
   width: 100%;
   height: 100%;
-  border-radius: 10px;
+  border-radius: 14px;
   overflow: hidden;
-  border: 3px solid var(--card-color, var(--red));
-  box-shadow: 0 16px 50px rgba(0,0,0,0.75), 0 0 22px var(--card-glow, transparent);
-  /* transition is set by JS per-hover for precise spring control */
+  border: 2px solid rgba(235,32,39,0.6);
+  box-shadow: 0 24px 48px -20px rgba(0,0,0,0.8), 0 0 24px rgba(235,32,39,0.18);
   transition: box-shadow 0.5s ease, filter 0.5s ease, border-color 0.5s ease;
   will-change: transform, filter;
   transform-origin: center center;
   position: relative;   /* for card-story positioning */
 }
 
-/* ── Cinematic card hover ── */
+/* ── Cinematic card hover — red outline brightens and glows harder ── */
 .card-hovered .card-inner {
+  border-color: var(--red);
   box-shadow:
     0 45px 120px rgba(0,0,0,0.92),
-    0 0 0 3px var(--card-color, #fff),
-    0 0 65px var(--card-glow, rgba(255,255,255,0.12));
+    0 0 0 1px rgba(235,32,39,0.7),
+    0 0 65px rgba(235,32,39,0.4);
   filter: brightness(1.1) contrast(1.04) saturate(1.1);
 }
 
@@ -1071,6 +1061,36 @@ body {
   opacity: 1;
 }
 
+/* Touch devices can't hover — keep name/role permanently visible,
+   but compact and fixed-height so no title/name length can eat the photo */
+@media (hover: none) {
+  .card-story {
+    transform: translateY(0);
+    opacity: 1;
+    padding: 10px 10px 8px;
+    gap: 2px;
+    background: linear-gradient(
+      to top,
+      rgba(0,0,0,0.88) 0%,
+      rgba(0,0,0,0.55) 65%,
+      transparent 100%
+    );
+  }
+
+  .card-story-role {
+    font-size: 7px;
+    letter-spacing: 1px;
+  }
+
+  .card-story-name {
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+}
+
 .card-story-role {
   font-family: var(--font-body);
   font-size: 9px;
@@ -1079,6 +1099,10 @@ body {
   color: var(--red);
   text-transform: uppercase;
   line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 
 .card-story-name {
@@ -1515,15 +1539,39 @@ body {
 }
 
 @media (max-width: 600px) {
-  .works-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-  .works-grid .works-card { border-radius: 12px; }
-  .works-card-body { padding: 8px 6px 10px; }
-  .works-card-name { font-size: 10px; line-height: 1.2; margin-bottom: 0; }
+  /* Auto-drifting belt instead of a cramped 3-column grid — cards glide
+     left forever, the one nearest centre lit up at full size. */
+  .works-grid {
+    overflow: hidden;
+    padding: 4px 0 10px;
+  }
+
+  .works-track {
+    display: flex;
+    gap: 14px;
+    width: max-content;
+  }
+
+  .works-grid .works-card {
+    flex: 0 0 68vw;
+    border-radius: 14px;
+    opacity: 0.4;
+    transform: scale(0.9);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+
+  .works-grid .works-card.is-active {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  .works-card-body { padding: 14px 14px 16px; }
+  .wc-card-header { margin-bottom: 10px; }
+  .works-card-name { font-size: 15px; line-height: 1.25; margin-bottom: 0; }
   .works-card-cat { display: none; }
   .works-card-desc { display: none; }
   .works-card-link { display: none; }
   .works-card-stats { display: none; }
-  .wc-card-header { display: none; }
   .wc-tags { display: none; }
   .wc-card-footer { display: none; }
 }
