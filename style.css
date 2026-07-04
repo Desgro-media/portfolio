@@ -86,31 +86,10 @@ body {
   padding-left: 4px;
 }
 
-.logo-bar {
-  width: 28px;
-  height: 3px;
-  background: var(--red);
-  margin-bottom: 3px;
-}
-
-.logo-text-desgro {
-  font-family: var(--font-display);
-  font-weight: 400;
-  font-size: 22px;
-  letter-spacing: 1px;
-  color: var(--white);
-  line-height: 1;
-}
-
-.logo-text-media {
-  font-family: var(--font-body);
-  font-weight: 500;
-  font-size: 9px;
-  letter-spacing: 3px;
-  color: var(--grey);
-  line-height: 1;
-  margin-top: 2px;
-  text-transform: uppercase;
+.logo-img {
+  height: 34px;
+  width: auto;
+  display: block;
 }
 
 .nav-links {
