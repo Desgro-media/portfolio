@@ -516,11 +516,20 @@
     }, { once: true, passive: true });
   }
 
-  if ('requestIdleCallback' in window) {
-    requestIdleCallback(initAsterisk3D, { timeout: 500 });
-  } else {
-    setTimeout(initAsterisk3D, 0);
+  /* three.min.js is now `defer`red so it no longer blocks first paint — which
+     means THREE may not exist yet when we first get here. Wait (bounded) for it,
+     then build the asterisk during idle time so the ~900ms WebGL setup still
+     runs after the loader/title reveal. If THREE never loads, skip silently —
+     the page is fully functional without the 3D glyph. */
+  function scheduleAsterisk(triesLeft) {
+    if (typeof THREE !== 'undefined') {
+      if ('requestIdleCallback' in window) requestIdleCallback(initAsterisk3D, { timeout: 500 });
+      else setTimeout(initAsterisk3D, 0);
+    } else if (triesLeft > 0) {
+      setTimeout(() => scheduleAsterisk(triesLeft - 1), 120);   /* ~4.8s max wait */
+    }
   }
+  scheduleAsterisk(40);
 
 })(); /* end initAnimations */
 

@@ -16,8 +16,10 @@
   <!-- Preload Anton so it's ready before first paint &mdash; eliminates font-swap flash -->
   <link rel="preload" href="fonts/Anton-Regular.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="style.css?v=4">
-  <!-- Three.js for real 3D glass asterisk rendering -->
-  <script src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
+  <!-- Three.js for real 3D glass asterisk rendering.
+       `defer` so it downloads in parallel and never blocks first paint / the
+       loader; main.js waits (bounded) for THREE before building the asterisk. -->
+  <script defer src="https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.min.js"></script>
 </head>
 
 <body>
@@ -286,7 +288,7 @@
 
         <a class="pers-card" href="https://www.instagram.com/desgro.media?igsh=MWNpeHR1YjJxbzNldQ==" target="_blank"
           rel="noopener">
-          <video autoplay muted loop playsinline preload="auto">
+          <video autoplay muted loop playsinline preload="none">
             <source src="video-assets/video_2026-06-25_16-42-15.mp4" type="video/mp4">
           </video>
           <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
@@ -300,7 +302,7 @@
 
         <a class="pers-card pers-card--up" href="https://www.instagram.com/desgro.media?igsh=MWNpeHR1YjJxbzNldQ=="
           target="_blank" rel="noopener">
-          <video autoplay muted loop playsinline preload="auto">
+          <video autoplay muted loop playsinline preload="none">
             <source src="video-assets/video_2026-06-25_16-42-22.mp4" type="video/mp4">
           </video>
           <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
@@ -314,7 +316,7 @@
 
         <a class="pers-card" href="https://www.instagram.com/desgro.media?igsh=MWNpeHR1YjJxbzNldQ==" target="_blank"
           rel="noopener">
-          <video autoplay muted loop playsinline preload="auto">
+          <video autoplay muted loop playsinline preload="none">
             <source src="video-assets/video_2026-06-25_16-42-26.mp4" type="video/mp4">
           </video>
           <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
@@ -328,7 +330,7 @@
 
         <a class="pers-card pers-card--up" href="https://www.instagram.com/desgro.media?igsh=MWNpeHR1YjJxbzNldQ=="
           target="_blank" rel="noopener">
-          <video autoplay muted loop playsinline preload="auto">
+          <video autoplay muted loop playsinline preload="none">
             <source src="video-assets/video_2026-06-25_16-42-29.mp4" type="video/mp4">
           </video>
           <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
@@ -341,7 +343,7 @@
         </a>
 
         <a class="pers-card" href="https://www.instagram.com/reels/DTnWQQLEzWJ/" target="_blank" rel="noopener">
-          <video autoplay muted loop playsinline preload="auto">
+          <video autoplay muted loop playsinline preload="none">
             <source src="video-assets/ar.mp4" type="video/mp4">
           </video>
           <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
@@ -356,7 +358,7 @@
         <a class="pers-card pers-card--up"
           href="https://www.instagram.com/reel/DXHPh8xE46K/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ=="
           target="_blank" rel="noopener">
-          <video autoplay muted loop playsinline preload="auto">
+          <video autoplay muted loop playsinline preload="none">
             <source src="video-assets/blueshirt.mp4" type="video/mp4">
           </video>
           <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
@@ -371,7 +373,7 @@
         <a class="pers-card"
           href="https://www.instagram.com/reel/DZKg3eYy7dF/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ=="
           target="_blank" rel="noopener">
-          <video autoplay muted loop playsinline preload="auto">
+          <video autoplay muted loop playsinline preload="none">
             <source src="video-assets/gym.mp4" type="video/mp4">
           </video>
           <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
@@ -386,7 +388,7 @@
         <!-- Duplicate 1 for screen width filling -->
         <a class="pers-card pers-card--up" href="https://www.instagram.com/desgro.media?igsh=MWNpeHR1YjJxbzNldQ=="
           target="_blank" rel="noopener">
-          <video autoplay muted loop playsinline preload="auto">
+          <video autoplay muted loop playsinline preload="none">
             <source src="video-assets/video_2026-06-25_16-42-29.mp4" type="video/mp4">
           </video>
           <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
@@ -399,7 +401,7 @@
         </a>
 
         <a class="pers-card" href="https://www.instagram.com/reels/DTnWQQLEzWJ/" target="_blank" rel="noopener">
-          <video autoplay muted loop playsinline preload="auto">
+          <video autoplay muted loop playsinline preload="none">
             <source src="video-assets/ar.mp4" type="video/mp4">
           </video>
           <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
@@ -414,7 +416,7 @@
         <a class="pers-card pers-card--up"
           href="https://www.instagram.com/reel/DXHPh8xE46K/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ=="
           target="_blank" rel="noopener">
-          <video autoplay muted loop playsinline preload="auto">
+          <video autoplay muted loop playsinline preload="none">
             <source src="video-assets/blueshirt.mp4" type="video/mp4">
           </video>
           <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
@@ -429,7 +431,7 @@
         <a class="pers-card"
           href="https://www.instagram.com/reel/DZKg3eYy7dF/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ=="
           target="_blank" rel="noopener">
-          <video autoplay muted loop playsinline preload="auto">
+          <video autoplay muted loop playsinline preload="none">
             <source src="video-assets/gym.mp4" type="video/mp4">
           </video>
           <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
@@ -444,7 +446,7 @@
         <!-- Duplicate 2 for screen width filling -->
         <a class="pers-card pers-card--up" href="https://www.instagram.com/desgro.media?igsh=MWNpeHR1YjJxbzNldQ=="
           target="_blank" rel="noopener">
-          <video autoplay muted loop playsinline preload="auto">
+          <video autoplay muted loop playsinline preload="none">
             <source src="video-assets/video_2026-06-25_16-42-29.mp4" type="video/mp4">
           </video>
           <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
@@ -457,7 +459,7 @@
         </a>
 
         <a class="pers-card" href="https://www.instagram.com/reels/DTnWQQLEzWJ/" target="_blank" rel="noopener">
-          <video autoplay muted loop playsinline preload="auto">
+          <video autoplay muted loop playsinline preload="none">
             <source src="video-assets/ar.mp4" type="video/mp4">
           </video>
           <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
@@ -472,7 +474,7 @@
         <a class="pers-card pers-card--up"
           href="https://www.instagram.com/reel/DXHPh8xE46K/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ=="
           target="_blank" rel="noopener">
-          <video autoplay muted loop playsinline preload="auto">
+          <video autoplay muted loop playsinline preload="none">
             <source src="video-assets/blueshirt.mp4" type="video/mp4">
           </video>
           <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
@@ -487,7 +489,7 @@
         <a class="pers-card"
           href="https://www.instagram.com/reel/DZKg3eYy7dF/?utm_source=ig_web_copy_link&igsh=NTc4MTIwNjQ2YQ=="
           target="_blank" rel="noopener">
-          <video autoplay muted loop playsinline preload="auto">
+          <video autoplay muted loop playsinline preload="none">
             <source src="video-assets/gym.mp4" type="video/mp4">
           </video>
           <div class="pers-card-overlay"><span class="pers-ig-icon"><svg viewBox="0 0 24 24" fill="none"
