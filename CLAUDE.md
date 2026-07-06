@@ -11,14 +11,28 @@ Static single-page website for **Desgro Media** — a creative content marketing
 Open `index.html` directly in a browser, or serve it locally:
 
 ```bash
-# Python (any modern system)
-python -m http.server 8000
-
-# Node (if npx available)
+# Node (if npx available) — supports HTTP Range, so <video> plays in Safari
 npx serve .
+
+# Python — quick preview, but DO NOT use for Safari video testing (see below)
+python -m http.server 8000
 ```
 
 There is no build step, no compilation, no `npm install`.
+
+### ⚠️ Safari + local server: videos need HTTP Range support
+
+Safari (desktop **and** iOS) refuses to play `<video>` unless the server answers
+range requests with **`206 Partial Content`**. Chrome/Firefox tolerate a plain
+`200`; Safari does not. `python -m http.server` only ever returns `200` (no
+`Accept-Ranges`), so **videos silently fail to load in Safari when previewed
+that way** — even though images and everything else work. Use `npx serve .`
+(or VS Code Live Server) for local Safari testing. Production is unaffected:
+Vercel and the nginx Docker image both support range requests.
+
+Asset paths must also be URL-encoded — the `image assets/` folder has a space
+(`image%20assets/`) and a few files contain commas/parens. Spaces auto-encode
+in most browsers, but commas do not, so references are encoded explicitly.
 
 ## File Structure
 

@@ -12,8 +12,20 @@
   const wrapper = document.getElementById('videoWrapper');
   if (!video) return;
 
+  /* Safari (desktop + iOS) often ignores the `autoplay` attribute on a muted
+     inline video until it's nudged from JS, and some CDNs strip the `muted`
+     attribute on delivery — which turns autoplay back off. Re-assert the flags
+     and kick playback, retrying once the clip has buffered. */
+  video.muted = true;
+  video.setAttribute('muted', '');
+  video.playsInline = true;
+  const kick = () => { const p = video.play(); if (p) p.catch(() => {}); };
+  kick();
+  video.addEventListener('canplay',    kick, { once: true });
+  video.addEventListener('loadeddata', kick, { once: true });
+
   wrapper.addEventListener('click', () => {
-    if (video.paused) { video.play(); }
+    if (video.paused) { const p = video.play(); if (p) p.catch(() => {}); }
     else              { video.pause(); }
   });
 })();
