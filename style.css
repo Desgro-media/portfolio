@@ -312,6 +312,7 @@ body {
    ============================================================ */
 .hero-section {
   min-height: 100vh;
+  min-height: 100dvh; /* iOS Safari: track the dynamic viewport so the hero isn't cut off by the toolbar */
   padding-top: var(--nav-h);
   background: #000000;
   display: flex;
@@ -323,6 +324,7 @@ body {
 .hero-intro-wrap {
   position: relative;
   min-height: calc(100vh - var(--nav-h));
+  min-height: calc(100dvh - var(--nav-h));
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -859,6 +861,7 @@ body {
    ============================================================ */
 .team-section {
   min-height: 100vh;
+  min-height: 100dvh;
   background: var(--black);
   display: flex;
   flex-direction: column;
@@ -943,6 +946,7 @@ body {
   perspective-origin: 50% 44%;
   overflow: visible;
   cursor: grab;
+  -webkit-user-select: none;
   user-select: none;
 }
 
@@ -2134,6 +2138,7 @@ body {
   right: -20px;
   line-height: 1;
   pointer-events: none;
+  -webkit-user-select: none;
   user-select: none;
   z-index: 0;
 }
