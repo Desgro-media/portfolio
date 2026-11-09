@@ -20,13 +20,34 @@
   video.setAttribute('muted', '');
   video.playsInline = true;
   const kick = () => { const p = video.play(); if (p) p.catch(() => {}); };
-  kick();
-  video.addEventListener('canplay',    kick, { once: true });
-  video.addEventListener('loadeddata', kick, { once: true });
+
+  /* Bandwidth: the video carries `data-src`, not <source>/autoplay, and is
+     only attached once its wrapper is actually rendered near the viewport.
+     The reel section is currently `display: none` (see style.css), and a
+     hidden <video autoplay preload="auto"> still downloads + plays the whole
+     file for every visitor. IntersectionObserver never reports a
+     display:none element as intersecting, so nothing is fetched unless the
+     section is un-hidden AND scrolled near. */
+  let started = false;
+  function start() {
+    if (started) return;
+    started = true;
+    video.src = video.dataset.src;
+    video.addEventListener('canplay',    kick, { once: true });
+    video.addEventListener('loadeddata', kick, { once: true });
+    kick();
+  }
+  const startIO = new IntersectionObserver(([e]) => {
+    if (!e.isIntersecting) return;
+    start();
+    startIO.disconnect();
+  }, { rootMargin: '300px 0px', threshold: 0 });
+  startIO.observe(wrapper);
 
   wrapper.addEventListener('click', () => {
-    if (video.paused) { const p = video.play(); if (p) p.catch(() => {}); }
-    else              { video.pause(); }
+    start();
+    if (video.paused) kick();
+    else              video.pause();
   });
 })();
 
@@ -1064,28 +1085,76 @@
   clone.setAttribute('aria-hidden', 'true');
   row.appendChild(clone);
 
-  /* ── Per-card viewport tracking ──
-     Clips are small now (<6MB, faststart-remuxed) so they autoplay/preload
-     natively via their HTML attributes. But the track (original + clone)
-     still holds 42 <video> elements for the seamless loop, and the row only
-     ever shows ~5 of them at once (overflow: hidden) — decoding all 42
-     simultaneously is what caused the stutter/lag reports. Play/pause per
-     card based on visibility, and re-assert muted since some CDNs strip
-     the attribute on delivery. */
+  /* ── Marquee clip loader (bandwidth-critical — see CLAUDE.md) ──
+     The track (original + clone) holds 30 <video> elements but only 7
+     unique files; e.g. gym.mp4 appears 6 times. When every element
+     autoplayed from its own <source>, each one opened its own request(s)
+     for the same file on page load, whether or not the section was ever
+     scrolled to — that is what blew through the Vercel Fast Data Transfer
+     quota. Now:
+       1. Nothing downloads until the strip is near the window viewport.
+       2. Each unique file is fetched ONCE and every <video> that uses it
+          shares the same blob: URL (no per-element requests).
+       3. Only cards inside the strip's own box play; the rest pause
+          (decoding all 30 at once also caused the old stutter reports).
+     Videos carry `data-src`, not <source>/autoplay, so the browser never
+     starts a download on its own. Muted is re-asserted because some CDNs
+     strip the attribute on delivery. */
+  const clipURLs   = new Map();     /* src -> Promise<object URL>          */
+  const attached   = new WeakMap(); /* <video> -> Promise (src assigned)   */
+  const inRow      = new Set();     /* cards inside the strip's own box    */
+  let   rowOnScreen = false;        /* strip within ~1 screen of viewport  */
+
+  function getClipURL(src) {
+    if (!clipURLs.has(src)) {
+      clipURLs.set(src,
+        fetch(src)
+          .then(r => { if (!r.ok) throw new Error(r.status); return r.blob(); })
+          .then(blob => URL.createObjectURL(blob))
+          .catch(() => src)); /* fall back to plain streaming */
+    }
+    return clipURLs.get(src);
+  }
+
+  function attachClip(video) {
+    if (!attached.has(video)) {
+      attached.set(video, getClipURL(video.dataset.src).then(url => { video.src = url; }));
+    }
+    return attached.get(video);
+  }
+
+  function syncCard(card) {
+    const video = card.querySelector('video');
+    if (!video || !video.dataset.src) return;
+    if (rowOnScreen && inRow.has(card)) {
+      video.muted = true;
+      attachClip(video).then(() => {
+        /* re-check: the card may have scrolled away while the file loaded */
+        if (rowOnScreen && inRow.has(card)) video.play().catch(() => {});
+      });
+    } else if (!video.paused) {
+      video.pause();
+    }
+  }
+
   const allCards = [...row.querySelectorAll('.pers-card')];
+
+  /* Which cards are inside the strip (the marquee moves them in and out) */
   const cardIO = new IntersectionObserver(entries => {
     entries.forEach(entry => {
-      const video = entry.target.querySelector('video');
-      if (!video) return;
-      if (entry.isIntersecting) {
-        video.muted = true;
-        video.play().catch(() => {});
-      } else {
-        video.pause();
-      }
+      if (entry.isIntersecting) inRow.add(entry.target);
+      else                      inRow.delete(entry.target);
+      syncCard(entry.target);
     });
   }, { root: row, rootMargin: '200px', threshold: 0 });
   allCards.forEach(card => cardIO.observe(card));
+
+  /* Is the strip itself near the window? (root: row can't tell us this —
+     an element root ignores the window viewport.) */
+  new IntersectionObserver(([e]) => {
+    rowOnScreen = e.isIntersecting;
+    allCards.forEach(syncCard);
+  }, { rootMargin: '400px 0px', threshold: 0 }).observe(row);
 
   /* ── Scroll-in entry animation (original cards only) ── */
   const origCards = track.querySelectorAll('.pers-card');
