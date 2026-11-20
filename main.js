@@ -604,7 +604,24 @@
   const FRICTION   = 0.96;
   const IDLE_SPEED = 0.28;
   const MAX_VEL    = 8;
-  const IDLE_NUDGE = IDLE_SPEED * (1 / FRICTION - 1);
+  const FRAME_MS   = 1000 / 60;   /* physics are tuned per 60 Hz frame; scaled by real dt below */
+
+  /* ── Pre-warm photos ──
+     The <img>s are loading="lazy", which would fetch + decode them in the
+     middle of the scroll that brings the ring into view (= first-scroll jank).
+     Start well before that: flip to eager and decode off-thread so the first
+     paint of the ring finds them ready. One-shot. */
+  const warmIO = new IntersectionObserver(([e], obs) => {
+    if (!e.isIntersecting) return;
+    obs.disconnect();
+    cards.forEach(c => {
+      const img = c.querySelector('img');
+      if (!img) return;
+      img.loading = 'eager';
+      if (img.decode) img.decode().catch(() => {});
+    });
+  }, { rootMargin: '1500px 0px' });
+  warmIO.observe(viewport);
 
   /* ── Position cards ── */
   function positionCards() {
@@ -798,17 +815,32 @@
   /* ════════════════════════════════════════════════════════
      MASTER LOOP — single RAF handles ring + hover every frame
   ════════════════════════════════════════════════════════ */
+  let ringVisible = false;
+  let rafId       = 0;
+
   function masterLoop(now) {
-    const dt = prevTime ? Math.min(now - prevTime, 50) : 16;
+    rafId = 0;
+    /* Off-screen: stop entirely (no per-frame style writes while the user is
+       elsewhere on the page). The observer below restarts us on re-entry. */
+    if (!ringVisible) { prevTime = 0; return; }
+
+    const dt = prevTime ? Math.min(now - prevTime, 50) : FRAME_MS;
     prevTime = now;
 
-    /* Smooth idle spin — ramps back to IDLE_SPEED without a jerk */
+    /* Frame-rate independent: k === 1 at 60 Hz, so the feel is unchanged there,
+       but 120/144 Hz screens no longer spin faster and a dropped frame is
+       caught up instead of showing as a stall. */
+    const k        = dt / FRAME_MS;
+    const friction = Math.pow(FRICTION, k);
+
+    /* Smooth idle spin — ramps back to IDLE_SPEED without a jerk
+       (exact friction compensation: nudge = IDLE_SPEED * (1/friction − 1)) */
     if (!dragging && !hoveredCard && velocity < IDLE_SPEED) {
-      velocity = Math.min(IDLE_SPEED, velocity + IDLE_NUDGE);
+      velocity = Math.min(IDLE_SPEED, velocity + IDLE_SPEED * (1 / friction - 1));
     }
 
-    if (!dragging) velocity *= FRICTION;
-    currentAngle += velocity;
+    if (!dragging) velocity *= friction;
+    currentAngle += velocity * k;
     setRingAngle(currentAngle);
 
     /* Animate retreating card */
@@ -837,11 +869,16 @@
       }
     }
 
-    requestAnimationFrame(masterLoop);
+    rafId = requestAnimationFrame(masterLoop);
   }
 
   setRingAngle(0);
-  requestAnimationFrame(masterLoop);
+
+  /* Run the loop only while the ring is (nearly) on screen. */
+  new IntersectionObserver(([e]) => {
+    ringVisible = e.isIntersecting;
+    if (ringVisible && !rafId) rafId = requestAnimationFrame(masterLoop);
+  }, { rootMargin: '200px 0px' }).observe(viewport);
 
 })();
 

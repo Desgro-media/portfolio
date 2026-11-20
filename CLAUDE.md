@@ -62,8 +62,12 @@ The centrepiece is a CSS `preserve-3d` ring of team cards in `main.js`, driven e
 Each `.team-card` gets `rotateY(angle) translateZ(radius)` to place it around the ring. The parent `.ring-track` gets `rotateX(-14deg) rotateZ(-18deg) rotateY(currentAngle)` to tilt and spin the ring.
 
 **Physics in `masterLoop` (fires every frame):**
-1. Idle nudge — smoothly ramps `velocity` toward `IDLE_SPEED` using exact friction-compensation formula (`IDLE_NUDGE = IDLE_SPEED * (1/FRICTION − 1)`) so velocity converges without a setInterval jerk
-2. Friction applied → `currentAngle` advanced → ring rendered
+1. Idle nudge — smoothly ramps `velocity` toward `IDLE_SPEED` using exact friction-compensation formula (`IDLE_SPEED * (1/friction − 1)`) so velocity converges without a setInterval jerk
+2. Friction applied → `currentAngle` advanced → ring rendered. Physics are scaled by real frame time (`k = dt/16.67`, so 1.0 at 60 Hz) so 120/144 Hz screens and dropped frames don't change the spin speed
+
+The loop **only runs while the ring is near the viewport** (an IntersectionObserver starts/stops the RAF), and the photos are pre-fetched/decoded ~1500px before the ring scrolls in.
+
+**Ring photos:** use `image assets/team/*.webp` (640×800). The 3240×4050 PNG originals decode to ~50 MB each and made the ring stutter — never point the ring at them. Resize new portraits to 640×800 WebP (q≈82) before adding.
 3. Hover card animated (`hoverProgress` 0→1, easeOutCubic)
 4. Exiting card animated (`exitProgress` 1→0) in parallel
 
